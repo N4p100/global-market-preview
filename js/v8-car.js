@@ -69,10 +69,9 @@
     left += '<section class="dsec" id="specs"><h2>მახასიათებლები</h2><dl class="specs">' + rows.map(function (r) { return "<div><dt>" + r[0] + "</dt><dd" + (r[0] === "VIN" || r[0] === "ID" ? ' class="num"' : "") + ">" + (r[0] === "VIN" ? r[1] : esc(r[1])) + "</dd></div>"; }).join("") + "</dl></section>";
     if (feats.length) left += '<section class="dsec" id="equip"><h2>ქარხნული აღჭურვილობა</h2><ul class="equip">' + feats.map(function (f) { return "<li>" + f[1] + "</li>"; }).join("") + '</ul><p class="label" style="margin-top:14px">VIN კოდის მიხედვით, ქარხნული კომპლექტაცია.</p></section>';
     if (c.description) left += '<section class="dsec"><h2>აღწერა</h2><p style="white-space:pre-line;max-width:70ch">' + esc(c.description) + "</p></section>";
-    if (!G.isRestore(c) && !G.isTransit(c) && !G.isSold(c) && (c.has_six_month_warranty !== false || c.exchange_available)) {
-      left += '<section class="dsec"><h2>გარანტია და გაცვლა</h2>' +
-        (c.has_six_month_warranty !== false ? "<p><b>6-თვიანი გარანტია</b> " + (hyb ? "ვრცელდება ჰიბრიდულ და ელექტრო ელემენტებზე." : "ვრცელდება ძრავსა და გადაცემათა კოლოფზე.") + "</p>" : "") +
-        (c.exchange_available ? '<p style="margin-top:10px"><b>გაცვლა</b> შესაძლებელია სხვა ავტომობილზე ან უძრავ ქონებაზე, ღირებულებებს შორის სხვაობის დამატებით, როგორც თქვენი, ისე ჩვენი მხრიდან.</p>' : "") + "</section>";
+    if (!G.isRestore(c) && !G.isTransit(c) && !G.isSold(c) && c.has_six_month_warranty !== false) {
+      left += '<section class="dsec"><h2>გარანტია</h2>' +
+        (c.has_six_month_warranty !== false ? "<p><b>6-თვიანი გარანტია</b> " + (hyb ? "ვრცელდება ჰიბრიდულ და ელექტრო ელემენტებზე." : "ვრცელდება ძრავსა და გადაცემათა კოლოფზე.") + "</p>" : "") + "</section>";
     }
     $("left").innerHTML = left;
     if (feats.length) document.querySelector('#tabsNav [href="#equip"]').hidden = false;
@@ -91,7 +90,6 @@
     }
     if (!G.isSold(c)) {
       side += '<div class="box"><h3>შესთავაზეთ ფასი</h3><p>მოთხოვნა WhatsApp-ით გაიგზავნება.</p><form class="form" data-form="offer" novalidate><div class="field"><label for="oP">თქვენი ფასი, $</label><input class="input" id="oP" name="p" inputmode="numeric" autocomplete="off"></div><div class="field"><label for="oT">ტელეფონი</label><input class="input" id="oT" name="t" type="tel" autocomplete="tel"></div><p class="err" role="alert" hidden></p><button class="btn btn--ink btn--block" type="submit">გაგზავნა</button></form></div>';
-      if (c.exchange_available) side += '<div class="box"><h3>გაცვლა</h3><p>ავტომობილზე ან უძრავ ქონებაზე.</p><form class="form" data-form="ex" novalidate><div class="field"><label for="eW">VIN ან მისამართი</label><input class="input" id="eW" name="w" autocomplete="off"></div><div class="field"><label for="eV">თქვენი შეფასება, $</label><input class="input" id="eV" name="p" inputmode="numeric" autocomplete="off"></div><div class="field"><label for="eT">ტელეფონი</label><input class="input" id="eT" name="t" type="tel" autocomplete="tel"></div><p class="err" role="alert" hidden></p><button class="btn btn--line btn--block" type="submit">შეთავაზება</button></form></div>';
     }
     side += '<div class="box" id="contact"><h3>Global Market</h3><div class="kv" style="margin-bottom:0"><div><span>ტელეფონი</span><a href="tel:+995551119942">551 11 99 42</a></div><div><span>სამუშაო საათები</span><b>ორშ–შაბ, 10:00–19:00</b></div><div><span>მისამართი</span><a class="link" href="https://www.google.com/maps/search/?api=1&query=41.7946276%2C44.7692874" target="_blank" rel="noopener">რუკაზე</a></div></div></div>';
     $("side").innerHTML = side;
@@ -106,11 +104,10 @@
       f.addEventListener("submit", function (e) {
         e.preventDefault();
         var err = f.querySelector(".err"), p = (f.p.value || "").replace(/\D/g, ""), t = (f.t.value || "").replace(/[^\d+]/g, "");
-        var msg = !p ? "მიუთითეთ თანხა." : (f.w && !f.w.value.trim()) ? "მიუთითეთ VIN ან მისამართი." : t.replace(/\D/g, "").length < 9 ? "მიუთითეთ ტელეფონის ნომერი." : "";
+        var msg = !p ? "მიუთითეთ თანხა." : t.replace(/\D/g, "").length < 9 ? "მიუთითეთ ტელეფონის ნომერი." : "";
         if (msg) { err.textContent = msg; err.hidden = false; return; }
         err.hidden = true;
-        var text = f.dataset.form === "offer" ? "მოგესალმებით. " + title + " (ID " + c.id + "), გთავაზობთ " + G.n(p) + " $. ტელეფონი: " + t + ". " + url
-          : "მოგესალმებით. მსურს " + title + " (ID " + c.id + ") გავცვალო: " + f.w.value.trim() + ", შეფასება " + G.n(p) + " $. ტელეფონი: " + t + ". " + url;
+        var text = "მოგესალმებით. " + title + " (ID " + c.id + "), გთავაზობთ " + G.n(p) + " $. ტელეფონი: " + t + ". " + url;
         window.open(wa(text), "_blank", "noopener");
       });
     });

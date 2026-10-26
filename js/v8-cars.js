@@ -6,7 +6,7 @@
   function $(id) { return document.getElementById(id); }
 
   var ALL = [], PAGE = 24, shown = PAGE;
-  var DEF = { q: "", loc: "", brand: "", model: "", body: "", fuel: "", cur: "usd", pmin: "", pmax: "", ymin: "", ymax: "", km: "", drive: "", cleared: false, warranty: false, exchange: false, sold: false, sort: "new" };
+  var DEF = { q: "", loc: "", brand: "", model: "", body: "", fuel: "", cur: "usd", pmin: "", pmax: "", ymin: "", ymax: "", km: "", drive: "", cleared: false, warranty: false, sold: false, sort: "new" };
   var S = readUrl();
   var LOC = [["", "ყველა"], ["ge", "საქართველოში"], ["transit", "გზაში"], ["restore", "აღსადგენი"]];
 
@@ -41,7 +41,6 @@
     if (s.km && (G.num(c.mileage) == null || c.mileage > +s.km)) return false;
     if (!skip.cleared && s.cleared && c.customs !== "განბაჟებული") return false;
     if (!skip.warranty && s.warranty && !G.hasWarranty(c)) return false;
-    if (!skip.exchange && s.exchange && !c.exchange_available) return false;
     if (s.q) {
       var hay = [c.brand, c.model, c.year, c.vin, c.vin_spec && c.vin_spec.trim].join(" ").toLowerCase();
       if (!s.q.toLowerCase().split(/\s+/).every(function (w) { return hay.indexOf(w) !== -1; })) return false;
@@ -82,12 +81,11 @@
     chipRow($("fDrive"), counts(b.filter(function (c) { return match(c, S, { drive: 1 }); }), "drive"), "drive", true);
     var years = Object.keys(counts(b, "year")).map(Number).sort(function (x, y) { return y - x; });
     ["fYmin", "fYmax"].forEach(function (id) { var cur = id === "fYmin" ? S.ymin : S.ymax; $(id).innerHTML = '<option value="">ნებისმიერი</option>' + years.map(function (y) { return '<option value="' + y + '"' + (String(y) === cur ? " selected" : "") + ">" + y + "</option>"; }).join(""); });
-    var p2 = b.filter(function (c) { return match(c, S, { cleared: 1, warranty: 1, exchange: 1 }); });
+    var p2 = b.filter(function (c) { return match(c, S, { cleared: 1, warranty: 1 }); });
     $("nCleared").textContent = p2.filter(function (c) { return c.customs === "განბაჟებული"; }).length;
     $("nWarranty").textContent = p2.filter(G.hasWarranty).length;
-    $("nExchange").textContent = p2.filter(function (c) { return c.exchange_available; }).length;
     $("nSold").textContent = ALL.filter(G.isSold).length;
-    $("fCleared").checked = S.cleared; $("fWarranty").checked = S.warranty; $("fExchange").checked = S.exchange; $("fSold").checked = S.sold;
+    $("fCleared").checked = S.cleared; $("fWarranty").checked = S.warranty; $("fSold").checked = S.sold;
     $("fKm").value = S.km; $("fSort").value = S.sort;
     if (document.activeElement !== $("fPmin")) $("fPmin").value = S.pmin ? G.n(S.pmin) : "";
     if (document.activeElement !== $("fPmax")) $("fPmax").value = S.pmax ? G.n(S.pmax) : "";
@@ -108,7 +106,6 @@
     if (S.drive) out.push(["drive", G.tv(S.drive)]);
     if (S.cleared) out.push(["cleared", "განბაჟებული"]);
     if (S.warranty) out.push(["warranty", "გარანტიით"]);
-    if (S.exchange) out.push(["exchange", "გაცვლა"]);
     if (S.sold) out.push(["sold", "გაყიდულებიც"]);
     return out;
   }
@@ -146,7 +143,7 @@
   document.addEventListener("change", function (e) {
     var k = sel[e.target.id];
     if (k) { S[k] = e.target.value; if (k === "brand") S.model = ""; update(); return; }
-    var t = { fCleared: "cleared", fWarranty: "warranty", fExchange: "exchange", fSold: "sold" }[e.target.id];
+    var t = { fCleared: "cleared", fWarranty: "warranty", fSold: "sold" }[e.target.id];
     if (t) { S[t] = e.target.checked; update(); }
   });
   var pt, qt;

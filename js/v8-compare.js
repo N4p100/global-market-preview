@@ -22,8 +22,7 @@
     ["ფერი", function (c) { return G.tv(c.color); }],
     ["განბაჟება", function (c) { return G.tv(c.customs); }],
     ["მდებარეობა", function (c) { return V.loc(c); }],
-    ["გარანტია", function (c) { return G.hasWarranty(c) ? "6 თვე" : "არა"; }],
-    ["გაცვლა", function (c) { return c.exchange_available ? "შესაძლებელია" : "არა"; }]
+    ["გარანტია", function (c) { return G.hasWarranty(c) ? "6 თვე" : "არა"; }]
   ];
   function paint(cars) {
     var list = ids.map(function (id) { return cars.filter(function (c) { return String(c.id) === id; })[0]; }).filter(Boolean);

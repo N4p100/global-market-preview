@@ -86,11 +86,11 @@
     var ready = live.filter(function (c) { return !G.isRestore(c) && !G.isTransit(c); });
     var daily = ready.map(G.leaseDaily).filter(Boolean).sort(function (a, b) { return a - b; })[0];
     if (daily) $("svLease").innerHTML = G.n(daily) + " ₾<small>დღეში, ყველაზე დაბალი გადასახადი ახლა</small>";
-    var ex = live.filter(function (c) { return c.exchange_available; }), war = live.filter(G.hasWarranty);
-    $("svEx").innerHTML = ex.length + "<small>ავტომობილი გაცვლით</small>";
+    var war = live.filter(G.hasWarranty), mine = live.filter(function (c) { return !G.isTransit(c) && !G.isRestore(c); });
+    $("svSell").innerHTML = mine.length + "<small>განცხადება გაყიდვაშია ახლა</small>";
     $("svWar").innerHTML = war.length + "<small>ავტომობილი გარანტიით</small>";
     function photoOf(list, skip) { var c = list.filter(function (x) { return G.photos(x).length >= 4 && skip.indexOf(x.id) === -1; }).sort(function (a, b) { return (G.num(b.price_usd) || 0) - (G.num(a.price_usd) || 0); })[0]; return c; }
-    var a = photoOf(ready.filter(function (c) { var u = G.num(c.price_usd); return u && u < 25000; }), []), b = photoOf(ex.filter(function (c) { return !G.isRestore(c); }), [a && a.id]), w = photoOf(war, [a && a.id, b && b.id]);
+    var a = photoOf(ready.filter(function (c) { var u = G.num(c.price_usd); return u && u < 25000; }), []), b = photoOf(mine.filter(function (c) { var u = G.num(c.price_usd); return u && u >= 25000; }), [a && a.id]), w = photoOf(war, [a && a.id, b && b.id]);
     [a, b, w].forEach(function (c, i) { var img = $("svImg" + i); if (!c) { img.parentElement.style.background = "var(--sf)"; return; } img.src = G.thumb(G.photos(c)[0], 1200); img.alt = G.title(c); });
   }
 

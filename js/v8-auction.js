@@ -36,7 +36,7 @@
       $("aKicker").textContent = "Global Auction";
       $("aSub").textContent = "ახალი სესიის განრიგი მალე გამოქვეყნდება.";
       $("days").hidden = true;
-      $("lotGrid").innerHTML = '<div class="empty"><h3>მიმდინარე ლოტები არ არის</h3><p>დასრულებული აუქციონების შედეგები ლაივ საიტზეა.</p><a class="btn btn--ink" href="https://globalmarket.ge/auctions.html?tab=done">შედეგები</a></div>';
+      $("lotGrid").innerHTML = '<div class="empty"><h3>მიმდინარე ლოტები არ არის</h3><p>ახალი სესიის განრიგი მალე გამოქვეყნდება.</p><a class="btn btn--ink" href="rules.html">აუქციონის წესები</a></div>';
       return;
     }
     var groups = {};

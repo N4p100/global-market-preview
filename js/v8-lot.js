@@ -40,7 +40,7 @@
       : ring(1, "", "დაწყებამდე", true) + '<p class="bid__note">' + esc(V.when(turn)) + "</p>";
     $("bid").innerHTML = head + clock +
       '<div class="bid__price"><span class="label">' + (l.current_cents ? "მიმდინარე ფასი" : "საწყისი ფასი") + '</span><b class="num" id="bidPrice">' + V.usdC(price) + '</b><p class="num" id="bidMeta">' + (l.bid_count || 0) + " ბიდი · ბიჯი " + V.usdC(l.step_cents) + " · დეპოზიტი 500 ₾</p></div>" +
-      (ph === "done" ? '<a class="btn btn--line btn--block btn--lg" href="' + V.LIVE + 'auctions.html?tab=done">შედეგები</a>' :
+      (ph === "done" ? '<a class="btn btn--line btn--block btn--lg" href="index.html#lots">შემდეგი ლოტები</a>' :
         '<a class="btn btn--ink btn--block btn--lg" href="' + live + '" id="bidBtn">ბიდი · ' + V.usdC(l.next_cents || price) + "</a>" +
         (buyOpen ? '<a class="btn btn--line btn--block btn--lg" href="' + live + '">ახლავე ყიდვა · ' + V.usdC(l.buy_now_cents) + "</a>" : "") +
         '<p class="label" style="margin-top:14px;text-align:center">ბიდი იდება Global Market-ის ანგარიშიდან. <a class="link" href="https://globalmarket.ge/auction.html#register">რეგისტრაცია</a></p>');

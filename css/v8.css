@@ -669,3 +669,5 @@ body.has-mbar .cmpbar { bottom: 88px; }
   .rv { opacity: 1; transform: none; }
   .hero__slide img { transform: none !important; }
 }
+
+.hero h1 { text-shadow: 0 2px 28px rgba(0, 0, 0, .55), 0 1px 3px rgba(0, 0, 0, .35); }

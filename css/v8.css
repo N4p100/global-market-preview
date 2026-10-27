@@ -671,3 +671,4 @@ body.has-mbar .cmpbar { bottom: 88px; }
 }
 
 .hero h1 { text-shadow: 0 2px 28px rgba(0, 0, 0, .55), 0 1px 3px rgba(0, 0, 0, .35); }
+@media (max-width: 860px) { .hero .red-w { color: #fff; text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: .09em; text-underline-offset: .14em; } }

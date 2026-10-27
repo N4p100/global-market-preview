@@ -595,24 +595,46 @@ body.has-mbar .cmpbar { bottom: 88px; }
 .ccar .x { margin-top: 10px; font-size: 13px; color: var(--mute); text-decoration: underline; }
 .cwrap { overflow-x: auto; }
 
-/* ---------- light theme: a little red (about 10%) ---------- */
-:root:not([data-theme="dark"]) { --red: #d4102b; --pri: #d4102b; --pri-h: #b30d24; --on-pri: #ffffff; }
-:root:not([data-theme="dark"]) ::selection { background: #d4102b; color: #fff; }
-:root:not([data-theme="dark"]) .logo svg .l-car { fill: var(--red); }
-:root:not([data-theme="dark"]) .hero__bars button::after { background: var(--red); }
-:root:not([data-theme="dark"]) .sec__h .h2, :root:not([data-theme="dark"]) .phead .h2, :root:not([data-theme="dark"]) .transit__h .h2 { position: relative; padding-bottom: 18px; }
-:root:not([data-theme="dark"]) .sec__h .h2::after, :root:not([data-theme="dark"]) .phead .h2::after, :root:not([data-theme="dark"]) .transit__h .h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 40px; height: 3px; border-radius: 2px; background: var(--red); }
-:root:not([data-theme="dark"]) .sec__h[style*="center"] .h2::after { left: 50%; margin-left: -20px; }
-:root:not([data-theme="dark"]) .link:hover, :root:not([data-theme="dark"]) .tools a:hover .ic--go, :root:not([data-theme="dark"]) .menu__nav a:hover { color: var(--red); }
-:root:not([data-theme="dark"]) .chip[aria-pressed="true"], :root:not([data-theme="dark"]) .seg button[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: #fff; }
-:root:not([data-theme="dark"]) .tabs nav a.is-on, :root:not([data-theme="dark"]) .days button[aria-pressed="true"] { border-bottom-color: var(--red); }
-:root:not([data-theme="dark"]) .head.is-solid .switch a[aria-current] { background: var(--red); color: #fff; }
-:root:not([data-theme="dark"]) .tag--ink, :root:not([data-theme="dark"]) .live { background: var(--red); color: #fff; }
-:root:not([data-theme="dark"]) .head.is-solid .head__btn .count { background: var(--red); }
-:root:not([data-theme="dark"]) .fav[aria-pressed="true"] svg { fill: var(--red); stroke: var(--red); }
-:root:not([data-theme="dark"]) .steps > div { border-top-color: var(--red); }
-:root:not([data-theme="dark"]) .figs > div:first-child b, :root:not([data-theme="dark"]) .bignum { color: var(--red); }
-:root:not([data-theme="dark"]) .cmpbar .btn { background: var(--red); color: #fff; }
+/* ---------- red accents, light and dark (about 20%) ---------- */
+:root { --red: #d4102b; --red-h: #b30d24; }
+:root:not([data-theme="dark"]) { --pri: #d4102b; --pri-h: #b30d24; --on-pri: #ffffff; }
+::selection { background: var(--red); color: #fff; }
+.logo svg .l-car { fill: var(--red); }
+.red-w { color: var(--red); font-weight: 600; }
+.hero__bars button::after { background: var(--red); }
+.hero .btn--white, .atile .btn--white, .chapter .btn--white { background: var(--red); color: #fff; }
+.hero .btn--white:hover, .atile .btn--white:hover, .chapter .btn--white:hover { background: var(--red-h); }
+.head__cta { background: var(--red); color: #fff; margin-left: 6px; }
+.head__cta:hover { background: var(--red-h); }
+.sec__h .h2, .phead .h2, .transit__h .h2 { position: relative; padding-bottom: 18px; }
+.sec__h .h2::after, .phead .h2::after, .transit__h .h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 48px; height: 3px; border-radius: 2px; background: var(--red); }
+.sec__h[style*="center"] .h2::after { left: 50%; margin-left: -24px; }
+.label, .svc__t .label { color: var(--red); }
+.link:hover, .tools a:hover, .menu__nav a:hover, .foot li a:hover, .sessions a:hover { color: var(--red); }
+.tools a .ic:first-child { color: var(--red); }
+.chip[aria-pressed="true"], .seg button[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: #fff; }
+.tabs nav a.is-on, .tabs nav a:hover, .days button[aria-pressed="true"], .days button:hover { border-bottom-color: var(--red); }
+.head.is-solid .switch a[aria-current] { background: var(--red); color: #fff; }
+.tag--ink, .live { background: var(--red); color: #fff; }
+.head__btn .count, .head.is-solid .head__btn .count { background: var(--red); color: #fff; }
+.fav[aria-pressed="true"] svg { fill: var(--red); stroke: var(--red); }
+.card__p b, .tabs__price, .box__big, .bid__price b, .mbar b { color: var(--red); }
+.card:hover .card__t a { color: var(--red); }
+.tile .round { background: var(--red); color: #fff; }
+.tile:hover .round { background: var(--red-h); }
+.figs b, .bignum, .svc__fig, .kfigs > div:first-child b { color: var(--red); }
+.figs > div { border-left-color: rgba(212, 16, 43, .7); }
+.clock b { position: relative; }
+.atile .clock div + div b::before { content: ":"; position: absolute; left: -.42em; color: var(--red); font-weight: 300; }
+.steps > div { border-top-color: var(--red); }
+.steps b { color: var(--red); }
+.ring .fg { stroke: var(--red); }
+.cmpbar .btn { background: var(--red); color: #fff; }
+.foot { border-top: 3px solid var(--red); }
+[data-theme] .foot__mark, .foot__mark { color: var(--red); opacity: .9; }
+.foot__mark svg path { fill: var(--red); }
+.round:hover { border-color: var(--red); color: var(--red); }
+.card__img .tag:first-child:not(.tag--ink) { color: var(--red); }
 
 /* ---------- dark theme: Global red and black (requested by the company head) ---------- */
 [data-theme="dark"] {
@@ -636,7 +658,7 @@ body.has-mbar .cmpbar { bottom: 88px; }
 [data-theme="dark"] .chip[aria-pressed="true"], [data-theme="dark"] .seg button[aria-pressed="true"] { background: var(--pri); border-color: var(--pri); color: #fff; }
 [data-theme="dark"] .days button[aria-pressed="true"], [data-theme="dark"] .tabs nav a.is-on { border-bottom-color: var(--pri); }
 [data-theme="dark"] .steps > div { border-top-color: var(--pri); }
-[data-theme="dark"] .foot__mark { opacity: .09; }
+[data-theme="dark"] .foot__mark { opacity: .9; color: var(--red); }
 [data-theme="dark"] .empty, [data-theme="dark"] .applied button { background: var(--sf); }
 .theme-ic-sun { display: none; }
 [data-theme="dark"] .theme-ic-sun { display: block; }

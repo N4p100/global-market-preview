@@ -595,6 +595,25 @@ body.has-mbar .cmpbar { bottom: 88px; }
 .ccar .x { margin-top: 10px; font-size: 13px; color: var(--mute); text-decoration: underline; }
 .cwrap { overflow-x: auto; }
 
+/* ---------- light theme: a little red (about 10%) ---------- */
+:root:not([data-theme="dark"]) { --red: #d4102b; --pri: #d4102b; --pri-h: #b30d24; --on-pri: #ffffff; }
+:root:not([data-theme="dark"]) ::selection { background: #d4102b; color: #fff; }
+:root:not([data-theme="dark"]) .logo svg .l-car { fill: var(--red); }
+:root:not([data-theme="dark"]) .hero__bars button::after { background: var(--red); }
+:root:not([data-theme="dark"]) .sec__h .h2, :root:not([data-theme="dark"]) .phead .h2, :root:not([data-theme="dark"]) .transit__h .h2 { position: relative; padding-bottom: 18px; }
+:root:not([data-theme="dark"]) .sec__h .h2::after, :root:not([data-theme="dark"]) .phead .h2::after, :root:not([data-theme="dark"]) .transit__h .h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 40px; height: 3px; border-radius: 2px; background: var(--red); }
+:root:not([data-theme="dark"]) .sec__h[style*="center"] .h2::after { left: 50%; margin-left: -20px; }
+:root:not([data-theme="dark"]) .link:hover, :root:not([data-theme="dark"]) .tools a:hover .ic--go, :root:not([data-theme="dark"]) .menu__nav a:hover { color: var(--red); }
+:root:not([data-theme="dark"]) .chip[aria-pressed="true"], :root:not([data-theme="dark"]) .seg button[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: #fff; }
+:root:not([data-theme="dark"]) .tabs nav a.is-on, :root:not([data-theme="dark"]) .days button[aria-pressed="true"] { border-bottom-color: var(--red); }
+:root:not([data-theme="dark"]) .head.is-solid .switch a[aria-current] { background: var(--red); color: #fff; }
+:root:not([data-theme="dark"]) .tag--ink, :root:not([data-theme="dark"]) .live { background: var(--red); color: #fff; }
+:root:not([data-theme="dark"]) .head.is-solid .head__btn .count { background: var(--red); }
+:root:not([data-theme="dark"]) .fav[aria-pressed="true"] svg { fill: var(--red); stroke: var(--red); }
+:root:not([data-theme="dark"]) .steps > div { border-top-color: var(--red); }
+:root:not([data-theme="dark"]) .figs > div:first-child b, :root:not([data-theme="dark"]) .bignum { color: var(--red); }
+:root:not([data-theme="dark"]) .cmpbar .btn { background: var(--red); color: #fff; }
+
 /* ---------- dark theme: Global red and black (requested by the company head) ---------- */
 [data-theme="dark"] {
   --bg: #0b0b0c;

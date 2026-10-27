@@ -207,7 +207,25 @@
       var up = (lots || []).filter(function (l) { return new Date(l.ends_at || l.starts_at).getTime() > Date.now(); });
       var el = document.querySelector('[data-mcount="lots"]'); if (el) el.textContent = up.length ? up.length + " ლოტი" : "";
     });
+    themeToggle();
     return { menu: menu, find: find };
+  }
+
+  /* light / dark (Global red and black); each site keeps its own choice */
+  function themeToggle() {
+    var key = window.V8_THEME_KEY || "gm8-theme", root = document.documentElement;
+    function meta() { var m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = root.getAttribute("data-theme") === "dark" ? "#0b0b0c" : "#ffffff"; }
+    meta();
+    document.querySelectorAll("[data-theme-toggle]").forEach(function (b) {
+      b.setAttribute("aria-pressed", root.getAttribute("data-theme") === "dark" ? "true" : "false");
+      b.addEventListener("click", function () {
+        var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem(key, next); } catch (e) {}
+        document.querySelectorAll("[data-theme-toggle]").forEach(function (x) { x.setAttribute("aria-pressed", next === "dark" ? "true" : "false"); });
+        meta();
+      });
+    });
   }
 
   window.V8 = { I: I, BASE: BASE, LIVE: LIVE, reduce: reduce, usdC: usdC, km: km, eng: eng, pad: pad, wd: wd, when: when, loc: loc, daysTo: daysTo, carHref: carHref, lotHref: lotHref, carCard: carCard, lotCard: lotCard, lotPhotos: lotPhotos, skel: skel, wireRow: wireRow, countdown: countdown, lightbox: lightbox, reveal: reveal, initChrome: initChrome };

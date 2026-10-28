@@ -106,18 +106,18 @@
   }
 
   function auction(lots) {
-    var now = Date.now(), THEME = { "ოთხშაბათი": "გზაში საქართველოსკენ", "ხუთშაბათი": "აღდგენილი ავტომობილები", "პარასკევი": "დაზიანებული ავტომობილები" };
-    var up = lots.filter(function (l) { return new Date(l.ends_at || l.starts_at).getTime() > now; });
+    var up = V.liveLots(lots);
     if (!up.length) return;
     function at(l) { return l.session_at || l.starts_at; }
     function key(iso) { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tbilisi" }).format(new Date(iso)); }
     var groups = {}; up.forEach(function (l) { var k = key(at(l)); (groups[k] = groups[k] || []).push(l); });
     var keys = Object.keys(groups).sort(), first = groups[keys[0]][0];
-    $("auT").textContent = V.wd(at(first)) + ", " + G.tbilisiTime(at(first)) + ".";
-    $("auLead").textContent = up.length + " ლოტი " + keys.length + " სესიაში. ყოველი ლოტი 1 წუთი გრძელდება.";
+    $("auT").textContent = G.tbilisiDate(at(first)) + ", " + G.tbilisiTime(at(first));
+    $("auK").textContent = "შემდეგი სესია · " + V.wd(at(first));
+    $("auLead").textContent = up.length + " ლოტი · " + (V.aucCat(at(first)) || {}).name + ". ყოველი ლოტი 1 წუთი გრძელდება.";
     $("fSess").textContent = keys.length;
     V.countdown($("auClock"), new Date(at(first)).getTime(), "მიმდინარეობს");
-    $("auSess").innerHTML = keys.map(function (k) { var g = groups[k], wdn = V.wd(at(g[0])); return '<a href="' + B + "auction/index.html?day=" + k + '#lots"><span>' + esc(wdn + ", " + G.tbilisiDate(at(g[0]))) + "<br><small>" + esc(THEME[wdn] || "ავტომობილები") + '</small></span><small class="num">' + g.length + " ლოტი</small></a>"; }).join("");
+    $("auSess").innerHTML = keys.map(function (k) { var g = groups[k], wdn = V.wd(at(g[0])); return '<a href="' + B + "auction/index.html?day=" + k + '#lots"><span>' + esc(wdn + ", " + G.tbilisiDate(at(g[0]))) + "<br><small>" + esc((V.aucCat(at(g[0])) || {}).name || "ავტომობილები") + '</small></span><small class="num">' + g.length + " ლოტი</small></a>"; }).join("");
     $("auction").hidden = false;
     V.reveal($("auction"));
   }

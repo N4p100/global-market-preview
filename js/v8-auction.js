@@ -5,7 +5,7 @@
   V.initChrome();
   function $(id) { return document.getElementById(id); }
   var LOTS = [], CARS = {}, S = { day: new URLSearchParams(location.search).get("day") || "", brand: "", buy: "", sort: "turn", q: "" };
-  var THEME = { "ოთხშაბათი": "გზაში საქართველოსკენ", "ხუთშაბათი": "აღდგენილი ავტომობილები", "პარასკევი": "დაზიანებული ავტომობილები" };
+  function cat(iso) { var c = V.aucCat(iso); return c ? c.name : "ავტომობილები"; }
   function dayKey(iso) { return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tbilisi" }).format(new Date(iso)); }
   function at(l) { return l.session_at || l.starts_at; }
 
@@ -27,10 +27,20 @@
   var fs = document.querySelector("#find form");
   if (fs) fs.addEventListener("submit", function (e) { e.preventDefault(); S.q = fs.q.value.trim(); $("lQ").value = S.q; render(); document.querySelector("[data-find-x]").click(); $("lots").scrollIntoView({ behavior: V.reduce ? "auto" : "smooth" }); });
 
+  // three auction categories: the active one shows its session, the rest wait for a date
+  function cats(groups, keys) {
+    var next = {}; keys.forEach(function (k) { var c = V.aucCat(at(groups[k][0])); if (c && !next[c.day]) next[c.day] = groups[k]; });
+    $("aCats").innerHTML = V.AUC.map(function (c, i) {
+      var g = next[c.day];
+      var when = g ? V.wd(at(g[0])) + ", " + G.tbilisiDate(at(g[0])) + ", " + G.tbilisiTime(at(g[0])) : "სესიის თარიღი დაზუსტდება";
+      return '<a class="acat' + (g ? " is-on" : "") + '" href="' + (g ? "#lots" : "rules.html") + '"><span class="acat__n num">0' + (i + 1) + '</span><h3>' + esc(c.name) + "</h3><p>" + esc(c.note) + '</p><span class="acat__s"><i></i>' + esc(when) + (g ? ' · <b class="num">' + g.length + " ლოტი</b>" : "") + "</span></a>";
+    }).join("");
+  }
+
   $("lotGrid").innerHTML = V.skel(8);
   Promise.all([G.loadLots(), G.loadCars().catch(function () { return []; })]).then(function (r) {
     var now = Date.now();
-    LOTS = (r[0] || []).filter(function (l) { return l && new Date(l.ends_at || l.starts_at).getTime() > now; });
+    LOTS = V.liveLots(r[0]);
     (r[1] || []).forEach(function (c) { CARS[c.id] = c; });
     if (!LOTS.length) {
       $("aKicker").textContent = "Global Auction";
@@ -44,16 +54,18 @@
     var keys = Object.keys(groups).sort();
     if (S.day && !groups[S.day]) S.day = "";
     var first = groups[keys[0]].sort(function (a, b) { return new Date(a.turn_at || a.starts_at) - new Date(b.turn_at || b.starts_at); })[0];
-    $("aTitle").textContent = V.wd(at(first)) + ", " + G.tbilisiTime(at(first)) + ".";
-    $("aKicker").textContent = "შემდეგი სესია · " + G.tbilisiDate(at(first)) + " · " + (THEME[V.wd(at(first))] || "ავტომობილები");
-    $("aSub").textContent = LOTS.length + " ლოტი " + keys.length + " სესიაში. ყოველი ლოტი 1 წუთი გრძელდება. მონაწილეობისთვის საჭიროა რეგისტრაცია და 500 ₾ დეპოზიტი.";
+    $("aTitle").textContent = G.tbilisiDate(at(first)) + ", " + G.tbilisiTime(at(first));
+    $("aKicker").textContent = "შემდეგი სესია · " + V.wd(at(first)) + " · " + cat(at(first));
+    $("aSub").textContent = groups[keys[0]].length + " ლოტი. ყოველი ლოტი 1 წუთი გრძელდება. მონაწილეობისთვის საჭიროა რეგისტრაცია და 500 ₾ დეპოზიტი.";
+    cats(groups, keys);
     V.countdown($("aClock"), new Date(at(first)).getTime(), "მიმდინარეობს");
-    $("lLead").textContent = LOTS.length + " ლოტი " + keys.length + " სესიაში.";
+    $("lLead").textContent = keys.length > 1 ? LOTS.length + " ლოტი " + keys.length + " სესიაში." : LOTS.length + " ლოტი · " + cat(at(first));
     $("days").innerHTML = '<button type="button" data-day="" aria-pressed="false"><b>ყველა სესია</b><small class="num">' + LOTS.length + " ლოტი</small></button>" + keys.map(function (k) {
       var g = groups[k], wdn = V.wd(at(g[0]));
       var min = Math.min.apply(null, g.map(function (l) { return l.starting_cents || 1e12; }));
-      return '<button type="button" data-day="' + k + '" aria-pressed="false"><b>' + esc(wdn + ", " + G.tbilisiDate(at(g[0]))) + '</b><small class="num">' + esc(THEME[wdn] || "ავტომობილები") + " · " + g.length + " ლოტი · " + V.usdC(min) + "-დან</small></button>";
+      return '<button type="button" data-day="' + k + '" aria-pressed="false"><b>' + esc(wdn + ", " + G.tbilisiDate(at(g[0]))) + '</b><small class="num">' + esc(cat(at(g[0]))) + " · " + g.length + " ლოტი · " + V.usdC(min) + "-დან</small></button>";
     }).join("");
+    $("days").hidden = keys.length < 2;
     $("days").addEventListener("click", function (e) { var b = e.target.closest("[data-day]"); if (!b) return; S.day = b.dataset.day; render(); });
     var brands = {}; LOTS.forEach(function (l) { brands[l.brand] = (brands[l.brand] || 0) + 1; });
     $("lBrand").innerHTML = '<option value="">ყველა მარკა</option>' + Object.keys(brands).sort().map(function (b) { return '<option value="' + esc(b) + '">' + esc(b) + " (" + brands[b] + ")</option>"; }).join("");

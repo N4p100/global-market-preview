@@ -64,7 +64,7 @@
     var hyb = c.fuel === "ჰიბრიდი" || c.fuel === "ელექტრო";
     var lot = !G.isSold(c) ? G.lotFor(c) : null;
     var left = "";
-    if (lot) left += '<section class="dsec"><h2>ეს ავტომობილი აუქციონზეა</h2><p class="lead">' + esc(V.when(lot.starts_at)) + ". საწყისი ფასი " + esc(V.usdC(lot.starting_cents)) + (lot.buy_now_cents ? ", ახლავე ყიდვა " + esc(V.usdC(lot.buy_now_cents)) : "") + '.</p><p style="margin-top:18px"><a class="btn btn--ink" href="' + V.lotHref(lot) + '">ლოტის ნახვა' + I.go + "</a></p></section>";
+    if (lot) left += '<section class="dsec"><h2>ეს ავტომობილი აუქციონზეა</h2><p class="lead">' + esc(V.when(lot.starts_at)) + " · საწყისი ფასი " + esc(V.usdC(lot.starting_cents)) + (lot.buy_now_cents ? ", ახლავე ყიდვა " + esc(V.usdC(lot.buy_now_cents)) : "") + '.</p><p style="margin-top:18px"><a class="btn btn--ink" href="' + V.lotHref(lot) + '">ლოტის ნახვა' + I.go + "</a></p></section>";
     if (G.isTransit(c) && !G.isSold(c)) left += '<section class="dsec"><h2>გზაში საქართველოსკენ</h2><p class="lead">' + esc(c.arrival_date ? "სავარაუდო ჩამოსვლა: " + G.dateLong(c.arrival_date) + (V.daysTo(c.arrival_date) ? ", " + V.daysTo(c.arrival_date) + " დღეში" : "") + "." : "ჩამოსვლის თარიღი ზუსტდება.") + (c.arrival_port ? " პორტი: " + esc(c.arrival_port) + "." : "") + " ავტომობილის დაჯავშნა ჩამოსვლამდეა შესაძლებელი.</p></section>";
     left += '<section class="dsec" id="specs"><h2>მახასიათებლები</h2><dl class="specs">' + rows.map(function (r) { return "<div><dt>" + r[0] + "</dt><dd" + (r[0] === "VIN" || r[0] === "ID" ? ' class="num"' : "") + ">" + (r[0] === "VIN" ? r[1] : esc(r[1])) + "</dd></div>"; }).join("") + "</dl></section>";
     if (feats.length) left += '<section class="dsec" id="equip"><h2>ქარხნული აღჭურვილობა</h2><ul class="equip">' + feats.map(function (f) { return "<li>" + f[1] + "</li>"; }).join("") + '</ul><p class="label" style="margin-top:14px">VIN კოდის მიხედვით, ქარხნული კომპლექტაცია.</p></section>';
@@ -134,7 +134,7 @@
   if (!id) { notFound(); return; }
   Promise.all([G.loadCar(id), G.loadCars().catch(function () { return []; }), G.loadLots()]).then(function (r) {
     if (!r[0]) return notFound();
-    G.indexLots(r[2]);
+    G.indexLots(V.liveLots(r[2]));
     render(r[0], r[1] || []);
   }).catch(notFound);
   window.addEventListener("hashchange", function () { location.reload(); });

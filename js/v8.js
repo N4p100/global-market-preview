@@ -32,6 +32,18 @@
   function pad(x) { return (x < 10 ? "0" : "") + x; }
   function wd(iso) { return ["კვირა", "ორშაბათი", "სამშაბათი", "ოთხშაბათი", "ხუთშაბათი", "პარასკევი", "შაბათი"][new Date(new Date(iso).toLocaleString("en-US", { timeZone: "Asia/Tbilisi" })).getDay()]; }
   function when(iso) { return wd(iso) + ", " + G.tbilisiDate(iso) + ", " + G.tbilisiTime(iso); }
+
+  /* auction categories by session weekday. Only active ones are announced; turn one on with active: true. */
+  var AUC = [
+    { day: "ხუთშაბათი", name: "ადგილზე მყოფი ავტომობილები", note: "ავტომობილები, რომლებიც უკვე საქართველოშია", active: true },
+    { day: "ოთხშაბათი", name: "გზაში მყოფი ავტომობილები", note: "ავტომობილები, რომლებიც გზაშია საქართველოსკენ", active: false },
+    { day: "პარასკევი", name: "დაზიანებული ავტომობილები", note: "ავტომობილები, რომლებსაც აღდგენა სჭირდება", active: false }
+  ];
+  function aucCat(iso) { var d = wd(iso); for (var i = 0; i < AUC.length; i++) if (AUC[i].day === d) return AUC[i]; return null; }
+  function liveLots(lots) {
+    var now = Date.now();
+    return (lots || []).filter(function (l) { var c = aucCat(l.session_at || l.starts_at); return l && c && c.active && new Date(l.ends_at || l.starts_at).getTime() > now; });
+  }
   function carHref(c) { return BASE + "car.html#" + encodeURIComponent(c.id); }
   function lotHref(l) { return BASE + "auction/lot.html#" + encodeURIComponent(l.id); }
   function loc(c) {
@@ -204,7 +216,7 @@
       if (s) s.innerHTML = top.map(function (b) { return '<a class="chip" href="' + BASE + "cars.html?brand=" + encodeURIComponent(b) + '">' + esc(b) + " <small>" + brands[b] + "</small></a>"; }).join("");
     }).catch(function () {});
     G.loadLots().then(function (lots) {
-      var up = (lots || []).filter(function (l) { return new Date(l.ends_at || l.starts_at).getTime() > Date.now(); });
+      var up = liveLots(lots);
       var el = document.querySelector('[data-mcount="lots"]'); if (el) el.textContent = up.length ? up.length + " ლოტი" : "";
     });
     themeToggle();
@@ -228,5 +240,5 @@
     });
   }
 
-  window.V8 = { I: I, BASE: BASE, LIVE: LIVE, reduce: reduce, usdC: usdC, km: km, eng: eng, pad: pad, wd: wd, when: when, loc: loc, daysTo: daysTo, carHref: carHref, lotHref: lotHref, carCard: carCard, lotCard: lotCard, lotPhotos: lotPhotos, skel: skel, wireRow: wireRow, countdown: countdown, lightbox: lightbox, reveal: reveal, initChrome: initChrome };
+  window.V8 = { I: I, BASE: BASE, LIVE: LIVE, reduce: reduce, usdC: usdC, km: km, eng: eng, pad: pad, wd: wd, when: when, AUC: AUC, aucCat: aucCat, liveLots: liveLots, loc: loc, daysTo: daysTo, carHref: carHref, lotHref: lotHref, carCard: carCard, lotCard: lotCard, lotPhotos: lotPhotos, skel: skel, wireRow: wireRow, countdown: countdown, lightbox: lightbox, reveal: reveal, initChrome: initChrome };
 })();

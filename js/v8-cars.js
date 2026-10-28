@@ -181,7 +181,7 @@
   $("grid").innerHTML = V.skel(9);
   Promise.all([G.loadCars(), G.loadLots()]).then(function (r) {
     ALL = r[0] || [];
-    G.indexLots(r[1]);
+    G.indexLots(V.liveLots(r[1]));
     update();
   }).catch(function () {
     $("grid").innerHTML = '<div class="empty"><h3>მონაცემები ვერ ჩაიტვირთა</h3><p>შეამოწმეთ ინტერნეტი და სცადეთ ხელახლა.</p><button class="btn btn--ink" type="button" onclick="location.reload()">ხელახლა ცდა</button></div>';

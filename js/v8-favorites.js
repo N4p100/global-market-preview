@@ -9,6 +9,6 @@
     var ids = G.favIds(), list = ALL.filter(function (c) { return ids.indexOf(String(c.id)) !== -1; });
     grid.innerHTML = list.length ? list.map(function (c) { return V.carCard(c, { compare: true }); }).join("") : '<div class="empty"><h3>რჩეულები ცარიელია</h3><p>ავტომობილის შესანახად დააჭირეთ გულს ფოტოზე.</p><a class="btn btn--ink" href="cars.html">ავტომობილების ნახვა</a></div>';
   }
-  Promise.all([G.loadCars(), G.loadLots()]).then(function (r) { ALL = r[0]; G.indexLots(r[1]); paint(); }).catch(function () { grid.innerHTML = '<div class="empty"><h3>მონაცემები ვერ ჩაიტვირთა</h3><button class="btn btn--ink" type="button" onclick="location.reload()">ხელახლა ცდა</button></div>'; });
+  Promise.all([G.loadCars(), G.loadLots()]).then(function (r) { ALL = r[0]; G.indexLots(V.liveLots(r[1])); paint(); }).catch(function () { grid.innerHTML = '<div class="empty"><h3>მონაცემები ვერ ჩაიტვირთა</h3><button class="btn btn--ink" type="button" onclick="location.reload()">ხელახლა ცდა</button></div>'; });
   document.addEventListener("gm:fav", paint);
 })();

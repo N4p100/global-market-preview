@@ -125,24 +125,53 @@
   .kfigs > div { padding-block: 10px; }
 }
 
-/* ---------- Hero on a phone (25 Nov, Mate: "cuts too soon, not layered") ----------
-   The photo fills the whole first screen down to the tab bar; the words sit on a deep shade at the
-   bottom; the next section rises over the photo as a sheet with rounded corners. */
-@media (max-width: 760px) {
-  .hero { height: calc(100svh - var(--tab) - env(safe-area-inset-bottom)); min-height: 520px; max-height: none; }
-  .hero__slide img { object-position: 62% 32%; }
-  .hero::after { background:
-      linear-gradient(180deg, rgba(0, 0, 0, .45) 0%, rgba(0, 0, 0, 0) 16%),
-      linear-gradient(180deg, rgba(0, 0, 0, 0) 34%, rgba(0, 0, 0, .55) 56%, rgba(0, 0, 0, .88) 100%) !important; }
-  .hero__body { padding-bottom: 44px; }
-  .hero .display { font-size: 36px; }
-  .hero__grid { gap: 18px; }
-  .hero__cap { padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .18); }
-  /* The page below slides up over the photo */
-  .hero + .sec { position: relative; z-index: 3; margin-top: -24px; border-radius: 24px 24px 0 0; background: var(--bg); padding-top: 28px; box-shadow: 0 -12px 30px rgba(0, 0, 0, .18); }
-  .hero + .sec::before { content: ""; position: absolute; top: 8px; left: 50%; width: 36px; height: 4px; margin-left: -18px; border-radius: 2px; background: var(--line); }
-}
 @media (max-width: 760px) {
   .m-scrolled .head:not(.is-hidden) { background: var(--glass); -webkit-backdrop-filter: saturate(1.4) blur(14px); backdrop-filter: saturate(1.4) blur(14px); color: var(--ink); box-shadow: 0 1px 0 var(--line); }
   .m-scrolled .head .logo { color: var(--ink) !important; }
+}
+
+/* ---------- Hero on a phone (25 Nov, second pass) ----------
+   The car photo sits on top at its own 5:4 frame, the whole car in view (phone crops: assets/v8/hero-*-m.jpg),
+   fades into the dark band that carries the words, and the band fades into the page: no edge, no card. */
+@media (max-width: 760px) {
+  .hero { height: auto; min-height: 0; max-height: none; background: #0b0b0c; display: block; }
+  .hero::after { background: linear-gradient(180deg, rgba(0, 0, 0, .42) 0%, rgba(0, 0, 0, 0) 14%) !important; height: 80vw; bottom: auto; }
+  .hero__slide { inset: 0 0 auto 0; height: 80vw; }
+  .hero__slide img { object-position: 50% 50% !important; transform: none; }
+  .hero__slide.is-on img { animation: m-drift 9s linear both; }
+  .hero__slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 11, 12, 0) 55%, rgba(11, 11, 12, .7) 82%, #0b0b0c 100%); }
+  .hero__body { position: relative; inset: auto; z-index: 2; margin-top: calc(80vw - 40px); padding-bottom: 36px; }
+  .hero .display { font-size: 32px; }
+  .hero__grid { gap: 16px; }
+  .hero__cap { padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .14); }
+  .hero__bars { margin-top: 16px; }
+  /* Dark band → page, in one soft step */
+  .hero + .sec { position: relative; margin-top: 0; padding-top: 36px; }
+  .hero + .sec::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 40px; background: linear-gradient(180deg, #0b0b0c, var(--bg)); pointer-events: none; }
+  [data-theme="dark"] .hero + .sec::before { display: none; }
+
+  /* ---------- Menu: a compact sheet from the bottom, everything in reach and in view ---------- */
+  .menu__panel { inset: auto 0 0 0; width: 100%; max-height: calc(100svh - 40px); border-right: 0; border-radius: 20px 20px 0 0; transform: translateY(102%);
+    padding: 8px 16px calc(16px + env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain; box-shadow: 0 -20px 50px rgba(0, 0, 0, .25); }
+  .menu__panel::before { content: ""; display: block; width: 36px; height: 5px; margin: 0 auto 6px; border-radius: 3px; background: var(--line); }
+  .menu__top { height: 40px; }
+  .menu__top .logo svg { height: 22px; }
+  .menu__top .round { width: 36px; height: 36px; }
+  .menu__nav { margin-top: 8px; gap: 10px; }
+  .menu__lab { font-size: 12px; padding: 0 4px 2px; }
+  .menu__nav a { min-height: 44px; padding: 0 4px; font-size: 15px; border-radius: 8px; }
+  .menu__nav a small { font-size: 11px; padding: 1px 7px; }
+  .menu__foot { margin-top: 12px; padding-top: 14px; gap: 10px; font-size: 12px; }
+  .menu__foot .btn { --h: 40px; padding: 0 14px; font-size: 14px; }
+}
+@keyframes m-drift { from { transform: scale(1.04); } to { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .hero__slide.is-on img { animation: none; } }
+@media (max-width: 760px) {
+  /* Call / WhatsApp first, right under the logo; the links follow. Saved is already in the tab bar. */
+  .menu__top { order: 0; }
+  .menu__foot { order: 1; margin: 6px 0 4px; padding: 0 0 12px; border-top: 0; border-bottom: 1px solid var(--line); }
+  .menu__foot .muted { display: none; }
+  .menu__nav { order: 2; }
+  .menu__nav a[href$="favorites.html"] { display: none; }
+  .menu__nav a { min-height: 44px; }
 }

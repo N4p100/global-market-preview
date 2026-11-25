@@ -2,7 +2,7 @@
    equivalent for: the five-step import journey, the contract terms, shipping lines, group tiles and offices. */
 
 /* Hero: the port photo keeps the ship and containers in view */
-.g-hero .hero__slide img { object-position: 58% 50%; }
+@media (min-width: 861px) { .g-hero .hero__slide img { object-position: 58% 50%; } }
 
 /* ---------- five steps, each with the tools for that step ---------- */
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); counter-reset: none; }

@@ -88,7 +88,7 @@
 (function () {
   var mq = matchMedia("(max-width: 860px)");
   var hero = document.querySelector("[data-hero]"); if (!hero) return;
-  var CAR = { taycan: [.367, .529, .878, .683], etron: [.397, .521, .934, .669], x5: [.278, .404, .932, .600] };
+  var CAR = { taycan: [.367, .529, .878, .683], etron: [.397, .521, .934, .669], x5: [.278, .404, .932, .600], port: [.66, .478, .90, .578] };
   var head = document.querySelector(".head"), body = hero.querySelector(".hero__body");
   function fitOne(img) {
     var m = (img.currentSrc || img.src).match(/hero-([a-z0-9]+)(?:-m)?\.jpg/), box = m && CAR[m[1]];

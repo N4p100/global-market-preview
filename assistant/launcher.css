@@ -1,0 +1,75 @@
+/* Global Market × AI agent launcher (25 Nov 2026). Uses the v8 tokens (--ink, --bg, --red, --line, --ease).
+   Phone: 60px disc in the bottom-right thumb zone, above the car page's price bar; the agent opens as a
+   full-height sheet. Desktop: the agent opens as a floating panel above the disc. */
+
+.gma { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: calc(max(16px, env(safe-area-inset-bottom)) + var(--gma-lift, 0px)); z-index: 70; display: flex; align-items: center; gap: 10px; transition: bottom .35s var(--ease); -webkit-tap-highlight-color: transparent; }
+.gma[data-state="open"] { z-index: 99; }
+
+.gma-btn { position: relative; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: #0e0e10; cursor: pointer; isolation: isolate;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 8px 20px -8px rgba(14, 14, 16, .55), 0 1px 3px rgba(14, 14, 16, .2);
+  transition: transform .2s var(--ease), box-shadow .3s var(--ease); }
+[data-theme="dark"] .gma-btn { background: #1c1c1f; box-shadow: 0 0 0 1px #2e2e33 inset, 0 12px 28px -10px rgba(0, 0, 0, .9); }
+.gma-btn:active { transform: scale(.93); }
+.gma-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* The face: the car mark on gloss, with a glint passing over it every few seconds */
+.gma-face { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; display: grid; place-items: center; transition: opacity .25s, transform .45s var(--ease); }
+.gma-mark { position: relative; display: block; width: 32px; height: auto; color: #fff; transform: translateX(-2px); transition: transform .5s var(--ease); }
+.gma-btn:hover .gma-mark { transform: translateX(1px); }
+.gma-sweep { position: absolute; inset: -10%; background: linear-gradient(108deg, transparent 40%, rgba(255, 255, 255, .28) 50%, transparent 60%); transform: translateX(-120%); animation: gma-glint 7s cubic-bezier(.4, 0, .2, 1) 3s infinite; pointer-events: none; mix-blend-mode: soft-light; }
+.gma-x { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; opacity: 0; transform: rotate(-90deg) scale(.6); transition: opacity .25s, transform .45s var(--ease); }
+.gma-x svg { width: 20px; height: 20px; }
+.gma[data-state="open"] .gma-face { opacity: 0; transform: rotate(90deg) scale(.6); }
+.gma[data-state="open"] .gma-x { opacity: 1; transform: none; }
+
+/* The hint: a pill sliding out from behind the disc, once a session; on car pages it stays as "find similar" */
+.gma-hint { order: -1; display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 99px; background: var(--bg); color: var(--ink); font-size: 13.5px; font-weight: 500; white-space: nowrap;
+  box-shadow: 0 0 0 1px var(--line), 0 12px 24px -14px rgba(14, 14, 16, .45); cursor: pointer;
+  opacity: 0; transform: translateX(14px) scale(.96); transform-origin: right center; pointer-events: none; transition: opacity .35s var(--ease), transform .5s var(--ease); }
+.gma.has-hint .gma-hint, .gma.is-similar .gma-hint { opacity: 1; transform: none; pointer-events: auto; }
+.gma[data-state="open"] .gma-hint { opacity: 0; transform: translateX(14px) scale(.96); pointer-events: none; }
+
+/* Scrim and the panel itself */
+.gma-scrim { position: fixed; inset: 0; z-index: 96; background: rgba(14, 14, 16, .38); opacity: 0; pointer-events: none; transition: opacity .45s var(--ease); }
+.gma-scrim.is-open { opacity: 1; pointer-events: auto; }
+.gma-panel { position: fixed; z-index: 97; display: flex; flex-direction: column; background: var(--bg); overflow: hidden;
+  clip-path: circle(0 at var(--gma-from, 100% 100%)); transition: clip-path .6s cubic-bezier(.65, 0, .35, 1), transform .35s var(--ease); }
+.gma-panel.is-open { clip-path: circle(150% at var(--gma-from, 100% 100%)); }
+.gma-panel.is-dragging { transition: none; }
+.gma-panel[hidden] { display: none; }
+
+.gma-head { position: relative; flex: none; display: flex; align-items: center; justify-content: space-between; height: 58px; padding: 6px 8px 0 18px; border-bottom: 1px solid var(--line); touch-action: none; }
+.gma-grab { position: absolute; top: 7px; left: 50%; width: 36px; height: 5px; margin-left: -18px; border-radius: 3px; background: var(--line); }
+.gma-brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); }
+.gma-brand b { font-size: 15px; font-weight: 600; letter-spacing: -.005em; }
+.gma-brand-mark { display: block; width: 26px; height: auto; color: var(--ink); }
+.gma-close { width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: 50%; background: var(--sf); color: var(--ink); cursor: pointer; }
+.gma-close svg { width: 20px; height: 20px; }
+
+.gma-body { position: relative; flex: 1; min-height: 0; }
+.gma-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: var(--bg); opacity: 0; transition: opacity .4s var(--ease) .1s; }
+.gma-panel.is-ready .gma-frame { opacity: 1; }
+.gma-wait { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px; color: var(--mute); font-size: 14px; }
+.gma-wait-mark { display: block; width: 64px; height: auto; color: var(--red); animation: gma-drive 1.4s var(--ease) infinite; }
+.gma-panel.is-ready .gma-wait { opacity: 0; transition: opacity .3s; }
+
+/* Phone: a sheet from the bottom edge, nearly full height */
+@media (max-width: 699px) {
+  .gma-panel { left: 0; right: 0; bottom: 0; top: max(10px, env(safe-area-inset-top)); border-radius: 20px 20px 0 0; box-shadow: 0 -20px 60px rgba(0, 0, 0, .22); }
+  .gma[data-state="open"] { opacity: 0; pointer-events: none; }
+  html.gma-lock, html.gma-lock body { overflow: hidden; }
+}
+/* Desktop: a floating panel above the disc */
+@media (min-width: 700px) {
+  .gma { right: 28px; bottom: 28px; }
+  .gma-panel { right: 28px; bottom: 92px; width: 420px; height: min(760px, calc(100vh - 136px)); border-radius: 22px; box-shadow: 0 0 0 1px var(--line), 0 40px 80px -30px rgba(14, 14, 16, .5); }
+  .gma-grab { display: none; }
+  .gma-scrim { background: rgba(14, 14, 16, .12); }
+}
+
+@keyframes gma-glint { 0%, 76% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+@keyframes gma-drive { 0% { transform: translateX(-10px); opacity: .5; } 50% { transform: translateX(6px); opacity: 1; } 100% { transform: translateX(-10px); opacity: .5; } }
+@media (prefers-reduced-motion: reduce) {
+  .gma-sweep, .gma-wait-mark { animation: none; }
+  .gma-panel, .gma-hint, .gma-face, .gma-x, .gma-scrim { transition: none; }
+}

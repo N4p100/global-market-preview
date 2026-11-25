@@ -728,3 +728,20 @@ a.cbig:hover { color: var(--red); }
 .acat.is-on .acat__s b { color: var(--red); }
 @media (max-width: 860px) { .acats { grid-template-columns: 1fr; gap: 12px; } .acat { padding: 20px 18px; } .acat h3 { font-size: 19px; } }
 @media (max-width: 480px) { .menu__panel { width: 100%; border-right: 0; } }
+
+/* ---------- Phone fixes (25 Nov 2026, with the AI agent launcher) ---------- */
+/* Figures on a photo stay white: red on a dark photo was barely readable. */
+.chapter .figs b { color: #fff; }
+@media (max-width: 860px) {
+  /* Georgian letters hang below the line; the red rule now sits under them instead of through them. */
+  .hero .red-w { text-decoration: none; display: inline-block; padding-bottom: .08em; border-bottom: .075em solid var(--red); }
+  /* Hero text over the photo: more shade under the lower half, where the words sit. */
+  .hero::after { background: linear-gradient(180deg, rgba(0, 0, 0, .34) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, .18) 38%, rgba(0, 0, 0, .62) 62%, rgba(0, 0, 0, .7) 100%); }
+  /* Text over the chapter photo: a deeper shade behind it. */
+  .chapter::after { background: linear-gradient(180deg, rgba(0, 0, 0, .12) 0%, rgba(0, 0, 0, .38) 38%, rgba(0, 0, 0, .8) 100%); }
+  /* Tap targets: 44px at least (Apple HIG). */
+  .foot li { margin-bottom: 0; }
+  .foot li a { display: inline-flex; align-items: center; min-height: 44px; }
+  .menu__nav a { min-height: 44px; }
+  .chip, .fg .chip { height: 44px; }
+}

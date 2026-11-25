@@ -1,0 +1,148 @@
+/* Global Market — phone layout (25 Nov 2026). Not the desktop page squeezed: its own layout for ≤ 760px,
+   built to Apple's HIG and docs/design/MOBILE_RULES.md in the assistant project:
+   - top bar 52px: logo left, search + saved right; sections live in a bottom tab bar (no hamburger)
+   - buttons 44px tall, auto width, 15px text; one primary per screen; full width only for a page's final action
+   - type: large title 32/34, section title 22, body 15–17, captions 13; 16px side margins; 8-step spacing */
+@media (max-width: 760px) {
+  :root { --head: 52px; --pad: 16px; --sec: 40px; --tab: 50px; }
+
+  /* ---------- Buttons ---------- */
+  .btn { --h: 44px; padding: 0 20px; font-size: 15px; gap: 8px; }
+  .btn--lg { --h: 48px; padding: 0 22px; font-size: 15px; }
+  .btn--sm { --h: 40px; padding: 0 16px; font-size: 14px; }
+  .btn .ic { width: 18px; height: 18px; }
+  .round { width: 40px; height: 40px; }
+
+  /* ---------- Top bar ---------- */
+  .head__in { height: var(--head); grid-template-columns: 1fr auto; gap: 8px; }
+  .head__l, .switch { display: none !important; }
+  .head__c { align-items: flex-start; padding-top: 0; }
+  .head .logo svg { height: 24px; }
+  .head__r { gap: 0; margin-right: -10px; }
+  .head__btn { width: 44px; height: 44px; }
+
+  /* ---------- Type ---------- */
+  .display { font-size: 34px; line-height: 1.08; letter-spacing: -.03em; font-weight: 350; }
+  .h2 { font-size: 24px; line-height: 1.2; letter-spacing: -.02em; font-weight: 400; }
+  .h3 { font-size: 20px; line-height: 1.25; }
+  .lead { font-size: 15px; line-height: 1.5; }
+  .label { font-size: 13px; }
+
+  /* ---------- Hero: shorter, one clear action, search as a round button beside it ---------- */
+  .hero { height: 74svh; min-height: 500px; max-height: 680px; }
+  .hero__body { padding-bottom: 20px; }
+  .hero__grid { grid-template-columns: 1fr; gap: 14px; }
+  .hero h1 { max-width: 12ch; }
+  .hero .lead { margin-top: 10px !important; font-size: 15px; max-width: 32ch; }
+  .hero__acts { margin-top: 18px; gap: 10px; flex-wrap: nowrap; }
+  .hero__acts .btn--lg { --h: 44px; }
+  .hero__acts .btn--ghost { width: 44px; padding: 0; font-size: 0; gap: 0; flex: none; }
+  .hero__acts .btn--ghost .ic { width: 20px; height: 20px; }
+  .hero__cap { font-size: 14px; gap: 10px; }
+  .hero__cap small { font-size: 12px; }
+  .hero__cap .round { width: 36px; height: 36px; }
+  .hero__bars { margin-top: 14px; gap: 6px; }
+  .hero__bars button { font-size: 0; padding-top: 6px; }
+  .hero__ai { display: none; }
+
+  /* ---------- Sections ---------- */
+  .sec { padding-block: var(--sec); }
+  .sec__h { margin-bottom: 16px; align-items: flex-end; }
+  .sec__h p { margin-top: 6px; }
+  .sec__tools { display: none; }
+
+  /* Category tiles: an even two-column grid, the first one wide */
+  .tiles { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tile { grid-column: span 1; aspect-ratio: 1 / 1; }
+  .tile:first-child { grid-column: span 2; aspect-ratio: 16 / 9; }
+  .tile__n { left: 14px; top: 12px; font-size: 20px; letter-spacing: -.01em; }
+  .tile__c { left: 14px; bottom: 14px; font-size: 13px; }
+  .tile .round { right: 10px; bottom: 10px; width: 32px; height: 32px; }
+
+  /* Rails: one card and a bit, aligned to the margin */
+  .rail { grid-auto-columns: 78%; gap: 12px; scroll-padding-left: var(--pad); }
+
+  /* Car cards */
+  .card__b { padding: 14px 16px 16px; }
+  .card__loc { font-size: 12px; }
+  .card__t { font-size: 16px; margin-top: 2px; }
+  .card__s { font-size: 13px; margin-top: 4px; }
+  .card__p { margin-top: 12px; padding-top: 12px; }
+  .card__p b { font-size: 20px; }
+  .card__p span { font-size: 12px; }
+
+  /* Chapter photo band */
+  .chapter { min-height: 72svh; }
+  .chapter__b { padding-block: 32px; }
+  .chapter h2 { font-size: 26px; }
+  .figs { margin-top: 24px; row-gap: 18px; }
+  .figs > div { padding: 0 14px; }
+  .figs b { font-size: 30px; }
+  .figs span { font-size: 13px; margin-top: 6px; }
+
+  /* Footer */
+  .foot { padding-bottom: calc(var(--tab) + 24px + env(safe-area-inset-bottom)); }
+
+  /* ---------- Bottom tab bar ---------- */
+  .has-tabbar body { padding-bottom: calc(var(--tab) + env(safe-area-inset-bottom)); }
+  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: grid; grid-template-columns: repeat(5, 1fr); align-items: start;
+    height: calc(var(--tab) + env(safe-area-inset-bottom)); padding: 0 4px env(safe-area-inset-bottom); background: var(--bg); border-top: 1px solid var(--line); }
+  .tabbar a, .tabbar button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: var(--tab); padding: 0; border: 0; background: none; color: var(--mute); font: inherit; font-size: 10.5px; font-weight: 500; letter-spacing: .01em; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .tabbar .ic { width: 24px; height: 24px; stroke-width: 1.6; }
+  .tabbar [aria-current="page"] { color: var(--ink); }
+  .tabbar [aria-current="page"] .ic { stroke-width: 1.9; }
+  .tabbar .tab-agent .tab-disc { display: grid; place-items: center; width: 40px; height: 30px; border-radius: 15px; background: var(--ink); }
+  .tabbar .tab-agent svg.mk { width: 26px; height: auto; color: var(--red); }
+  .tabbar .tab-agent { color: var(--ink); }
+  /* With the tab bar, the agent lives in its centre: no floating launcher. */
+  .has-tabbar .gma { display: none; }
+}
+
+@media (max-width: 760px) {
+  /* Home hero: the primary button hugs its words */
+  .hero__acts .btn--lg { flex: none; }
+  /* Agent tab: the red disc carries the white mark */
+  .tabbar .tab-agent .tab-disc { background: var(--red); }
+  .tabbar .tab-agent svg.mk { color: #fff; }
+  /* Car list: filters, count and sort in one row */
+  .results__bar { display: grid !important; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .results__bar .fbtn { --h: 40px; padding: 0 14px; font-size: 14px; }
+  .results__bar #count { font-size: 13px; text-align: center; }
+  .results__bar .select { width: auto; height: 40px; max-width: 150px; font-size: 14px; padding-inline: 12px 30px; border-radius: 20px; }
+  .results__bar .select, .results__bar .fbtn { order: 0; }
+  .results__bar #count { order: 1; grid-column: 1 / -1; text-align: left; }
+  /* Car page: "find similar" sits under the title, not over it */
+  .page-car .gma, .gma.on-car { display: none; }
+  .gma-inline { display: inline-flex; align-items: center; gap: 10px; height: 40px; margin-top: 14px; padding: 0 16px 0 6px; border: 1px solid var(--line); border-radius: 20px; background: var(--bg); color: var(--ink); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
+  .gma-inline .gma-inline-disc { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--red); }
+  .gma-inline svg { width: 20px; height: auto; color: #fff; }
+}
+@media (min-width: 761px) { .gma-inline { display: none; } }
+@media (max-width: 760px) {
+  /* Car page key figures: phone-sized, one line each */
+  .kfigs b { font-size: 21px !important; letter-spacing: -.02em; line-height: 1.15; }
+  .kfigs span, .kfigs small { font-size: 12px; }
+  .kfigs > div { padding-block: 10px; }
+}
+
+/* ---------- Hero on a phone (25 Nov, Mate: "cuts too soon, not layered") ----------
+   The photo fills the whole first screen down to the tab bar; the words sit on a deep shade at the
+   bottom; the next section rises over the photo as a sheet with rounded corners. */
+@media (max-width: 760px) {
+  .hero { height: calc(100svh - var(--tab) - env(safe-area-inset-bottom)); min-height: 520px; max-height: none; }
+  .hero__slide img { object-position: 62% 32%; }
+  .hero::after { background:
+      linear-gradient(180deg, rgba(0, 0, 0, .45) 0%, rgba(0, 0, 0, 0) 16%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0) 34%, rgba(0, 0, 0, .55) 56%, rgba(0, 0, 0, .88) 100%) !important; }
+  .hero__body { padding-bottom: 44px; }
+  .hero .display { font-size: 36px; }
+  .hero__grid { gap: 18px; }
+  .hero__cap { padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .18); }
+  /* The page below slides up over the photo */
+  .hero + .sec { position: relative; z-index: 3; margin-top: -24px; border-radius: 24px 24px 0 0; background: var(--bg); padding-top: 28px; box-shadow: 0 -12px 30px rgba(0, 0, 0, .18); }
+  .hero + .sec::before { content: ""; position: absolute; top: 8px; left: 50%; width: 36px; height: 4px; margin-left: -18px; border-radius: 2px; background: var(--line); }
+}
+@media (max-width: 760px) {
+  .m-scrolled .head:not(.is-hidden) { background: var(--glass); -webkit-backdrop-filter: saturate(1.4) blur(14px); backdrop-filter: saturate(1.4) blur(14px); color: var(--ink); box-shadow: 0 1px 0 var(--line); }
+  .m-scrolled .head .logo { color: var(--ink) !important; }
+}

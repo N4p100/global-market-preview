@@ -417,3 +417,6 @@
   a.link::before { inset: -10px -4px; }
   .head .logo::before { inset: -10px -8px; }
 }
+
+/* The tab bar is a phone control: never show it (unstyled) under the desktop footer. */
+@media (min-width: 761px) { .tabbar { display: none !important; } }

@@ -1,0 +1,101 @@
+/* Global Auto Import main page (glob.ge). Built only from v8 tokens; this file adds the parts the Market has no
+   equivalent for: the five-step import journey, the contract terms, shipping lines, group tiles and offices. */
+
+/* Hero: the port photo keeps the ship and containers in view */
+.g-hero .hero__slide img { object-position: 58% 50%; }
+
+/* ---------- five steps, each with the tools for that step ---------- */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); counter-reset: none; }
+.steps > li { padding: 28px 24px 8px; border-left: 1px solid var(--line); display: flex; flex-direction: column; min-height: 320px; }
+.steps > li:first-child { border-left: 0; padding-left: 0; }
+.steps__n { font-size: 13px; font-weight: 500; color: var(--red); letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+.steps h3 { font-size: clamp(22px, 1.9vw, 28px); font-weight: 400; letter-spacing: -.02em; line-height: 1.15; margin-top: 18px; }
+.steps p { margin-top: 12px; font-size: 15px; color: var(--ink2); max-width: 30ch; }
+.steps__tools { margin-top: auto; padding-top: 24px; display: grid; gap: 4px; }
+.steps__tools a, .steps__tools button { display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 15px; font-weight: 500; text-align: left; border-radius: 10px; margin-left: -10px; padding: 0 10px; transition: background .3s var(--ease); }
+.steps__tools a:hover, .steps__tools button:hover { background: var(--sf); }
+.steps__tools .ic { color: var(--red); flex: none; }
+.steps__tools a::after, .steps__tools button::after { content: "→"; margin-left: auto; opacity: .4; transition: transform .35s var(--ease), opacity .3s; }
+.steps__tools a:hover::after, .steps__tools button:hover::after { transform: translateX(3px); opacity: 1; }
+@media (max-width: 1100px) {
+  .steps { grid-template-columns: 1fr 1fr; }
+  .steps > li { border-left: 0; padding-left: 0; border-bottom: 1px solid var(--line); min-height: 0; padding-bottom: 20px; }
+  .steps > li:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--line); }
+}
+@media (max-width: 760px) {
+  .steps { grid-template-columns: 1fr; border-top: 0; }
+  .steps > li, .steps > li:nth-child(even) { display: grid; grid-template-columns: 36px 1fr; column-gap: 12px; padding: 20px 0 12px; border-left: 0; border-top: 1px solid var(--line); border-bottom: 0; }
+  .steps__n { grid-row: span 3; padding-top: 5px; }
+  .steps h3 { margin-top: 0; font-size: 22px; }
+  .steps p { margin-top: 6px; font-size: 15px; }
+  .steps__tools { padding-top: 10px; }
+}
+
+/* ---------- contract terms ---------- */
+.terms { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
+.terms h2 { max-width: 14ch; }
+.terms__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.terms__list li { display: flex; gap: 14px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); font-size: clamp(17px, 1.4vw, 20px); }
+.terms__list li::before { content: ""; flex: none; width: 18px; height: 10px; border-left: 2px solid var(--red); border-bottom: 2px solid var(--red); transform: translateY(-4px) rotate(-45deg); }
+.terms__list b { font-weight: 500; color: var(--red); }
+@media (max-width: 860px) {
+  .terms { grid-template-columns: 1fr; gap: 28px; }
+  .terms .btn { display: none; }
+  .terms__list li { padding: 16px 0; font-size: 17px; }
+}
+
+/* ---------- figures: four, no button ---------- */
+.g-figs { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 860px) {
+  .g-figs { grid-template-columns: 1fr 1fr; }
+  .g-figs > div:nth-child(3) { padding-left: 0; border-left: 0; }
+}
+
+/* ---------- shipping lines ---------- */
+.g-lines { padding-block: clamp(40px, 5vw, 64px); border-bottom: 1px solid var(--line); }
+.g-lines .label { text-align: center; }
+.g-lines ul { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px 24px; align-items: center; }
+.g-lines li { display: grid; place-items: center; height: 72px; }
+.g-lines img { width: auto; height: auto; max-width: 100%; max-height: 44px; margin-inline: auto; filter: grayscale(1) contrast(1.1); mix-blend-mode: multiply; opacity: .75; transition: opacity .3s, filter .3s; }
+.g-lines li:hover img { opacity: 1; filter: none; }
+[data-theme="dark"] .g-lines img { mix-blend-mode: screen; filter: grayscale(1) invert(1) contrast(1.1); }
+[data-theme="dark"] .g-lines li:hover img { filter: grayscale(1) invert(1) contrast(1.1); }
+@media (max-width: 860px) {
+  .g-lines ul { grid-template-columns: repeat(4, 1fr); gap: 4px 16px; }
+}
+
+/* ---------- group tiles: three equal ---------- */
+.g-tiles { grid-template-columns: repeat(3, 1fr); }
+.g-tiles .tile, .g-tiles .tile:nth-child(1), .g-tiles .tile:nth-child(2) { grid-column: span 1; aspect-ratio: 4 / 5; }
+.g-tiles .tile__n { font-size: clamp(26px, 2.4vw, 38px); max-width: 11ch; }
+.g-tiles .tile__c { right: 84px; line-height: 1.35; }
+.tile--soon img { filter: grayscale(.6); }
+.soon { position: absolute; right: 18px; bottom: 18px; padding: 6px 14px; border-radius: 99px; font-size: 13px; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .5); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+@media (max-width: 860px) {
+  .g-tiles { grid-template-columns: 1fr 1fr; }
+  .g-tiles .tile:first-child { grid-column: span 2; aspect-ratio: 16 / 10; }
+  .g-tiles .tile:not(:first-child) { aspect-ratio: 1 / 1.1; }
+  .g-tiles .tile__n { font-size: 20px; }
+  .g-tiles .tile__c { right: 56px; font-size: 13px; }
+  .g-tiles .tile:not(:first-child) .tile__c { display: none; }
+  .soon { right: 10px; bottom: 10px; padding: 4px 10px; }
+}
+
+/* ---------- offices ---------- */
+.offices { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; }
+.offices__img img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r); }
+.offices__list { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--line); }
+.offices__list li { display: grid; grid-template-columns: 110px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.offices__list b { font-weight: 500; }
+.offices__list span { color: var(--ink2); }
+@media (max-width: 860px) {
+  .offices { grid-template-columns: 1fr; gap: 24px; }
+  .offices__list li { grid-template-columns: 84px 1fr; gap: 12px; }
+  .offices .btn { flex: 1; }
+}
+
+/* menu: an entry that is not a link yet */
+.menu__soon { display: flex; align-items: center; min-height: 42px; padding: 0 10px; font-size: 15px; font-weight: 500; color: var(--mute); }
+
+/* Desktop: keep the hero's container link clear of the agent launcher in the corner */
+@media (min-width: 861px) { .g-hero .hero__cap { padding-right: 76px; } }

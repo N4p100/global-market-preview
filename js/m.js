@@ -7,7 +7,14 @@
   var path = location.pathname;
   var MARK = (document.querySelector(".logo svg path:last-child") || {}).getAttribute ? document.querySelector(".logo svg path:last-child").getAttribute("d") : "";
   var ic = function (d) { return '<svg viewBox="0 0 24 24" class="ic" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">' + d + "</svg>"; };
-  var tabs = [
+  var GROUP = window.M_SITE === "group";
+  var tabs = GROUP ? [
+    { href: base + "glob/index.html", label: "იმპორტი", on: true, icon: ic('<path d="M3 17.5c2 1.5 4 1.5 6 0s4-1.5 6 0 4 1.5 6 0"/><path d="M5 14.5 4 9.5h16l-1 5"/><path d="M8 9.5V6h8v3.5"/>') },
+    { href: base + "index.html", label: "მარკეტი", icon: ic('<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/>') },
+    { agent: true, label: "აგენტი" },
+    { href: "tel:+995322424288", label: "დარეკვა", icon: ic('<path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>') },
+    { menu: true, label: "მენიუ", icon: ic('<path d="M4 7h16M4 12h16M4 17h16"/>') },
+  ] : [
     { href: base + "index.html", label: "მარკეტი", on: /\/(index\.html)?$|\/cars\.html|\/car\.html/.test(path) && !/auction/.test(path), icon: ic('<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/>') },
     { href: base + "auction/index.html", label: "აუქციონი", on: /auction/.test(path), icon: ic('<path d="m14 4 6 6"/><path d="m11.5 6.5 6 6"/><path d="M12.8 5.2 7.2 10.8M16.8 9.2l-5.6 5.6"/><path d="m9 13-6 6"/><path d="M13 21h8"/>') },
     { agent: true, label: "აგენტი" },
@@ -29,21 +36,31 @@
   var here = location.pathname;
   var chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
   var on = function (h) { return here.slice(-h.length) === h ? ' class="on"' : ""; };
-  var groups = [
+  var url = function (h) { return /^(https?:|tel:|mailto:|#)/.test(h) ? h : base + h; };
+  var groups = GROUP ? [
+    { label: "იმპორტის ინსტრუმენტები", links: [["https://aiexpert.glob.ge/", "AI ექსპერტი"], ["https://glob.ge/check-document/", "საბუთის შემოწმება"], ["https://glob.ge/transportation-calculator/", "ტრანსპორტირების კალკულატორი"], ["https://glob.ge/customs-calculator/", "განბაჟების კალკულატორი"], ["https://glob.ge/container-tracking/", "კონტეინერის ძიება"]] },
+    { label: "Global Auto ჯგუფი", links: [["index.html", "Global Market"], ["auction/index.html", "Global Auction"], ["https://globservice.ge/", "Global Auto Service"]] },
+    { href: "https://glob.ge/dealer-page/", label: "პარტნიორობა" },
+    { href: "https://glob.ge/online-application/", label: "მოითხოვე ზარი" },
+    { href: "https://glob.ge/about-us/", label: "ჩვენ შესახებ" },
+    { href: "https://glob.ge/career/", label: "კარიერა" }
+  ] : [
     { label: "მარკეტი", links: [["cars.html", "ყველა ავტომობილი"], ["cars.html?loc=transit", "გზაში საქართველოსკენ"], ["cars.html?loc=restore", "აღსადგენი"], ["sold.html", "გაყიდული"]] },
     { label: "აუქციონი", links: [["auction/index.html", "მიმდინარე ლოტები"], ["auction/rules.html", "წესები"]] },
     { href: "leasing.html", label: "ლიზინგი" },
     { href: "sell.html", label: "ავტომობილის გაყიდვა" },
     { href: "about.html", label: "ჩვენს შესახებ" },
-    { href: "contact.html", label: "კონტაქტი" }
+    { href: "contact.html", label: "კონტაქტი" },
+    { href: "glob/index.html", label: "Global Auto Import" }
   ];
+  var CONTACT = GROUP ? ["tel:+995322424288", "032 2 42 42 88", "mailto:info@glob.ge", "info@glob.ge", "ორშ–პარ, 10:00–02:00"] : ["tel:+995551119942", "551 11 99 42", "https://wa.me/995551119942", "WhatsApp", "ორშ–შაბ, 10:00–19:00"];
   var bg = document.createElement("div"); bg.className = "msh-bg";
   var sh = document.createElement("div"); sh.className = "msh"; sh.setAttribute("role", "dialog"); sh.setAttribute("aria-modal", "true"); sh.setAttribute("aria-label", "მენიუ");
   sh.innerHTML = '<div class="msh-grab"></div><div class="msh-top"><b>მენიუ</b><button class="msh-x" type="button" aria-label="დახურვა"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><ul class="msh-list">' +
     groups.map(function (g, i) {
-      if (g.href) return '<li><a class="msh-row" href="' + base + g.href + '">' + g.label + chev + "</a></li>";
-      return '<li><button class="msh-row" type="button" aria-expanded="false" aria-controls="msh-' + i + '">' + g.label + chev + '</button><div class="msh-sub" id="msh-' + i + '"><div>' + g.links.map(function (l) { return '<a href="' + base + l[0] + '"' + on(l[0].split("?")[0]) + ">" + l[1] + "</a>"; }).join("") + "</div></div></li>";
-    }).join("") + '</ul><div class="msh-contact"><a href="tel:+995551119942"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>551 11 99 42</a><a href="https://wa.me/995551119942" target="_blank" rel="noopener">WhatsApp</a></div><div class="msh-hours">ორშ–შაბ, 10:00–19:00</div>';
+      if (g.href) return '<li><a class="msh-row" href="' + url(g.href) + '">' + g.label + chev + "</a></li>";
+      return '<li><button class="msh-row" type="button" aria-expanded="false" aria-controls="msh-' + i + '">' + g.label + chev + '</button><div class="msh-sub" id="msh-' + i + '"><div>' + g.links.map(function (l) { return '<a href="' + url(l[0]) + '"' + on(l[0].split("?")[0]) + ">" + l[1] + "</a>"; }).join("") + "</div></div></li>";
+    }).join("") + '</ul><div class="msh-contact"><a href="' + CONTACT[0] + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>' + CONTACT[1] + '</a><a href="' + CONTACT[2] + '" target="_blank" rel="noopener">' + CONTACT[3] + '</a></div><div class="msh-hours">' + CONTACT[4] + '</div>';
   document.body.appendChild(bg); document.body.appendChild(sh);
   var root = document.documentElement, opener = null;
   function openSheet() { opener = document.activeElement; root.classList.add("msh-open"); document.body.style.overflow = "hidden"; setTimeout(function () { sh.querySelector(".msh-x").focus({ preventScroll: true }); }, 300); }

@@ -18,3 +18,8 @@
   /* The car's name stays on one line, so the headline never jumps between slides */
   .hero--portrait .hero__cap a.t { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 }
+/* Narrowest phones (320px): the button and the search circle fit on one line */
+@media (max-width: 359px) {
+  .hero__acts .btn--lg { padding: 0 14px; font-size: 14px; gap: 6px; }
+  .hero__acts { gap: 8px; }
+}

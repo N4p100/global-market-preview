@@ -76,21 +76,45 @@
     row.addEventListener("scroll", paint, { passive: true }); paint();
   }, 250);
 })();
-/* Phone hero: a blurred copy of each slide's photo fills the screen behind the sharp one. */
+/* Phone hero (26 Nov): each tall photo is placed so its WHOLE car sits between the header and the headline, on
+   any phone. CAR = where the car is in each photo (fractions of width/height, measured on the 1520×2688 files).
+   For the current screen it tries the largest zoom (up to 1.8× "cover") at which the car, centred, still fits
+   that space with a margin, while the photo still covers the whole hero; smaller screens get less zoom. */
 (function () {
-  if (!matchMedia("(max-width: 760px)").matches) return;
+  var mq = matchMedia("(max-width: 860px)");
   var hero = document.querySelector("[data-hero]"); if (!hero) return;
-  var add = function () {
-    hero.querySelectorAll(".hero__slide").forEach(function (s) {
-      if (s.querySelector(".m-amb")) return;
-      var img = s.querySelector("picture img"); if (!img) return;
-      var a = document.createElement("img"); a.className = "m-amb"; a.alt = ""; a.setAttribute("aria-hidden", "true");
-      a.src = (img.currentSrc || img.src).replace(/hero-([a-z0-9]+)\.jpg/, "hero-$1-m.jpg");
-      s.insertBefore(a, s.firstChild);
-    });
-  };
-  add(); new MutationObserver(add).observe(hero, { childList: true });
-  document.querySelectorAll("img").forEach(function (i) { i.addEventListener("load", add, { once: true }); });
+  var CAR = { taycan: [.367, .529, .878, .683], etron: [.397, .521, .934, .669], x5: [.278, .404, .932, .600] };
+  var head = document.querySelector(".head"), body = hero.querySelector(".hero__body");
+  function fitOne(img) {
+    var m = (img.currentSrc || img.src).match(/hero-([a-z0-9]+)(?:-m)?\.jpg/), box = m && CAR[m[1]];
+    if (!mq.matches || !box) { img.style.cssText = img.style.cssText.replace(/(left|top|width|height|max-width|transform-origin):[^;]*;?/g, ""); return; }
+    var hr = hero.getBoundingClientRect(), W = hr.width, H = hr.height; if (!W || !H) return;
+    var iw = img.naturalWidth || 1520, ih = img.naturalHeight || 2688;
+    var title = body && (body.querySelector("h1, .display") || body);
+    var top = Math.max(0, (head ? head.getBoundingClientRect().height : 56)) + 14;
+    var bottom = (title ? title.getBoundingClientRect().top - hr.top : H * .6) - 16;
+    if (bottom - top < 120) bottom = top + 120;
+    var L = 14, R = W - 14, cover = Math.max(W / iw, H / ih), best = null;
+    for (var z = 1.8; z >= 0.999; z -= 0.02) {
+      var dw = iw * cover * z, dh = ih * cover * z;
+      var cw = (box[2] - box[0]) * dw, ch = (box[3] - box[1]) * dh;
+      var x = (L + R) / 2 - (box[0] + box[2]) / 2 * dw, y = (top + bottom) / 2 - (box[1] + box[3]) / 2 * dh;
+      x = Math.min(0, Math.max(W - dw, x)); y = Math.min(0, Math.max(H - dh, y));
+      var cx0 = x + box[0] * dw, cx1 = x + box[2] * dw, cy0 = y + box[1] * dh, cy1 = y + box[3] * dh;
+      best = { x: x, y: y, w: dw, h: dh, ox: (cx0 + cx1) / 2 - x, oy: (cy0 + cy1) / 2 - y };
+      if (cw <= (R - L) * .96 && cx0 >= L && cx1 <= R && cy0 >= top && cy1 <= bottom) break;
+    }
+    var st = img.style;
+    st.left = best.x + "px"; st.top = best.y + "px"; st.width = best.w + "px"; st.height = best.h + "px"; st.maxWidth = "none";
+    st.transformOrigin = best.ox + "px " + best.oy + "px";
+  }
+  function fit() { hero.querySelectorAll(".hero__slide picture img").forEach(fitOne); }
+  fit();
+  new MutationObserver(function () { fit(); hero.querySelectorAll(".hero__slide picture img").forEach(function (i) { if (!i.complete) i.addEventListener("load", fit, { once: true }); }); }).observe(hero, { childList: true, subtree: true });
+  hero.querySelectorAll("img").forEach(function (i) { if (!i.complete) i.addEventListener("load", fit, { once: true }); });
+  if (window.ResizeObserver) { new ResizeObserver(fit).observe(hero); if (body) new ResizeObserver(fit).observe(body); }
+  addEventListener("resize", fit); if (document.fonts) document.fonts.ready.then(fit);
+  if (mq.addEventListener) mq.addEventListener("change", fit);
 })();
 /* Phone hero: the photo gets exactly the space the words leave. */
 (function () {

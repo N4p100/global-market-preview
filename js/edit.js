@@ -657,6 +657,7 @@
           say("გასაღები არ მუშაობს: " + esc(e.message.slice(0, 80)), 5000, "err");
         });
       })]);
+      sh.el.addEventListener("click", function (e) { if (e.target === sh.el || e.target.closest("[data-x]")) ok(false); });
       setTimeout(function () { f.querySelector("input").focus(); }, 30);
     });
   }
@@ -694,9 +695,12 @@
           say('შენახულია ✓ <button type="button" class="gme-link" onclick="location.reload()">გვერდის განახლება</button>', 0, "ok");
         });
       }
-      var go = token() ? Promise.resolve() : askToken();
-      return go.then(function () { return ghCommit(changes, msg); }).then(function () {
-        dirty.clear(); updateBar(); busy = false; waitLive(probe, Date.now());
+      var go = token() ? Promise.resolve(true) : askToken();
+      return go.then(function (signed) {
+        if (!signed) { busy = false; toast.classList.remove("is-on"); return; }
+        return ghCommit(changes, msg).then(function () {
+          dirty.clear(); updateBar(); busy = false; waitLive(probe, Date.now());
+        });
       });
     }).catch(function (e) {
       busy = false;

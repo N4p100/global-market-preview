@@ -1,0 +1,27 @@
+/* Hero, 25 Nov (Higgsfield portrait images, assets/v8/hero2-*.jpg): ONE image per car for every screen,
+   laid out per screen. Phone: the portrait photo fills the first screen, words over its dark lower third.
+   Desktop: the same photo stands as a tall panel on the right, melting into the dark left half that carries the words. */
+.hero--portrait { background: #0b0b0c; }
+.hero--portrait .hero__slide img { object-position: 50% 50% !important; }
+
+@media (min-width: 861px) {
+  .hero--portrait .hero__slide { left: auto; right: 0; width: min(48vw, 860px); }
+  .hero--portrait .hero__slide img { transform: none; }
+  .hero--portrait .hero__slide::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(90deg, #0b0b0c 0%, rgba(11, 11, 12, .55) 16%, rgba(11, 11, 12, 0) 34%), linear-gradient(0deg, rgba(11, 11, 12, .7) 0%, rgba(11, 11, 12, 0) 26%); }
+  .hero--portrait::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(60% 70% at 70% 55%, rgba(212, 16, 43, .10), transparent 70%); }
+  .hero--portrait::after { background: linear-gradient(180deg, rgba(0, 0, 0, .35) 0%, rgba(0, 0, 0, 0) 18%) !important; }
+  .hero--portrait .hero__body { z-index: 2; }
+  .hero--portrait h1 { max-width: 11ch; }
+}
+
+@media (max-width: 860px) {
+  .hero--portrait .m-amb { display: none !important; }
+  .hero--portrait .hero__slide { inset: 0 !important; height: auto !important; }
+  .hero--portrait .hero__slide picture { position: absolute !important; inset: 0 !important; top: 0 !important; bottom: 0 !important; aspect-ratio: auto !important; }
+  .hero--portrait .hero__slide picture img { object-fit: cover !important; object-position: 50% 64% !important; -webkit-mask-image: none !important; mask-image: none !important; }
+  .hero--portrait::after { background: linear-gradient(180deg, rgba(0, 0, 0, .4) 0%, rgba(0, 0, 0, 0) 14%, rgba(0, 0, 0, 0) 52%, rgba(0, 0, 0, .55) 70%, rgba(0, 0, 0, .85) 100%) !important; }
+}
+/* The i8 sits lower in its photo than the other three: frame it higher on a phone. */
+@media (max-width: 860px) { .hero--portrait .hero__slide[data-slide="3"] picture img { object-position: 50% 100% !important; transform: translateY(-9%) !important; } }

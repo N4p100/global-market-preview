@@ -15,7 +15,8 @@ other keys live in content/pages/<page>.json. Links are stored as if written fro
 root ("cars.html", "auction/index.html"); images as "/assets/...".
 
   python3 tools/cms.py extract   pages -> content/*.json   (run once after adding markers)
-  python3 tools/cms.py apply     content/*.json -> pages   (the GitHub job runs this after every CMS save)
+  python3 tools/cms.py apply     content/*.json -> pages
+  python3 tools/cms.py apply content/pages/glob.json   only what one save changed (the GitHub job does this)
   python3 tools/cms.py check     apply to memory, report pages that would change
   python3 tools/cms.py manifest  content/manifest.json for the on-page editor (?edit on any page)
   python3 tools/cms.py pull      download content/ from the published repo (run before publishing)
@@ -428,11 +429,20 @@ def extract():
     print("extracted", len(PAGES), "pages")
 
 
-def apply(write=True):
-    site = load(CONTENT / "site.json")
+def apply(write=True, changed_files=None):
+    """changed_files: content files a CMS save touched. Then only those values are written, so a page
+    someone edited by hand is never reset by a save on another page. None = write everything."""
+    only_pages = site_changed = None
+    if changed_files is not None:
+        names = [Path(f).as_posix() for f in changed_files]
+        site_changed = "content/site.json" in names
+        only_pages = {Path(n).stem for n in names if n.startswith("content/pages/")}
+    site = load(CONTENT / "site.json") if site_changed is not False else {}
     changed = []
     for pid, (files, _) in PAGES.items():
-        ctx = load(CONTENT / "pages" / f"{pid}.json")
+        if only_pages is not None and pid not in only_pages and not site_changed:
+            continue
+        ctx = load(CONTENT / "pages" / f"{pid}.json") if only_pages is None or pid in only_pages else {}
         for f in files:
             p = ROOT / f
             if not p.exists():
@@ -597,7 +607,7 @@ if __name__ == "__main__":
     elif cmd == "manifest":
         manifest()
     elif cmd == "apply":
-        apply()
+        apply(changed_files=sys.argv[2:] if len(sys.argv) > 2 else None)
     elif cmd == "check":
         sys.exit(1 if apply(write=False) else 0)
     elif cmd == "config":

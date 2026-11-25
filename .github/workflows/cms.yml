@@ -1,10 +1,10 @@
-# After every CMS save (a commit that changes content/), write the new values into the pages and publish.
+# After a save from edit mode (a commit that changes content/*.json), write those values into the pages.
+# Only the files that commit changed are applied, so a page edited by hand is never reset by a save elsewhere.
 name: CMS to pages
 on:
   push:
     branches: [main]
-    paths: ["content/**", "tools/cms.py"]
-  workflow_dispatch:
+    paths: ["content/**"]
 permissions:
   contents: write
   pages: write
@@ -16,8 +16,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Write content into the pages
-        run: python3 tools/cms.py apply
+        with:
+          fetch-depth: 0
+      - name: Write the saved content into the pages
+        id: apply
+        run: |
+          CHANGED=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- content/ 2>/dev/null | grep '\.json$' | grep -v 'manifest.json' || true)
+          if [ -z "$CHANGED" ]; then echo "no content values changed"; exit 0; fi
+          echo "applying: $CHANGED"
+          python3 tools/cms.py apply $CHANGED
       - name: Commit the updated pages
         run: |
           git config user.name "Global CMS"
@@ -27,7 +34,6 @@ jobs:
           git commit -m "CMS: pages updated from content"
           git pull --rebase origin main
           git push origin HEAD:main
-      - name: Rebuild GitHub Pages
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

@@ -44,7 +44,7 @@
       '<span class="gma-brand">' + markSvg("gma-brand-mark") + '<b>' + T.title + '</b></span>' +
       '<button type="button" class="gma-close" aria-label="' + T.close + '">' + xSvg + '</button></header>' +
     '<div class="gma-body"><div class="gma-wait" aria-hidden="true">' + markSvg("gma-wait-mark") + '<span>' + T.loading + '</span></div>' +
-      '<div class="gma-signin"><b>' + T.signTitle + '</b><span>' + T.signBody + '</span><a class="gma-signin-btn" target="_blank" rel="noopener" href="' + ORIGIN.replace(/\/$/, "") + '/assistant">' + T.signGo + '</a></div>' +
+      '<div class="gma-signin"><b>' + T.signTitle + '</b><span>' + T.signBody + '</span><a class="gma-signin-btn" href="' + ORIGIN.replace(/\/$/, "") + '/assistant">' + T.signGo + '</a></div>' +
       '<iframe class="gma-frame" title="' + T.title + '" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>';
   document.body.appendChild(scrim); document.body.appendChild(panel); document.body.appendChild(root);
   var btn = root.querySelector(".gma-btn"), hint = root.querySelector(".gma-hint"), hintText = root.querySelector(".gma-hint-text");
@@ -57,10 +57,13 @@
   }
   var loadedFor = "";
   function warm(ctx) { var s = src(ctx); if (loadedFor === s) return; loadedFor = s; panel.classList.remove("is-ready"); frame.src = s; }
-  // The agent says when it is up. If it does not (the test server asks for its password), offer to open it.
-  var agentUp = false;
-  addEventListener("message", function (e) { if (e.data && e.data.type === "gma-ready" && ORIGIN.indexOf(e.origin) === 0) { agentUp = true; panel.classList.add("is-ready"); panel.classList.remove("needs-signin"); } });
-  frame.addEventListener("load", function () { setTimeout(function () { if (!agentUp) panel.classList.add("needs-signin"); }, 2500); });
+  // The agent says when it is up. If it does not, the test server is asking for its password, and an iPhone
+  // never sends that password into a frame on another site. Then the agent opens as a whole page instead
+  // (Safari asks for the password there once), with a close button that comes back to this page.
+  var agentUp = false, frameDead = false;
+  function fullPage(ctx) { location.href = src(ctx) + "&back=" + encodeURIComponent(location.href.split("#")[0]); }
+  addEventListener("message", function (e) { if (e.data && e.data.type === "gma-ready" && ORIGIN.indexOf(e.origin) === 0) { agentUp = true; frameDead = false; panel.classList.add("is-ready"); panel.classList.remove("needs-signin"); } });
+  frame.addEventListener("load", function () { setTimeout(function () { if (agentUp) return; frameDead = true; panel.classList.add("needs-signin"); if (root.getAttribute("data-state") === "open") fullPage(carContext()); }, 2500); });
   document.addEventListener("visibilitychange", function () { if (!document.hidden && panel.classList.contains("needs-signin")) { loadedFor = ""; warm(carContext()); } });
 
   // ── Sit above the car page's price bar and the compare bar, whatever their height.
@@ -110,7 +113,9 @@
   var opener = null;
   function origin() { var r = btn.getBoundingClientRect(), p = panel.getBoundingClientRect(); return (r.left + r.width / 2 - p.left) + "px " + (r.top + r.height / 2 - p.top) + "px"; }
   function open() {
-    var ctx = carContext(); warm(ctx);
+    var ctx = carContext();
+    if (frameDead) { fullPage(ctx); return; }
+    warm(ctx);
     opener = document.activeElement; panel.hidden = false; root.classList.remove("has-hint");
     root.setAttribute("data-state", "open"); btn.setAttribute("aria-expanded", "true"); btn.setAttribute("aria-label", T.close);
     document.documentElement.classList.add("gma-lock");
@@ -131,6 +136,7 @@
   btn.addEventListener("click", function () { root.getAttribute("data-state") === "open" ? close() : open(); });
   hint.addEventListener("click", open);
   panel.querySelector(".gma-close").addEventListener("click", close);
+  panel.querySelector(".gma-signin-btn").addEventListener("click", function (e) { e.preventDefault(); fullPage(carContext()); });
   scrim.addEventListener("click", close);
   addEventListener("keydown", function (e) { if (e.key === "Escape" && root.getAttribute("data-state") === "open") close(); });
 

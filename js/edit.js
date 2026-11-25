@@ -331,7 +331,28 @@
     }
     if (!target.__gmWired) {
       target.__gmWired = true;
-      target.addEventListener("input", function () { markDirty(target.__gmB); mirror(target.__gmB); });
+      target.addEventListener("input", function () { markDirty(target.__gmB); mirror(target.__gmB); placeTool(); });
+      // typing right after a red word or a link continues as plain text, not inside it
+      target.addEventListener("beforeinput", function (e) {
+        if (!/^insert(Text|CompositionText|FromComposition)?$/.test(e.inputType)) return;
+        var sel = getSelection(); if (!sel.rangeCount || !sel.isCollapsed) return;
+        var n = sel.anchorNode, off = sel.anchorOffset, el = n && (n.nodeType === 1 ? n : n.parentElement);
+        var wrap = el && el.closest(".red-w, a.link");
+        if (!wrap || !target.contains(wrap) || wrap === target) return;
+        var atEnd = n.nodeType === 3 ? off === n.nodeValue.length && !n.nextSibling : off === n.childNodes.length;
+        if (!atEnd) return;
+        var r = document.createRange(); r.selectNodeContents(wrap); r.setStart(n, off);
+        if (r.toString().length) return;
+        if (!e.cancelable || e.data == null) return;
+        e.preventDefault();
+        var after = wrap.nextSibling;
+        if (!after || after.nodeType !== 3) { after = document.createTextNode(""); wrap.after(after); }
+        var data = e.data.replace(/^ /, "\u00a0"); // a plain space here would collapse and pull the cursor back inside
+        after.insertData(0, data);
+        var nr = document.createRange(); nr.setStart(after, data.length); nr.collapse(true);
+        sel.removeAllRanges(); sel.addRange(nr);
+        markDirty(target.__gmB); mirror(target.__gmB); placeTool();
+      });
       target.addEventListener("paste", function (e) {
         e.preventDefault();
         var t = (e.clipboardData || window.clipboardData).getData("text/plain");

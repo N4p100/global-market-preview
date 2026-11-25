@@ -303,7 +303,7 @@
     if (!r && document.caretPositionFromPoint) { var p = document.caretPositionFromPoint(x, y); if (p) { r = document.createRange(); r.setStart(p.offsetNode, p.offset); } }
     if (r) { var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
   }
-  function startText(el, b, x, y) {
+  function startText(el, b, x, y, quiet) {
     var target = el;
     if (b.kind === "text") {
       var span = el.querySelector(":scope > [data-gm-t]");
@@ -325,8 +325,10 @@
     target.contentEditable = "true";
     target.spellcheck = false;
     target.__gmB = b;
-    target.focus({ preventScroll: true });
-    if (x != null) caretAt(x, y);
+    if (!quiet && document.activeElement !== target && !target.contains(document.activeElement)) {
+      target.focus({ preventScroll: true });
+      if (x != null) caretAt(x, y);
+    }
     if (!target.__gmWired) {
       target.__gmWired = true;
       target.addEventListener("input", function () { markDirty(target.__gmB); mirror(target.__gmB); });
@@ -345,6 +347,28 @@
     }
     return target;
   }
+  // fallback when a tap gives no cursor (Safari will not edit text inside some buttons)
+  function textSheet(el, b) {
+    var multi = !SINGLE.test(el.tagName) && b.kind === "c";
+    var f = h("div", "gme-form");
+    f.innerHTML = '<label class="gme-field"><span>ტექსტი</span>' + (multi ? "<textarea rows=5></textarea>" : "<input>") + "</label>" +
+      (b.kind === "c" ? '<p class="gme-hint">**სიტყვა** = მუქი, *სიტყვა* = წითელი, [ტექსტი](cars.html) = ბმული</p>' : "");
+    var inp = f.querySelector("input,textarea"); inp.value = readOne(b);
+    var sh = sheet("ტექსტის შეცვლა", f, [btn("მზადაა", "gme-btn--ink", function () {
+      var v = inp.value;
+      if (b.kind === "c") el.innerHTML = mdToHtml(v);
+      else { var t = el.querySelector(":scope > [data-gm-t]"); if (t) t.textContent = v; }
+      markDirty(b); mirror(b); sh.close();
+    })]);
+    setTimeout(function () { inp.focus(); }, 30);
+  }
+  function mdToHtml(v) {
+    var t = esc(v).replace(/&quot;/g, '"');
+    t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (m, a, u) { return '<a class="link" href="' + esc(urlIn(u)) + '">' + a + "</a>"; });
+    t = t.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, '<span class="red-w">$1</span>');
+    return t.replace(/\n/g, "<br>");
+  }
+
   // the same key shown twice on a page (phone in header and footer): keep them equal while typing
   function mirror(b) {
     if (b.scope || b.kind === "img") return;
@@ -361,8 +385,6 @@
   function deselect() {
     if (!selEl) return;
     selEl.classList.remove("gme-sel");
-    selEl.querySelectorAll('[contenteditable="true"]').forEach(function (n) { n.contentEditable = "false"; });
-    if (selEl.isContentEditable || selEl.contentEditable === "true") selEl.contentEditable = "false";
     selEl = null; selBinding = null;
     if (tool) tool.classList.remove("is-on");
   }
@@ -372,7 +394,13 @@
     selEl = el; el.classList.add("gme-sel");
     var tb = bindingOf(el, ["c", "text"]), ib = bindingOf(el, ["img"]);
     selBinding = tb || ib || null;
-    if (tb) startText(el, tb, x, y);
+    if (tb) {
+      var ed = startText(el, tb, x, y);
+      setTimeout(function () {
+        var a = document.activeElement;
+        if (selEl === el && ed && a !== ed && !(ed.contains && ed.contains(a))) textSheet(el, tb);
+      }, 60);
+    }
     showTool(el, tb);
     if (ib && !tb) imagePanel(ib);
   }
@@ -434,6 +462,7 @@
     tool.classList.remove("is-dock");
     var r = selEl.getBoundingClientRect(), tw = tool.offsetWidth, th = tool.offsetHeight;
     var top = r.top - th - 10; if (top < 8) top = r.bottom + 10;
+    top = Math.max(8, Math.min(top, innerHeight - th - 90)); // stays on screen while the page scrolls
     var left = Math.min(Math.max(8, r.left), innerWidth - tw - 8);
     tool.style.top = top + "px"; tool.style.left = left + "px";
   }
@@ -490,7 +519,8 @@
       cl.querySelectorAll("[data-mcount]").forEach(function (n) { n.setAttribute("data-mcount", ""); n.textContent = ""; });
       cl.classList.remove("gme-sel");
       cl.querySelectorAll(".gme-sel,[contenteditable]").forEach(function (n) { n.classList.remove("gme-sel"); n.removeAttribute("contenteditable"); });
-      it.after(cl); scanItem(cl, c, function () {}); renumber(c);
+      cl.querySelectorAll("*").forEach(function (n) { n.__gmReady = false; n.__gmWired = false; });
+      it.after(cl); scanItem(cl, c, function () {}); renumber(c); prepareAll();
       deselect(); markDirty(lb); select(cl); cl.scrollIntoView({ block: "nearest", behavior: "smooth" });
       return say("ასლი დაემატა. შეცვალე ტექსტი.", 2200);
     } else if (t === "del") {
@@ -718,6 +748,7 @@
       if (!PID) { bar.querySelector('[data-a="settings"]').disabled = true; return; }
       scan(document.head, null, {}, null, function () {});
       scan(document.body, null, {}, null, function () {});
+      prepareAll();
       document.addEventListener("click", function (e) {
         if (e.target.closest(".gme-ui")) return;
         var el = editableFrom(e.target) || photoUnder(e.clientX, e.clientY);
@@ -735,6 +766,13 @@
       var n = ALL.filter(function (b) { return !document.head.contains(b.el); }).length;
       say("დააჭირე ნებისმიერ წითლად მონიშნულ ტექსტს ან ფოტოს და შეცვალე. " + n + " სარედაქტირებელი ადგილი.", 4500);
     }).catch(function (e) { console.error(e); alert("რედაქტორი ვერ ჩაიტვირთა: " + e.message); });
+  }
+  function prepareAll() {
+    ALL.forEach(function (b) {
+      if ((b.kind === "c" || b.kind === "text") && document.body.contains(b.el) && !b.el.__gmReady) {
+        b.el.__gmReady = true; startText(b.el, b, null, null, true);
+      }
+    });
   }
   window.GMEdit = { dirty: dirty, collect: function () { return collect(); }, bindings: ALL };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();

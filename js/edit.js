@@ -25,7 +25,11 @@
     img: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 8"/>',
     gear: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
     undo: '<path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>', check: '<path d="m5 12 5 5L20 7"/>',
-    pages: '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/>'
+    pages: '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/>',
+    grip: '<circle cx="9" cy="6" r="1.4"/><circle cx="15" cy="6" r="1.4"/><circle cx="9" cy="12" r="1.4"/><circle cx="15" cy="12" r="1.4"/><circle cx="9" cy="18" r="1.4"/><circle cx="15" cy="18" r="1.4"/>',
+    eye: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    eyeoff: '<path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4.2M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.6 9.6 0 0 0 4.4-1.1"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>'
   };
   function ic(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + IC[n] + "</svg>"; }
   function h(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
@@ -178,6 +182,8 @@
   }
   var uid = 0;
   function idOf(el) { return el.__gmId || (el.__gmId = ++uid); }
+  var layoutDirty = false, newSecs = {}, deletedSecs = [];
+  function markLayout() { layoutDirty = true; updateBar(); }
   function markDirty(b) {
     var t = topBinding(b);
     dirty.set(t.kind + "|" + t.key + "|" + (t.name || "") + "|" + (t.scope ? idOf(t.el) : ""), t);
@@ -199,20 +205,20 @@
       var b = e.target.closest("[data-a]"); if (!b) return;
       var a = b.getAttribute("data-a");
       if (a === "pages") pagesPanel(); else if (a === "settings") settingsPanel();
-      else if (a === "discard") ask("ყველა შეუნახავი ცვლილება გაუქმდება.", "გაუქმება").then(function (y) { if (y) { dirty.clear(); location.reload(); } });
+      else if (a === "discard") ask("ყველა შეუნახავი ცვლილება გაუქმდება.", "გაუქმება").then(function (y) { if (y) { dirty.clear(); layoutDirty = false; location.reload(); } });
       else if (a === "publish") publish();
     });
     bar.querySelector(".gme-exit").addEventListener("click", function (e) {
-      if (!dirty.size) return;
+      if (!dirty.size && !layoutDirty) return;
       e.preventDefault();
       var href = this.href;
-      ask("შეუნახავი ცვლილებები დაიკარგება. გავიდე რედაქტირებიდან?", "გასვლა").then(function (y) { if (y) { dirty.clear(); location.href = href; } });
+      ask("შეუნახავი ცვლილებები დაიკარგება. გავიდე რედაქტირებიდან?", "გასვლა").then(function (y) { if (y) { dirty.clear(); layoutDirty = false; location.href = href; } });
     });
     toast = h("div", "gme-ui gme-toast"); document.body.appendChild(toast);
   }
   function updateBar() {
     if (!bar) return;
-    var n = dirty.size;
+    var n = dirty.size + (layoutDirty ? 1 : 0);
     bar.querySelector(".gme-n").textContent = n ? " · " + n : "";
     bar.querySelector('[data-a="publish"]').disabled = !n;
     bar.querySelector('[data-a="discard"]').disabled = !n;
@@ -253,9 +259,9 @@
     });
     var s = sheet("გვერდები", '<div class="gme-rows">' + rows.join("") + "</div>");
     s.body.addEventListener("click", function (e) {
-      var a = e.target.closest("a"); if (!a || !dirty.size) return;
+      var a = e.target.closest("a"); if (!a || !(dirty.size || layoutDirty)) return;
       e.preventDefault();
-      ask("ამ გვერდზე შეუნახავი ცვლილებებია. ჯერ დააჭირე „გამოქვეყნებას“, თორემ დაიკარგება. გადავიდე მაინც?", "გადასვლა").then(function (y) { if (y) { dirty.clear(); location.href = a.href; } });
+      ask("ამ გვერდზე შეუნახავი ცვლილებებია. ჯერ დააჭირე „გამოქვეყნებას“, თორემ დაიკარგება. გადავიდე მაინც?", "გადასვლა").then(function (y) { if (y) { dirty.clear(); layoutDirty = false; location.href = a.href; } });
     });
   }
 
@@ -451,6 +457,7 @@
     var it = itemOf(el);
     if (it) {
       parts.push('<span class="gme-sep"></span>');
+      parts.push('<button type="button" data-t="drag" class="gme-drag" title="გადაათრიე">' + ic("grip") + "</button>");
       parts.push('<button type="button" data-t="up" title="ზემოთ">' + ic("up") + "</button>");
       parts.push('<button type="button" data-t="down" title="ქვემოთ">' + ic("down") + "</button>");
       parts.push('<button type="button" data-t="dup" title="დამატება (ასლი)">' + ic("copy") + "</button>");
@@ -465,6 +472,13 @@
       inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); inp.blur(); } });
     });
     tool.onmousedown = function (e) { if (!e.target.closest("input")) e.preventDefault(); };
+    var dh = tool.querySelector('[data-t="drag"]');
+    if (dh && it) dh.addEventListener("pointerdown", function (e) {
+      var c = it.__gmItem;
+      dragReorder(it, function () { return listItems(c); }, e, function () {
+        renumber(c); markDirty({ el: c, kind: "list", key: c.__gmList.key, scope: c.__gmList.scope });
+      });
+    });
     tool.onclick = function (e) {
       var b = e.target.closest("[data-t]"); if (!b) return;
       var t = b.getAttribute("data-t");
@@ -551,6 +565,161 @@
     renumber(c); markDirty(lb); placeTool();
   }
 
+  // ---------- drag to reorder (sections and list items, mouse and touch) ----------
+  function dragReorder(item, siblingsFn, e, done) {
+    e.preventDefault(); e.stopPropagation();
+    deselect();
+    item.classList.add("gme-dragging");
+    document.documentElement.classList.add("gme-isdrag");
+    var lastY = e.clientY, raf = 0;
+    function move(ev) {
+      var x = ev.clientX, y = ev.clientY; lastY = y;
+      var sibs = siblingsFn().filter(function (n) { return n !== item; }), best = null, bd = 1e9;
+      sibs.forEach(function (n) {
+        var r = n.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, d = Math.hypot(x - cx, y - cy);
+        if (d < bd) { bd = d; best = n; }
+      });
+      if (!best) return;
+      var r = best.getBoundingClientRect(), sameRow = Math.abs(y - (r.top + r.height / 2)) < r.height / 2;
+      var before = sameRow ? x < r.left + r.width / 2 : y < r.top + r.height / 2;
+      if (before && best.previousElementSibling !== item) best.before(item);
+      else if (!before && best.nextElementSibling !== item) best.after(item);
+    }
+    function scroll() {
+      var edge = 70;
+      if (lastY < edge) scrollBy(0, -12); else if (lastY > innerHeight - edge - 70) scrollBy(0, 12);
+      raf = requestAnimationFrame(scroll);
+    }
+    function up() {
+      cancelAnimationFrame(raf);
+      removeEventListener("pointermove", move); removeEventListener("pointerup", up); removeEventListener("pointercancel", up);
+      item.classList.remove("gme-dragging"); document.documentElement.classList.remove("gme-isdrag");
+      done();
+    }
+    addEventListener("pointermove", move); addEventListener("pointerup", up); addEventListener("pointercancel", up);
+    raf = requestAnimationFrame(scroll);
+  }
+
+  // ---------- sections: move, hide, copy, delete, add ----------
+  var MAIN = null, secBar = null, activeSec = null, BLOCKS = null;
+  var ROOTREL = PDIR ? new Array(PDIR.split("/").length + 1).join("../") : "";
+  function sections() { return MAIN ? kids(MAIN).filter(function (n) { return n.hasAttribute("data-c-sec"); }) : []; }
+  function secOf(el) { for (var n = el; n && n !== document.body; n = n.parentElement) if (n.parentElement === MAIN && n.hasAttribute("data-c-sec")) return n; return null; }
+  function newId(p) { return p + "-" + Date.now().toString(36).slice(-5) + Math.random().toString(36).slice(2, 4); }
+  function prefixDom(root, prefix, strip) {
+    function pk(k) { if (k.indexOf("site.") === 0) return k; if (strip && k.indexOf(strip + ".") === 0) k = k.slice(strip.length + 1); return prefix + "." + k; }
+    function walk(n, inItem) {
+      if (!inItem) {
+        ["data-c", "data-c-text", "data-c-img", "data-c-list"].forEach(function (a) {
+          var v = n.getAttribute(a); if (v) n.setAttribute(a, pk(v));
+        });
+        var spec = n.getAttribute("data-c-attr");
+        if (spec) n.setAttribute("data-c-attr", spec.split(";").map(function (x) { var q = x.split(":"); return q[0] + ":" + pk(q[1]); }).join(";"));
+        if (n.id) n.removeAttribute("id");
+      }
+      var lst = n.hasAttribute("data-c-list"), skip = +(n.getAttribute("data-c-skip") || 0);
+      kids(n).forEach(function (k, i) { walk(k, inItem || (lst && i >= skip)); });
+    }
+    walk(root, false);
+  }
+  function cleanCopy(n) {
+    n.querySelectorAll("[contenteditable]").forEach(function (x) { x.removeAttribute("contenteditable"); });
+    n.querySelectorAll(".gme-sel,.gme-f,.gme-fi,.gme-it,.gme-secon").forEach(function (x) { x.classList.remove("gme-sel", "gme-f", "gme-fi", "gme-it", "gme-secon"); });
+    n.classList.remove("gme-secon", "gme-sel");
+    n.querySelectorAll("[data-gm-t]").forEach(function (x) { x.replaceWith(document.createTextNode(x.textContent)); });
+  }
+  function adopt(sec) { scan(sec, null, {}, null, function () {}); prepareAll(); }
+  function insertSection(sec, after) {
+    if (after && after.parentElement === MAIN) after.after(sec);
+    else { var all = sections(); if (all.length) all[all.length - 1].after(sec); else MAIN.appendChild(sec); }
+    adopt(sec); markLayout(); setActive(sec);
+    sec.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+  function setActive(sec) {
+    if (activeSec === sec) { placeSecBar(); return; }
+    if (activeSec) activeSec.classList.remove("gme-secon");
+    activeSec = sec;
+    if (!sec) { if (secBar) secBar.classList.remove("is-on"); return; }
+    sec.classList.add("gme-secon");
+    if (!secBar) buildSecBar();
+    secBar.__shown = Date.now(); // the tap that opened the bar must not also press a button on it
+    secBar.querySelector('[data-s="hide"]').innerHTML = ic(sec.hasAttribute("data-c-hide") ? "eyeoff" : "eye");
+    secBar.querySelector('[data-s="hide"]').title = sec.hasAttribute("data-c-hide") ? "გამოჩენა" : "დამალვა";
+    secBar.classList.add("is-on");
+    placeSecBar();
+  }
+  function placeSecBar() {
+    if (!secBar || !activeSec) return;
+    var r = activeSec.getBoundingClientRect();
+    if (r.bottom < 80 || r.top > innerHeight - 60) { secBar.style.opacity = "0"; secBar.style.pointerEvents = "none"; return; }
+    secBar.style.opacity = ""; secBar.style.pointerEvents = "";
+    var top = Math.max(r.top + 8, innerWidth < 700 ? 64 : 76);
+    secBar.style.top = Math.min(top, r.bottom - 52) + "px";
+    secBar.style.left = Math.max(8, Math.min(r.right - secBar.offsetWidth - 8, innerWidth - secBar.offsetWidth - 8)) + "px";
+  }
+  addEventListener("scroll", placeSecBar, { passive: true });
+  addEventListener("resize", placeSecBar);
+  function buildSecBar() {
+    secBar = h("div", "gme-ui gme-secbar");
+    secBar.innerHTML =
+      '<button type="button" class="gme-grip" data-s="drag" title="გადაათრიე">' + ic("grip") + '<span>სექცია</span></button>' +
+      '<button type="button" data-s="up" title="ზემოთ">' + ic("up") + "</button>" +
+      '<button type="button" data-s="down" title="ქვემოთ">' + ic("down") + "</button>" +
+      '<button type="button" data-s="copy" title="ასლის დამატება">' + ic("copy") + "</button>" +
+      '<button type="button" data-s="hide" title="დამალვა">' + ic("eye") + "</button>" +
+      '<button type="button" data-s="del" title="წაშლა">' + ic("del") + "</button>" +
+      '<button type="button" class="gme-add" data-s="add" title="ახალი სექცია ქვემოთ">' + ic("plus") + "<span>დამატება</span></button>";
+    document.body.appendChild(secBar);
+    secBar.querySelector('[data-s="drag"]').addEventListener("pointerdown", function (e) {
+      if (!activeSec || Date.now() - (secBar.__shown || 0) < 450) return;
+      var sec = activeSec;
+      dragReorder(sec, sections, e, function () { markLayout(); setActive(sec); placeSecBar(); });
+    });
+    secBar.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-s]"); if (!b || !activeSec) return;
+      if (Date.now() - (secBar.__shown || 0) < 450) return;
+      var a = b.getAttribute("data-s"), sec = activeSec, all = sections(), i = all.indexOf(sec);
+      if (a === "up" && i > 0) { all[i - 1].before(sec); markLayout(); sec.scrollIntoView({ block: "start", behavior: "smooth" }); }
+      else if (a === "down" && i < all.length - 1) { all[i + 1].after(sec); markLayout(); sec.scrollIntoView({ block: "start", behavior: "smooth" }); }
+      else if (a === "hide") {
+        if (sec.hasAttribute("data-c-hide")) sec.removeAttribute("data-c-hide"); else sec.setAttribute("data-c-hide", "1");
+        markLayout(); setActive(null); setActive(sec);
+        say(sec.hasAttribute("data-c-hide") ? "სექცია დაიმალა: საიტზე აღარ ჩანს, აქ ღიად რჩება." : "სექცია ისევ ჩანს.", 2600);
+      } else if (a === "copy") {
+        var srcId = sec.getAttribute("data-c-sec"), id = newId("c"), cl = sec.cloneNode(true), was = newSecs[srcId];
+        cleanCopy(cl); prefixDom(cl, id, was ? srcId : null); cl.setAttribute("data-c-sec", id);
+        newSecs[id] = was ? (was.type ? { type: was.type } : { from: was.from }) : { from: srcId };
+        insertSection(cl, sec); say("ასლი დაემატა ქვემოთ.", 2200);
+      } else if (a === "del") {
+        ask("ეს სექცია წაიშლება გვერდიდან.", "წაშლა").then(function (y) {
+          if (!y) return;
+          var id = sec.getAttribute("data-c-sec");
+          if (newSecs[id]) delete newSecs[id]; else deletedSecs.push(id);
+          setActive(null); sec.remove(); markLayout(); say("სექცია წაიშალა. „გაუქმება“ აბრუნებს.", 2600);
+        });
+      } else if (a === "add") addPanel(sec);
+      placeSecBar();
+    });
+  }
+  function addPanel(after) {
+    (BLOCKS ? Promise.resolve(BLOCKS) : fetch(ROOT + "content/blocks.json?t=" + Date.now(), { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (b) { return (BLOCKS = b); }))
+      .then(function (blocks) {
+        var rows = Object.keys(blocks).map(function (k) {
+          return '<button type="button" class="gme-block" data-b="' + k + '"><span class="gme-bico gme-bico--' + k + '"></span><b>' + esc(blocks[k].label) + "</b></button>";
+        }).join("");
+        var sh = sheet("ახალი სექცია", '<p class="gme-hint" style="margin-bottom:12px">ჩაჯდება ' + (after ? "მონიშნული სექციის ქვემოთ" : "გვერდის ბოლოს") + '. შემდეგ დააჭირე ტექსტს და შეცვალე.</p><div class="gme-blocks">' + rows + "</div>");
+        sh.body.addEventListener("click", function (e) {
+          var b = e.target.closest("[data-b]"); if (!b) return;
+          var type = b.getAttribute("data-b"), id = newId("n");
+          var tmp = document.createElement("div"); tmp.innerHTML = blocks[type].html.split("{root}").join(ROOTREL).trim();
+          var sec = tmp.firstElementChild; prefixDom(sec, id); sec.setAttribute("data-c-sec", id);
+          newSecs[id] = { type: type };
+          sh.close(); insertSection(sec, after);
+          say("დაემატა. დააჭირე ტექსტს ან ფოტოს და შეცვალე.", 3000, "ok");
+        });
+      });
+  }
+
   // ---------- photos ----------
   var uploads = {}; // stored path -> Blob
   function slug(name) { return (name.replace(/\.[^.]+$/, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "photo").slice(0, 40); }
@@ -618,6 +787,24 @@
       (b.key.indexOf("site.") === 0 ? site : page).push([b.key.indexOf("site.") === 0 ? b.key.slice(5) : b.key, v]);
       if (b.kind === "img") ["src", "phone"].forEach(function (k) { if (v[k] && uploads[v[k]]) used[v[k]] = uploads[v[k]]; });
     });
+    if (layoutDirty) {
+      var lay = sections().map(function (sec) {
+        var id = sec.getAttribute("data-c-sec"), e = { id: id };
+        if (sec.hasAttribute("data-c-hide")) e.hide = true;
+        if (newSecs[id]) Object.keys(newSecs[id]).forEach(function (k) { e[k] = newSecs[id][k]; });
+        return e;
+      });
+      deletedSecs.forEach(function (id) { if (!newSecs[id]) lay.push({ id: id, deleted: true }); });
+      page.push(["_layout", lay]);
+      sections().forEach(function (sec) {
+        var id = sec.getAttribute("data-c-sec"); if (!newSecs[id]) return;
+        ALL.forEach(function (b) {
+          if (b.scope || !sec.contains(b.el) || b.key.indexOf(id + ".") !== 0) return;
+          page.push([b.key, readOne(b)]);
+          if (b.kind === "img") { var v = readOne(b); ["src", "phone"].forEach(function (k) { if (v[k] && uploads[v[k]]) used[v[k]] = uploads[v[k]]; }); }
+        });
+      });
+    }
     // photos inside changed lists
     Object.keys(uploads).forEach(function (p) { if (!used[p] && document.querySelector('img[src^="blob:"]')) used[p] = uploads[p]; });
     return { page: page, site: site, photos: used };
@@ -712,6 +899,39 @@
       setTimeout(function () { f.querySelector("input").focus(); }, 30);
     });
   }
+  // password saving through the agent's server (manifest.save_url): no GitHub key in the browser
+  var PASS_KEY = "gm-edit-pass";
+  function pass() { try { return localStorage.getItem(PASS_KEY) || ""; } catch (e) { return ""; } }
+  function postSave(body) {
+    return fetch(M.save_url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) { var e = new Error(j.error || ("HTTP " + r.status)); e.status = r.status; throw e; } return j; }); });
+  }
+  function askPassword(again) {
+    return new Promise(function (ok) {
+      var f = h("div", "gme-form");
+      f.innerHTML = (again ? '<p style="color:#b00020">პაროლი არასწორია. სცადე ისევ.</p>' : "<p>გამოქვეყნებისთვის ჩაწერე რედაქტორის პაროლი. ამ ბრაუზერში დაიმახსოვრებს.</p>") +
+        '<label class="gme-field"><span>პაროლი</span><input type="password" autocomplete="current-password"></label>';
+      var inp = f.querySelector("input"), done = false;
+      var sh = sheet("შესვლა", f, [btn("შესვლა", "gme-btn--ink", go)]);
+      function go() {
+        var v = inp.value.trim(); if (!v) return;
+        postSave({ password: v, check: true }).then(function () {
+          try { localStorage.setItem(PASS_KEY, v); } catch (e) {}
+          done = true; sh.close(); ok(true);
+        }).catch(function (e) {
+          say(e.status === 401 ? "პაროლი არასწორია." : e.status === 503 ? "შენახვა ჯერ არ არის ჩართული სერვერზე." : "სერვერი არ პასუხობს: " + esc(e.message), 4000, "err");
+        });
+      }
+      inp.addEventListener("keydown", function (e) { if (e.key === "Enter") go(); });
+      sh.el.addEventListener("click", function (e) { if (!done && (e.target === sh.el || e.target.closest("[data-x]"))) ok(false); });
+      setTimeout(function () { inp.focus(); }, 30);
+    });
+  }
+  function serverSave(changes, msg) {
+    return Promise.all(Object.keys(changes.photos).map(function (p) { return blobB64(changes.photos[p]).then(function (b) { return { path: p.slice(1), b64: b }; }); }))
+      .then(function (photos) { return postSave({ password: pass(), pageId: PID, page: changes.page, site: changes.site, photos: photos, message: msg }); });
+  }
+
   function waitLive(probe, started) {
     if (!probe) { say("გამოქვეყნდა. საიტი 1–2 წუთში განახლდება.", 6000, "ok"); return; }
     var url = location.href.split("#")[0].replace(/([?&])edit(=1)?(&|$)/, "$1") ;
@@ -727,7 +947,7 @@
   }
   var busy = false;
   function publish() {
-    if (busy || !dirty.size) return;
+    if (busy || !(dirty.size || layoutDirty)) return;
     deselect();
     var changes = collect(), probe = probeOf(changes), msg = "CMS: " + ((M.names || {})[PID] || PID) + " (" + REL + ")";
     busy = true; say("ინახება…");
@@ -742,15 +962,29 @@
               return fetch(ROOT + "__cms/save", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ files: files.concat(ph), message: msg }) });
             }).then(function (r) { if (!r.ok) return r.text().then(function (t) { throw new Error(t); }); });
         }).then(function () {
-          dirty.clear(); updateBar(); busy = false;
+          dirty.clear(); layoutDirty = false; updateBar(); busy = false;
           say('შენახულია ✓ <button type="button" class="gme-link" onclick="location.reload()">გვერდის განახლება</button>', 0, "ok");
+        });
+      }
+      if (M.save_url) {
+        var signIn = pass() ? Promise.resolve(true) : askPassword(false);
+        return signIn.then(function (signed) {
+          if (!signed) { busy = false; toast.classList.remove("is-on"); return; }
+          say("ინახება…");
+          return serverSave(changes, msg).catch(function (e) {
+            if (e.status !== 401) throw e;
+            try { localStorage.removeItem(PASS_KEY); } catch (x) {}
+            return askPassword(true).then(function (y) { if (!y) throw new Error("შესვლა გაუქმდა"); return serverSave(changes, msg); });
+          }).then(function () {
+            dirty.clear(); layoutDirty = false; updateBar(); busy = false; waitLive(probe, Date.now());
+          });
         });
       }
       var go = token() ? Promise.resolve(true) : askToken();
       return go.then(function (signed) {
         if (!signed) { busy = false; toast.classList.remove("is-on"); return; }
         return ghCommit(changes, msg).then(function () {
-          dirty.clear(); updateBar(); busy = false; waitLive(probe, Date.now());
+          dirty.clear(); layoutDirty = false; updateBar(); busy = false; waitLive(probe, Date.now());
         });
       });
     }).catch(function (e) {
@@ -770,6 +1004,14 @@
       scan(document.head, null, {}, null, function () {});
       scan(document.body, null, {}, null, function () {});
       prepareAll();
+      MAIN = document.querySelector("main");
+      if (MAIN && sections().length) {
+        MAIN.addEventListener("mouseover", function (e) { if (!document.documentElement.classList.contains("gme-isdrag")) { var sc = secOf(e.target); if (sc) setActive(sc); } });
+        document.addEventListener("pointerdown", function (e) { if (e.target.closest(".gme-ui")) return; var sc = secOf(e.target); if (sc) setActive(sc); }, true);
+        var addB = h("button", "gme-ib gme-addpage", ic("plus") + '<span class="gme-l">სექცია</span>'); addB.type = "button"; addB.title = "ახალი სექცია";
+        addB.addEventListener("click", function () { addPanel(activeSec); });
+        bar.insertBefore(addB, bar.querySelector('[data-a="settings"]'));
+      }
       document.addEventListener("click", function (e) {
         if (e.target.closest(".gme-ui")) return;
         var el = editableFrom(e.target) || photoUnder(e.clientX, e.clientY);
@@ -783,7 +1025,7 @@
           if (!e.target.closest(".gme-ui") && (editableFrom(e.target) || (p && photoUnder(p.clientX, p.clientY)))) e.stopPropagation();
         }, true);
       });
-      addEventListener("beforeunload", function (e) { if (dirty.size) { e.preventDefault(); e.returnValue = ""; } });
+      addEventListener("beforeunload", function (e) { if (dirty.size || layoutDirty) { e.preventDefault(); e.returnValue = ""; } });
       var n = ALL.filter(function (b) { return !document.head.contains(b.el); }).length;
       say("დააჭირე ნებისმიერ წითლად მონიშნულ ტექსტს ან ფოტოს და შეცვალე. " + n + " სარედაქტირებელი ადგილი.", 4500);
     }).catch(function (e) { console.error(e); alert("რედაქტორი ვერ ჩაიტვირთა: " + e.message); });

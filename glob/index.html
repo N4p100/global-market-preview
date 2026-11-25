@@ -14,8 +14,8 @@
   <link rel="preload" href="../assets/fonts/v8/noto-georgian.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/v8/noto-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script>(function(){try{var t=localStorage.getItem("gm8-theme")||"light";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","light");}})();</script>
-  <link rel="stylesheet" href="../css/v8.css?v=1795641141">
-  <link rel="stylesheet" href="../css/glob.css?v=1795641141">
+  <link rel="stylesheet" href="../css/v8.css?v=1795642149">
+  <link rel="stylesheet" href="../css/glob.css?v=1795642149">
 </head>
 <body class="site-group page-index">
 <a class="skip" href="#main">მთავარ შინაარსზე გადასვლა</a>
@@ -49,7 +49,7 @@
   </div>
 </div>
 <main id="main">
-  <section class="hero hero--portrait g-hero" id="hero" data-hero aria-labelledby="heroT">
+  <section data-c-sec="hero" class="hero hero--portrait g-hero" id="hero" data-hero aria-labelledby="heroT">
     <div class="hero__slide is-on"><picture><source media="(max-width: 860px)" srcset="../assets/glob/hero-port-m.jpg"><img data-c-img="photo" src="../assets/glob/hero-port.jpg" alt="" fetchpriority="high"></picture></div>
     <div class="hero__body">
       <div class="wrap">
@@ -68,7 +68,7 @@
     </div>
   </section>
 
-  <section class="sec" id="steps" aria-labelledby="stT">
+  <section data-c-sec="steps" class="sec" id="steps" aria-labelledby="stT">
     <div class="wrap">
       <div class="sec__h rv"><div><h2 data-c="heading" class="h2" id="stT">იმპორტი ხუთ ნაბიჯად</h2><p data-c="text2" class="lead">ყველა ინსტრუმენტი იმ ნაბიჯთან, სადაც დაგჭირდებათ.</p></div></div>
       <ol data-c-list="steps" data-c-fields="span.steps__n:num;h3:title;p:text" class="steps">
@@ -86,7 +86,7 @@
     </div>
   </section>
 
-  <section class="sec sec--grey" aria-labelledby="tmT">
+  <section data-c-sec="s3" class="sec sec--grey" aria-labelledby="tmT">
     <div class="wrap terms">
       <div class="rv"><span data-c="kicker" class="label">ჩვენთან შეძენისას</span><h2 data-c="heading2" class="h2" id="tmT" style="margin-top:12px">ყველა პირობა ხელშეკრულებაში წერია</h2>
         <a data-c-text="button4" data-c-attr="href:button4_link" class="btn btn--ink" href="call.html" style="margin-top:32px">მოითხოვე ზარი<svg viewBox="0 0 24 24" class="ic ic--go" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
@@ -101,7 +101,7 @@
     </div>
   </section>
 
-  <section class="chapter" aria-labelledby="chT">
+  <section data-c-sec="s4" class="chapter" aria-labelledby="chT">
     <img data-c-img="photo2" src="../assets/glob/terminal.jpg" alt="" loading="lazy" data-parallax>
     <div class="chapter__b">
       <div class="wrap">
@@ -116,12 +116,12 @@
     </div>
   </section>
 
-  <section class="g-lines" aria-label="სახაზო კომპანიები">
+  <section data-c-sec="s5" class="g-lines" aria-label="სახაზო კომპანიები">
     <div class="wrap"><p data-c="text3" class="label">გადაზიდვა მსოფლიოს წამყვანი სახაზო კომპანიებით</p>
       <ul data-c-list="lines" data-c-fields="img:logo:img"><li><img src="../assets/glob/lines/maersk.jpg" alt="Maersk" loading="lazy"></li><li><img src="../assets/glob/lines/msc.jpg" alt="MSC" loading="lazy"></li><li><img src="../assets/glob/lines/hapag-lloyd.jpg" alt="Hapag-Lloyd" loading="lazy"></li><li><img src="../assets/glob/lines/cma-cgm.jpg" alt="CMA CGM" loading="lazy"></li><li><img src="../assets/glob/lines/coscoshipping.jpg" alt="COSCO Shipping" loading="lazy"></li><li><img src="../assets/glob/lines/evergreen-marine.jpg" alt="Evergreen" loading="lazy"></li><li><img src="../assets/glob/lines/zim.jpg" alt="ZIM" loading="lazy"></li><li><img src="../assets/glob/lines/hamburgsud.jpg" alt="Hamburg Süd" loading="lazy"></li></ul></div>
   </section>
 
-  <section class="sec" id="group" aria-labelledby="grT">
+  <section data-c-sec="group" class="sec" id="group" aria-labelledby="grT">
     <div class="wrap">
       <div class="sec__h rv"><div><h2 data-c="heading4" class="h2" id="grT">Global Auto ჯგუფი</h2><p data-c="text4" class="lead">ავტომობილის ყიდვა, მომსახურება და ქირაობა ერთ ჯგუფში.</p></div></div>
       <div data-c-list="tiles" data-c-fields="img:photo:img;span.tile__n:name;span.tile__c:text;span.soon:badge;a:link:href" class="tiles g-tiles">
@@ -132,7 +132,7 @@
     </div>
   </section>
 
-  <section class="sec" style="padding-top:0" aria-labelledby="dlT">
+  <section data-c-sec="s7" class="sec" style="padding-top:0" aria-labelledby="dlT">
     <div class="wrap">
       <a data-c-attr="href:link2" class="atile rv" href="partner.html" aria-labelledby="dlT">
         <img data-c-img="photo3" src="../assets/glob/dealer.jpg" srcset="../assets/glob/dealer-m.jpg 1200w, ../assets/glob/dealer.jpg 2400w" sizes="100vw" alt="" loading="lazy">
@@ -146,7 +146,7 @@
     </div>
   </section>
 
-  <section class="sec sec--grey" id="offices" aria-labelledby="ofT">
+  <section data-c-sec="offices" class="sec sec--grey" id="offices" aria-labelledby="ofT">
     <div class="wrap offices">
       <div class="offices__img rv"><img data-c-img="photo4" src="../assets/glob/office.jpg" alt="Global Auto Import-ის სათაო ოფისი თბილისში" loading="lazy"></div>
       <div class="rv rv-d1">
@@ -180,10 +180,10 @@
 <script>window.V8_BASE = "../"; window.GM_BASE = "../";</script>
 <script src="../js/core.js"></script>
 <script src="../js/v8.js"></script>
-<script src="../js/glob.js?v=1795641141"></script>
-<link rel="stylesheet" href="../css/m.css?v=1795641141">
-<link rel="stylesheet" href="../assistant/launcher.css?v=1795641141">
-<script src="../js/m.js?v=1795641141" defer></script>
-<script src="../assistant/launcher.js?v=1795641141" data-origin="https://finder-production-48b14990.up.railway.app" defer></script>
+<script src="../js/glob.js?v=1795642149"></script>
+<link rel="stylesheet" href="../css/m.css?v=1795642149">
+<link rel="stylesheet" href="../assistant/launcher.css?v=1795642149">
+<script src="../js/m.js?v=1795642149" defer></script>
+<script src="../assistant/launcher.js?v=1795642149" data-origin="https://finder-production-48b14990.up.railway.app" defer></script>
 </body>
 </html>

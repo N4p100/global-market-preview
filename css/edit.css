@@ -92,6 +92,10 @@
 }
 @media (max-width: 420px) {
   .gme-pg { display: none; }
+  .gme-addpage { display: none !important; }
+  .gme-bar { gap: 0; padding: 5px; }
+  .gme-ib { min-width: 42px; padding: 0 8px; }
+  .gme-pub { padding: 0 12px; font-size: 13.5px; }
   .gme-pages { padding: 0 12px; min-width: 44px; }
   .gme-ib { padding: 0 10px; }
   .gme-pub { padding: 0 14px; }
@@ -99,3 +103,34 @@
   .gme-box { border-radius: 16px 16px 0 0; max-height: 88vh; }
   .gme-toast { bottom: calc(max(14px, env(safe-area-inset-bottom)) + 64px); }
 }
+
+/* sections */
+.gm-editing main > [data-c-sec] { position: relative; }
+.gm-editing .gme-secon { box-shadow: inset 0 0 0 2px rgba(212, 16, 43, .35); }
+.gm-editing [data-c-hide] { opacity: .38; }
+.gm-editing [data-c-hide]::before { content: "დამალულია · საიტზე არ ჩანს"; position: absolute; z-index: 5; top: 8px; left: 8px; padding: 4px 10px; border-radius: 999px; background: #0e0e10; color: #fff; font: 600 12px/1.4 "Noto Sans Georgian", system-ui, sans-serif; }
+.gme-dragging { opacity: .55; outline: 2px dashed var(--gme-red) !important; outline-offset: -2px; }
+.gme-isdrag, .gme-isdrag * { user-select: none !important; -webkit-user-select: none !important; cursor: grabbing !important; }
+.gme-secbar { position: fixed; z-index: 2147482999; display: none; align-items: center; gap: 2px; padding: 4px; background: #fff; color: #111; border-radius: 12px; box-shadow: 0 8px 26px rgba(0, 0, 0, .22), 0 0 0 1px rgba(0, 0, 0, .08); transition: opacity .15s; }
+.gme-secbar.is-on { display: flex; }
+.gme-secbar button { min-width: 38px; height: 38px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0 8px; font-size: 13px; font-weight: 600; }
+.gme-secbar button:hover { background: #f2f2f2; }
+.gme-grip { cursor: grab !important; touch-action: none; color: #666; }
+.gme-grip span { color: #111; }
+.gme-drag { cursor: grab !important; touch-action: none; }
+.gme-add { background: var(--gme-red) !important; color: #fff !important; }
+.gme-blocks { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.gme-block { display: grid; gap: 10px; padding: 12px; border: 1px solid #e4e4e4 !important; border-radius: 12px; text-align: left; background: #fff !important; cursor: pointer; }
+.gme-block:hover { border-color: var(--gme-red) !important; }
+.gme-block b { font-size: 14px; }
+.gme-bico { display: block; height: 64px; border-radius: 8px; background: #f3f3f3; position: relative; overflow: hidden; }
+.gme-bico::before, .gme-bico::after { content: ""; position: absolute; border-radius: 3px; }
+.gme-bico--text::before { left: 10px; top: 12px; width: 60%; height: 10px; background: #111; } .gme-bico--text::after { left: 10px; top: 30px; width: 30%; height: 14px; border-radius: 99px; background: var(--gme-red); }
+.gme-bico--steps::before { left: 8px; right: 8px; top: 14px; height: 36px; background: repeating-linear-gradient(90deg, #d0d0d0 0 28%, transparent 28% 36%); } .gme-bico--steps::after { left: 8px; top: 14px; width: 10px; height: 8px; background: var(--gme-red); }
+.gme-bico--figures { background: linear-gradient(135deg, #2b3440, #0f1318); } .gme-bico--figures::before { left: 10px; bottom: 12px; width: 70%; height: 14px; background: repeating-linear-gradient(90deg, #fff 0 22%, transparent 22% 34%); }
+.gme-bico--banner { background: linear-gradient(135deg, #5a4a3a, #1b1612); } .gme-bico--banner::before { left: 10px; bottom: 26px; width: 50%; height: 10px; background: #fff; } .gme-bico--banner::after { left: 10px; bottom: 10px; width: 26%; height: 10px; border-radius: 99px; background: #fff; }
+.gme-bico--cards::before { left: 8px; right: 8px; top: 12px; height: 40px; background: repeating-linear-gradient(90deg, #fff 0 30%, transparent 30% 35%); }
+.gme-bico--questions::before { left: 8px; right: 8px; top: 12px; height: 40px; background: repeating-linear-gradient(180deg, #d0d0d0 0 6px, transparent 6px 14px); }
+.gme-bico--cta::before { left: 10px; top: 24px; width: 40%; height: 10px; background: #111; } .gme-bico--cta::after { right: 10px; top: 20px; width: 30%; height: 18px; border-radius: 99px; background: var(--gme-red); }
+.gme-addpage svg { color: #fff; }
+@media (max-width: 700px) { .gme-secbar .gme-grip span, .gme-secbar .gme-add span { display: none; } .gme-blocks { grid-template-columns: 1fr 1fr; } }

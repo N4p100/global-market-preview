@@ -750,3 +750,6 @@ a.cbig:hover { color: var(--red); }
 .foot__grid--all { grid-template-columns: 1.3fr repeat(4, 1fr); }
 @media (max-width: 1100px) { .foot__grid--all { grid-template-columns: repeat(3, 1fr); } .foot__grid--all > div:first-child { grid-column: 1 / -1; } }
 .menu__nav--all { gap: 14px; }
+
+/* CMS: a section hidden in edit mode is not shown to visitors */
+html:not(.gm-editing) [data-c-hide] { display: none !important; }

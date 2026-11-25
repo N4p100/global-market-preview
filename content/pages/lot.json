@@ -2,5 +2,13 @@
   "seo": {
     "title": "ლოტი · Global Auction",
     "description": "ლოტის ფოტოები, ფასები და ბიდები."
-  }
+  },
+  "_layout": [
+    {
+      "id": "s1"
+    },
+    {
+      "id": "nextSec"
+    }
+  ]
 }

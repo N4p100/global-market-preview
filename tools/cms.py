@@ -34,6 +34,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 REPO = "N4p100/global-market-preview"
 SITE_URL = "https://n4p100.github.io/global-market-preview/"
+SAVE_URL = "https://finder-production-48b14990.up.railway.app/api/site-save"  # password saving (ai-assistant: src/app/api/site-save)
 
 # page id -> (html files to write, label). Several files may share one content file.
 PAGES = {
@@ -403,6 +404,145 @@ def walk(src, pdir, ctx, site, mode, where, clash, auto=None):
     return "".join(out)
 
 
+# ---------- page sections: order, hide, delete, copy, new blocks ----------
+# Top-level blocks of <main> carry data-c-sec="id". The page's "_layout" lists them in order:
+#   {"id": "s2"}  {"id": "s3", "hide": true}  {"id": "s4", "deleted": true}
+#   {"id": "n-k3j9", "type": "text"}   a new block from content/blocks.json
+#   {"id": "c-8fd2", "from": "s2"}     a copy of block s2
+# Sections the layout does not mention stay where they were (a section added by hand is never lost).
+
+def find_main(n):
+    for k in n.kids:
+        if k.tag == "main":
+            return k
+        f = find_main(k)
+        if f:
+            return f
+    return None
+
+
+def page_root(pdir):
+    return "../" * len(pdir.split("/")) if pdir else ""
+
+
+def prefix_keys(markup, prefix):
+    """a copied or new block gets its own keys: title -> n-k3j9.title (keys inside list items stay relative)"""
+    tree = Tree(markup)
+    edits = []
+
+    def walk(n, in_item):
+        if not in_item:
+            tag = new = markup[n.s:n.se]
+            for attr in ("data-c", "data-c-text", "data-c-img", "data-c-list"):
+                v = n.attrs.get(attr)
+                if v and not v.startswith("site."):
+                    new = set_attr(new, attr, prefix + "." + v)
+            spec = n.attrs.get("data-c-attr")
+            if spec:
+                new = set_attr(new, "data-c-attr", ";".join(
+                    f"{a}:{k if k.startswith('site.') else prefix + '.' + k}" for a, k in parse_attr_spec(spec)))
+            new = re.sub(r'\sid="[^"]*"', "", new, count=1)
+            if new != tag:
+                edits.append((n.s, n.se, new))
+        lst = "data-c-list" in n.attrs
+        skip = int(n.attrs.get("data-c-skip") or 0)
+        for i, k in enumerate(n.kids):
+            walk(k, in_item or (lst and i >= skip))
+
+    for k in tree.root.kids:
+        walk(k, False)
+    for s_, e_, t in sorted(edits, reverse=True):
+        markup = markup[:s_] + t + markup[e_:]
+    return markup
+
+
+def first_tag(markup, fn):
+    m = re.match(r"\s*<[^>]+>", markup)
+    return markup[:m.start()] + fn(markup[m.start():m.end()]) + markup[m.end():]
+
+
+def set_hidden(markup, hide):
+    def fn(tag):
+        tag = re.sub(r'\sdata-c-hide(="[^"]*")?', "", tag)
+        return tag[:-1] + ' data-c-hide="1">' if hide else tag
+    return first_tag(markup, fn)
+
+
+def block_markup(btype, sid, pdir):
+    blocks = load(CONTENT / "blocks.json")
+    b = blocks.get(btype)
+    if not b:
+        return None
+    m = b["html"].replace("{root}", page_root(pdir))
+    m = prefix_keys(m, sid)
+    return first_tag(m, lambda t: set_attr(t, "data-c-sec", sid))
+
+
+def layout_read(src):
+    tree = Tree(src)
+    main = find_main(tree.root)
+    if not main:
+        return None
+    lay = [{"id": k.attrs["data-c-sec"], **({"hide": True} if "data-c-hide" in k.attrs else {})} for k in main.kids if "data-c-sec" in k.attrs]
+    return lay or None
+
+
+def layout_apply(src, lay, pdir):
+    if not lay:
+        return src
+    tree = Tree(src)
+    main = find_main(tree.root)
+    if not main:
+        return src
+    kids = main.kids
+    order, seg, node = [], {}, {}
+    for k in kids:
+        sid = k.attrs.get("data-c-sec")
+        if sid:
+            order.append(sid)
+            seg[sid] = [k.s, k.e]
+            node[sid] = k
+        elif order:
+            seg[order[-1]][1] = k.e  # a spacer between blocks moves with the block before it
+    if not order:
+        return src
+    last = node[order[-1]]
+    seg[order[-1]][1] = last.e  # spacers after the last block stay at the bottom
+    start, end = seg[order[0]][0], seg[order[-1]][1]
+    markup = {sid: src[a:b] for sid, (a, b) in seg.items()}
+    out, known = [], set()
+    for e in lay:
+        sid = e.get("id")
+        known.add(sid)
+        if not sid or e.get("deleted"):
+            continue
+        if sid in markup:
+            m = markup[sid]
+        elif e.get("type"):
+            m = block_markup(e["type"], sid, pdir)
+        elif e.get("from") in node:
+            n = node[e["from"]]
+            m = first_tag(prefix_keys(src[n.s:n.e], sid), lambda t: set_attr(t, "data-c-sec", sid))
+        else:
+            m = None
+        if m is None:
+            continue
+        out.append([sid, set_hidden(m, e.get("hide"))])
+    for i, sid in enumerate(order):  # blocks the layout does not know about keep their place
+        if sid in known:
+            continue
+        ids = [x[0] for x in out]
+        pos = ids.index(order[i - 1]) + 1 if i and order[i - 1] in ids else 0
+        out.insert(pos, [sid, markup[sid]])
+    if [x[0] for x in out] == order and all(m == markup[sid] for sid, m in out):
+        return src
+    gaps_ = [src[seg[order[i]][1]:seg[order[i + 1]][0]] for i in range(len(order) - 1)]
+    sep = max(set(gaps_), key=gaps_.count) if gaps_ else "\n\n  "
+    if sep.strip():
+        sep = "\n\n  "
+    return src[:start] + sep.join(m for _, m in out) + src[end:]
+
+
 def dir_of(rel):
     return posixpath.dirname(rel)
 
@@ -421,7 +561,11 @@ def extract():
     for pid, (files, _) in PAGES.items():
         ctx = {}
         f = files[0]
-        walk((ROOT / f).read_text(), dir_of(f), ctx, site, "extract", f, clash)
+        src = (ROOT / f).read_text()
+        walk(src, dir_of(f), ctx, site, "extract", f, clash)
+        lay = layout_read(src)
+        if lay:
+            ctx["_layout"] = lay
         dump(CONTENT / "pages" / f"{pid}.json", ctx)
     dump(CONTENT / "site.json", site)
     for c in clash:
@@ -449,7 +593,8 @@ def apply(write=True, changed_files=None):
                 continue
             src = p.read_text()
             # the glob source page keeps its {{V}} placeholders; pdir follows the built page
-            out = walk(src, dir_of(files[0]), ctx, site, "apply", f, [])
+            out = layout_apply(src, ctx.get("_layout"), dir_of(files[0]))
+            out = walk(out, dir_of(files[0]), ctx, site, "apply", f, [])
             if out != src:
                 changed.append(f)
                 if write:
@@ -582,7 +727,7 @@ def manifest():
             if not f.startswith("pages/"):
                 pages[f] = pid
     dump(CONTENT / "manifest.json", {
-        "repo": REPO, "branch": "main", "site_url": SITE_URL, "token_url": TOKEN_URL,
+        "repo": REPO, "branch": "main", "site_url": SITE_URL, "token_url": TOKEN_URL, "save_url": SAVE_URL,
         "pages": pages, "names": {pid: lab for pid, (_, lab) in PAGES.items()} | {"site": SHARED_LABEL}, "labels": LABELS})
     print("wrote content/manifest.json")
 

@@ -64,7 +64,7 @@
     <div class="strip__row" id="stripRow"><button class="skel" type="button" style="width:58vw" tabindex="-1"></button><button class="skel" type="button" style="width:42vw" tabindex="-1"></button></div>
     <div class="strip__ctl"><button class="round round--photo" type="button" id="sPrev" aria-label="წინა ფოტო"></button><button class="round round--photo" type="button" id="sNext" aria-label="შემდეგი ფოტო"></button><button class="strip__all" type="button" id="sAll"></button></div>
   </section>
-  <div class="wrap">
+  <div data-c-sec="s1" class="wrap">
     <div class="dhead">
       <div>
         <nav class="crumbs" aria-label="ნავიგაცია"><a href="index.html">მარკეტი</a><span>/</span><a href="cars.html">ავტომობილები</a><span>/</span><span id="crumb" aria-current="page"></span></nav>
@@ -74,7 +74,7 @@
       <div class="dhead__acts" id="acts"></div>
     </div>
   </div>
-  <div class="tabs" id="tabs">
+  <div data-c-sec="tabs" class="tabs" id="tabs">
     <div class="wrap tabs__in">
       <nav id="tabsNav" aria-label="გვერდის ნაწილები"><a href="#overview" class="is-on">მიმოხილვა</a><a href="#specs">მახასიათებლები</a><a href="#equip" hidden>აღჭურვილობა</a><a href="#lease" hidden>ლიზინგი</a><a href="#contact">კონტაქტი</a></nav>
       <span class="tabs__price num" id="tPrice"></span>
@@ -88,13 +88,13 @@
       <aside class="side" id="side"></aside>
     </div>
   </div>
-  <section class="sec sec--grey" id="simSec" aria-labelledby="simT" hidden style="margin-top:var(--sec)">
+  <section data-c-sec="simSec" class="sec sec--grey" id="simSec" aria-labelledby="simT" hidden style="margin-top:var(--sec)">
     <div class="wrap">
       <div class="sec__h"><h2 class="h2" id="simT">მსგავსი ავტომობილები</h2><div class="sec__tools"><button class="round" type="button" id="simPrev" aria-label="წინა"></button><button class="round" type="button" id="simNext" aria-label="შემდეგი"></button></div></div>
       <div class="rail" id="sim"></div>
     </div>
   </section>
-  <div class="mbar" id="mbar" hidden></div>
+  <div data-c-sec="mbar" class="mbar" id="mbar" hidden></div>
 </main>
 <footer class="foot">
   <div class="wrap">

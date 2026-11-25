@@ -74,5 +74,13 @@
   "button_link": "glob/call.html",
   "button": "მოითხოვე ზარი",
   "button2_link": "glob/partner.html",
-  "button2": "პარტნიორობა"
+  "button2": "პარტნიორობა",
+  "_layout": [
+    {
+      "id": "s1"
+    },
+    {
+      "id": "s2"
+    }
+  ]
 }

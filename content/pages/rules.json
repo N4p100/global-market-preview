@@ -76,5 +76,10 @@
     "button_link": "auction/index.html#lots",
     "button": "ლოტების ნახვა",
     "button2": "რეგისტრაცია"
-  }
+  },
+  "_layout": [
+    {
+      "id": "s1"
+    }
+  ]
 }

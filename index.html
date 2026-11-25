@@ -60,7 +60,7 @@
   </div>
 </div>
 <main id="main">
-  <section class="hero hero--portrait" id="hero" data-hero aria-label="შერჩეული ავტომობილები">
+  <section data-c-sec="hero" class="hero hero--portrait" id="hero" data-hero aria-label="შერჩეული ავტომობილები">
     <div class="hero__slide is-on" data-slide="0"><picture><source media="(max-width: 860px)" srcset="assets/v8/hero-taycan-m.jpg"><img src="assets/v8/hero-taycan.jpg" alt="" fetchpriority="high"></picture></div>
     <div class="hero__body">
       <div class="wrap">
@@ -80,14 +80,14 @@
     </div>
   </section>
 
-  <section class="sec" aria-labelledby="catT">
+  <section data-c-sec="s2" class="sec" aria-labelledby="catT">
     <div class="wrap">
       <div class="sec__h rv"><div><h2 data-c="categories.title" class="h2" id="catT">აირჩიეთ კატეგორია</h2><p class="lead" id="catLead">ძარის ტიპის, საწვავის და მდებარეობის მიხედვით.</p></div><a data-c-text="categories.link_text" class="link hide-m" href="cars.html">ყველა ავტომობილი<svg viewBox="0 0 24 24" class="ic" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
       <div class="tiles" id="tiles"><div class="tile skel"></div><div class="tile skel"></div><div class="tile skel"></div><div class="tile skel"></div><div class="tile skel"></div></div>
     </div>
   </section>
 
-  <section class="sec sec--grey" aria-labelledby="newT">
+  <section data-c-sec="s3" class="sec sec--grey" aria-labelledby="newT">
     <div class="wrap">
       <div class="sec__h rv"><div><h2 data-c="recent.title" class="h2" id="newT">ახლახან დამატებული</h2><p data-c="recent.lead" class="lead">ბოლოს განთავსებული ავტომობილები, ყველა დეტალური ფოტოებით.</p></div>
         <div class="sec__tools"><button class="round" type="button" id="newPrev" aria-label="წინა"></button><button class="round" type="button" id="newNext" aria-label="შემდეგი"></button></div></div>
@@ -96,7 +96,7 @@
     </div>
   </section>
 
-  <section class="chapter" aria-labelledby="chT">
+  <section data-c-sec="s4" class="chapter" aria-labelledby="chT">
     <img data-c-img="chapter.photo" src="assets/v8/inspection.jpg" srcset="assets/v8/inspection-m.jpg 1200w, assets/v8/inspection.jpg 2400w" sizes="100vw" alt="" loading="lazy" data-parallax>
     <div class="chapter__b">
       <div class="wrap">
@@ -113,7 +113,7 @@
     </div>
   </section>
 
-  <section class="sec" id="services" aria-labelledby="svT">
+  <section data-c-sec="services" class="sec" id="services" aria-labelledby="svT">
     <div class="wrap">
       <div class="sec__h rv" style="justify-content:center;text-align:center"><div><h2 data-c="services.title" class="h2" id="svT">ყიდვა, ლიზინგი, გაყიდვა</h2></div></div>
       <div data-c-list="services.items" data-c-fields="span.label:label;h3:title;p:text;a:button:text;a:button_link:href" class="svc" id="svc">
@@ -139,7 +139,7 @@
     </div>
   </section>
 
-  <section class="sec sec--grey" id="transit" aria-labelledby="trT" hidden>
+  <section data-c-sec="transit" class="sec sec--grey" id="transit" aria-labelledby="trT" hidden>
     <div class="wrap">
       <div class="transit__h rv"><div><h2 data-c="transit.title" class="h2" id="trT">გზაში საქართველოსკენ</h2><p data-c="transit.lead" class="lead" style="margin-top:12px">დაჯავშნეთ ჩამოსვლამდე. ჩამოსვლის თარიღი ყველა ბარათზე ჩანს.</p>
         <div class="sec__tools" style="margin-top:24px"><button class="round" type="button" id="trPrev" aria-label="წინა"></button><button class="round" type="button" id="trNext" aria-label="შემდეგი"></button></div></div>
@@ -148,7 +148,7 @@
     </div>
   </section>
 
-  <section class="sec" id="auction" aria-labelledby="auT" hidden>
+  <section data-c-sec="auction" class="sec" id="auction" aria-labelledby="auT" hidden>
     <div class="wrap">
       <a class="atile rv" href="auction/index.html" aria-labelledby="auT">
         <img data-c-img="auction.photo" src="assets/v8/auction-hall.jpg" srcset="assets/v8/auction-hall-m.jpg 1200w, assets/v8/auction-hall.jpg 2400w" sizes="100vw" alt="" loading="lazy">

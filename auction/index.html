@@ -60,7 +60,7 @@
   </div>
 </div>
 <main id="main">
-  <section class="ahero" data-hero aria-labelledby="aTitle">
+  <section data-c-sec="s1" class="ahero" data-hero aria-labelledby="aTitle">
     <picture><source media="(max-width: 860px)" srcset="../assets/v8/auction-hall-m.jpg"><img data-c-img="hero.photo" src="../assets/v8/auction-hall.jpg" alt="" fetchpriority="high"></picture>
     <div class="ahero__b">
       <div class="wrap">
@@ -73,14 +73,14 @@
     </div>
   </section>
 
-  <section class="sec" id="cats" aria-labelledby="catT">
+  <section data-c-sec="cats" class="sec" id="cats" aria-labelledby="catT">
     <div class="wrap">
       <div class="sec__h rv"><div><h2 data-c="categories.title" class="h2" id="catT">აუქციონის კატეგორიები</h2><p data-c="categories.lead" class="lead">აუქციონი სამ კატეგორიად იყოფა. თითოეულს თავისი სესია აქვს.</p></div></div>
       <div class="acats" id="aCats"></div>
     </div>
   </section>
 
-  <section class="sec" id="lots" aria-labelledby="lotsT" style="scroll-margin-top:var(--head)">
+  <section data-c-sec="lots" class="sec" id="lots" aria-labelledby="lotsT" style="scroll-margin-top:var(--head)">
     <div class="wrap">
       <div class="sec__h rv"><div><h2 data-c="lots.title" class="h2" id="lotsT">ლოტები</h2><p class="lead" id="lLead">სესიის, მარკის და ფასის მიხედვით.</p></div></div>
       <div class="days" id="days" role="group" aria-label="სესიები"></div>
@@ -95,7 +95,7 @@
     </div>
   </section>
 
-  <section class="sec sec--grey" id="rules" aria-labelledby="rulesT" style="scroll-margin-top:var(--head)">
+  <section data-c-sec="rules" class="sec sec--grey" id="rules" aria-labelledby="rulesT" style="scroll-margin-top:var(--head)">
     <div class="wrap">
       <div class="sec__h rv"><div><h2 data-c="rules.title" class="h2" id="rulesT">როგორ მიმდინარეობს აუქციონი</h2><p data-c="rules.lead" class="lead">ოთხი ნაბიჯი რეგისტრაციიდან გადახდამდე.</p></div><a data-c="rules.button" class="btn btn--ink hide-m" href="../auction/rules.html">ყველა წესი</a></div>
       <div data-c-list="rules.steps" data-c-fields="b:num;h3:title;p:text" class="steps">

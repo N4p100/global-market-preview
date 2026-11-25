@@ -246,5 +246,31 @@
   "button6_link": "tel:+995322424288",
   "button6": "032 2 42 42 88",
   "button7_link": "glob/contact.html",
-  "button7": "ყველა ოფისი რუკაზე"
+  "button7": "ყველა ოფისი რუკაზე",
+  "_layout": [
+    {
+      "id": "hero"
+    },
+    {
+      "id": "steps"
+    },
+    {
+      "id": "s3"
+    },
+    {
+      "id": "s4"
+    },
+    {
+      "id": "s5"
+    },
+    {
+      "id": "group"
+    },
+    {
+      "id": "s7"
+    },
+    {
+      "id": "offices"
+    }
+  ]
 }

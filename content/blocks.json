@@ -1,0 +1,30 @@
+{
+  "text": {
+    "label": "ტექსტი და ღილაკი",
+    "html": "<section class=\"sec\">\n    <div class=\"wrap\">\n      <div class=\"sec__h\"><div><h2 class=\"h2\" data-c=\"title\">ახალი სექცია</h2><p class=\"lead\" data-c=\"text\">აქ დაწერე ტექსტი. დააჭირე და შეცვალე.</p></div></div>\n      <div class=\"row-btns\" data-c-list=\"buttons\" data-c-fields=\"a:label;a:link:href\"><a class=\"btn btn--ink\" href=\"{root}glob/call.html\">მოითხოვე ზარი</a></div>\n    </div>\n  </section>"
+  },
+  "steps": {
+    "label": "ნაბიჯები",
+    "html": "<section class=\"sec\">\n    <div class=\"wrap\">\n      <div class=\"sec__h\"><div><h2 class=\"h2\" data-c=\"title\">როგორ მუშაობს</h2></div></div>\n      <div class=\"steps\" data-c-list=\"steps\" data-c-fields=\"b:num;h3:title;p:text\">\n        <div><b class=\"num\">01</b><h3>პირველი ნაბიჯი</h3><p>მოკლე აღწერა.</p></div>\n        <div><b class=\"num\">02</b><h3>მეორე ნაბიჯი</h3><p>მოკლე აღწერა.</p></div>\n        <div><b class=\"num\">03</b><h3>მესამე ნაბიჯი</h3><p>მოკლე აღწერა.</p></div>\n      </div>\n    </div>\n  </section>"
+  },
+  "figures": {
+    "label": "ციფრები ფოტოზე",
+    "html": "<section class=\"chapter\">\n    <img data-c-img=\"photo\" src=\"{root}assets/glob/ship.jpg\" srcset=\"{root}assets/glob/ship-m.jpg 1200w, {root}assets/glob/ship.jpg 2400w\" sizes=\"100vw\" alt=\"\" loading=\"lazy\">\n    <div class=\"chapter__b\"><div class=\"wrap\">\n      <h2 class=\"h2\" data-c=\"title\">სათაური ფოტოზე</h2>\n      <div class=\"figs\" data-c-list=\"figures\" data-c-fields=\"b:num;span:text\">\n        <div><b class=\"num\">2017</b><span>წლიდან ბაზარზე</span></div>\n        <div><b class=\"num\">5</b><span>ოფისი საქართველოში</span></div>\n        <div><b class=\"num\">100%</b><span>დაზღვეული ავტომობილი</span></div>\n      </div>\n    </div></div>\n  </section>"
+  },
+  "banner": {
+    "label": "დიდი ბანერი ფოტოთი",
+    "html": "<section class=\"sec\">\n    <div class=\"wrap\">\n      <a class=\"atile\" data-c-attr=\"href:link\" href=\"{root}glob/call.html\">\n        <img data-c-img=\"photo\" src=\"{root}assets/glob/dealer.jpg\" srcset=\"{root}assets/glob/dealer-m.jpg 1200w, {root}assets/glob/dealer.jpg 2400w\" sizes=\"100vw\" alt=\"\" loading=\"lazy\">\n        <div class=\"atile__b\">\n          <span data-c=\"kicker\" style=\"font-size:15px;opacity:.9\">ზედა წარწერა</span>\n          <h2 class=\"h2\" data-c=\"title\" style=\"margin-top:10px\">დიდი ბანერი</h2>\n          <p class=\"lead\" data-c=\"text\">მოკლე ტექსტი ბანერზე.</p>\n          <div class=\"atile__acts\"><span class=\"btn btn--white\" data-c=\"button\">ღილაკი</span></div>\n        </div>\n      </a>\n    </div>\n  </section>"
+  },
+  "cards": {
+    "label": "ბარათები ბმულებით",
+    "html": "<section class=\"sec sec--grey\">\n    <div class=\"wrap\">\n      <div class=\"sec__h\"><div><h2 class=\"h2\" data-c=\"title\">ბარათები</h2></div></div>\n      <div class=\"grp\" data-c-list=\"cards\" data-c-fields=\"b:name;span:text;a:link:href\">\n        <a href=\"{root}glob/index.html\"><b>პირველი ბარათი</b><span>მოკლე აღწერა</span></a>\n        <a href=\"{root}index.html\"><b>მეორე ბარათი</b><span>მოკლე აღწერა</span></a>\n        <a href=\"{root}auction/index.html\"><b>მესამე ბარათი</b><span>მოკლე აღწერა</span></a>\n      </div>\n    </div>\n  </section>"
+  },
+  "questions": {
+    "label": "კითხვები და პასუხები",
+    "html": "<section class=\"sec\">\n    <div class=\"wrap\">\n      <div class=\"sec__h\"><div><h2 class=\"h2\" data-c=\"title\">ხშირი კითხვები</h2></div></div>\n      <div class=\"rgrid2\" data-c-list=\"items\" data-c-fields=\"h2:title;p:text\">\n        <section class=\"dsec\"><h2>რამდენ ხანში ჩამოდის ავტომობილი?</h2><p>პასუხი აქ.</p></section>\n        <section class=\"dsec\"><h2>რა შედის ფასში?</h2><p>პასუხი აქ.</p></section>\n      </div>\n    </div>\n  </section>"
+  },
+  "cta": {
+    "label": "ზოლი ღილაკებით",
+    "html": "<section class=\"wrap sell\">\n    <div><h2 class=\"h3\" data-c=\"title\">გაქვთ კითხვა?</h2><p class=\"muted\" data-c=\"text\">დაგვირეკეთ ან მოგვწერეთ.</p></div>\n    <div class=\"row-btns\" data-c-list=\"buttons\" data-c-fields=\"a:label;a:link:href\"><a class=\"btn btn--ink btn--lg\" href=\"tel:+995322424288\">032 2 42 42 88</a><a class=\"btn btn--line btn--lg\" href=\"{root}glob/contact.html\">კონტაქტი</a></div>\n  </section>"
+  }
+}

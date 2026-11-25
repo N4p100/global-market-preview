@@ -2,5 +2,19 @@
   "seo": {
     "title": "ავტომობილი · Global Market",
     "description": "ფოტოები, მახასიათებლები, ფასი და ლიზინგი."
-  }
+  },
+  "_layout": [
+    {
+      "id": "s1"
+    },
+    {
+      "id": "tabs"
+    },
+    {
+      "id": "simSec"
+    },
+    {
+      "id": "mbar"
+    }
+  ]
 }

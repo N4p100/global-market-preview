@@ -32,5 +32,10 @@
   "photo": {
     "src": "/assets/glob/office.jpg",
     "alt": "Global-ის ოფისი"
-  }
+  },
+  "_layout": [
+    {
+      "id": "s1"
+    }
+  ]
 }

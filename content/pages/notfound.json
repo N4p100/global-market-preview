@@ -10,5 +10,10 @@
     "button": "მთავარი",
     "button2_link": "cars.html",
     "button2": "ყველა ავტომობილი"
-  }
+  },
+  "_layout": [
+    {
+      "id": "s1"
+    }
+  ]
 }

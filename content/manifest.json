@@ -3,6 +3,7 @@
   "branch": "main",
   "site_url": "https://n4p100.github.io/global-market-preview/",
   "token_url": "https://github.com/settings/personal-access-tokens/new?name=Global+site+editor&description=Publishes+edits+from+the+site+edit+mode&target_name=N4p100&expires_in=366&contents=write",
+  "save_url": "https://finder-production-48b14990.up.railway.app/api/site-save",
   "pages": {
     "index.html": "home",
     "cars.html": "cars",

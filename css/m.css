@@ -175,3 +175,34 @@
   .menu__nav a[href$="favorites.html"] { display: none; }
   .menu__nav a { min-height: 44px; }
 }
+
+/* ---------- Car page on a phone (25 Nov): one photo per screen width, 4:3, swipe; small counter; compact header ---------- */
+@media (max-width: 760px) {
+  .strip { margin-top: var(--head); }
+  .strip__row { height: auto; aspect-ratio: 4 / 3; gap: 0; background: #0b0b0c; }
+  .strip__row button { flex: 0 0 100% !important; width: 100% !important; height: 100% !important; }
+  .strip__row img, .strip__row button.is-wide img { width: 100% !important; height: 100%; object-fit: cover; object-position: center; }
+  .strip__row button:hover img { transform: none; }
+  .strip__ctl { right: 12px; bottom: 12px; gap: 0; }
+  .strip__ctl .round { display: none; }
+  .strip__all { height: 28px; padding: 0 10px; gap: 6px; font-size: 12px; font-weight: 600; background: rgba(0, 0, 0, .55); color: #fff; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .strip__all .ic { width: 14px; height: 14px; }
+  .m-dots { position: absolute; left: 0; right: 0; bottom: 10px; display: flex; justify-content: center; gap: 5px; pointer-events: none; z-index: 2; }
+  .m-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, .5); transition: background .2s, transform .2s; }
+  .m-dots i.on { background: #fff; transform: scale(1.15); }
+
+  .dhead { grid-template-columns: 1fr; gap: 12px; padding-top: 16px; }
+  .crumbs { display: none; }
+  .dhead__meta { font-size: 13px; margin-bottom: 6px; gap: 6px; }
+  .dhead h1 { font-size: 24px; font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+  .dhead__acts { gap: 8px; }
+  .dhead__acts .btn { --h: 40px; padding: 0 14px; font-size: 14px; }
+  .dhead__acts .round { width: 40px; height: 40px; }
+  .gma-inline { margin-top: 10px; }
+  .tabs__in { height: 48px; gap: 16px; }
+  .tabs nav { gap: 18px; }
+  .tabs nav a { font-size: 14px; }
+  .tabs .btn, .tabs__price { display: none; }
+  .mbar { padding: 8px 16px calc(8px + env(safe-area-inset-bottom)); }
+  .mbar .btn { --h: 44px; }
+}

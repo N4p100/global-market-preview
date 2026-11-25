@@ -32,3 +32,18 @@
   var on = function () { document.documentElement.classList.toggle("m-scrolled", window.scrollY > 24); };
   window.addEventListener("scroll", on, { passive: true }); on();
 })();
+/* Phone car page: dots under the photo that follow the swipe. */
+(function () {
+  if (!matchMedia("(max-width: 760px)").matches) return;
+  var tries = 0, t = setInterval(function () {
+    var row = document.getElementById("stripRow"); tries++;
+    if (!row || tries > 40) return clearInterval(t);
+    var n = row.querySelectorAll("button:not(.skel)").length; if (n < 2) return;
+    clearInterval(t);
+    var dots = document.createElement("div"); dots.className = "m-dots"; dots.setAttribute("aria-hidden", "true");
+    dots.innerHTML = new Array(Math.min(n, 12) + 1).join("<i></i>");
+    row.parentNode.appendChild(dots);
+    var paint = function () { var i = Math.round(row.scrollLeft / row.clientWidth); dots.querySelectorAll("i").forEach(function (d, k) { d.classList.toggle("on", k === Math.min(i, 11)); }); };
+    row.addEventListener("scroll", paint, { passive: true }); paint();
+  }, 250);
+})();

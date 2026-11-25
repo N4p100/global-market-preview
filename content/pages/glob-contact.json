@@ -1,0 +1,78 @@
+{
+  "seo": {
+    "title": "კონტაქტი და ოფისები · Global Auto Import",
+    "description": "Global Auto Import-ის ოფისები თბილისში, ფოთში, ბათუმში, რუსთავსა და გორში. 032 2 42 42 88, info@glob.ge."
+  },
+  "title": "კონტაქტი",
+  "text": "ერთი ჯგუფი, სამი ნომერი: იმპორტი, მარკეტი და სერვისი.",
+  "cards": [
+    {
+      "kicker": "იმპორტი ამერიკიდან",
+      "title": "Global Auto Import",
+      "phone_link": "tel:+995322424288",
+      "phone": "032 2 42 42 88",
+      "text": "ორშაბათი–პარასკევი, 10:00–02:00"
+    },
+    {
+      "kicker": "ავტომობილები და აუქციონი",
+      "title": "Global Market",
+      "phone_link": "tel:+995551119942",
+      "phone": "551 11 99 42",
+      "text": "ორშაბათი–შაბათი, 10:00–19:00"
+    },
+    {
+      "kicker": "შეკეთება და მომსახურება",
+      "title": "Global Auto Service",
+      "phone_link": "tel:+995574007788",
+      "phone": "574 00 77 88",
+      "text": "სავალი ნაწილი, ელექტროობა, სამღებრო, ტექდათვალიერება"
+    }
+  ],
+  "photo": {
+    "src": "/assets/glob/office.jpg",
+    "alt": "Global Auto Import-ის სათაო ოფისი თბილისში"
+  },
+  "heading": "ოფისები",
+  "offices": [
+    {
+      "city": "თბილისი",
+      "address": "სათაო ოფისი · აღმაშენებლის ხეივანი 68-ე კმ, მე-3 სართული, N316",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=Global%20Auto%20Import%2C%20%E1%83%90%E1%83%A6%E1%83%9B%E1%83%90%E1%83%A8%E1%83%94%E1%83%9C%E1%83%94%E1%83%91%E1%83%9A%E1%83%98%E1%83%A1%20%E1%83%AE%E1%83%94%E1%83%98%E1%83%95%E1%83%90%E1%83%9C%E1%83%98%2C%20%E1%83%97%E1%83%91%E1%83%98%E1%83%9A%E1%83%98%E1%83%A1%E1%83%98",
+      "map_text": "რუკა"
+    },
+    {
+      "city": "მარკეტი",
+      "address": "Global Market, ავტომობილების ჩვენება და აუქციონი",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=41.7946276%2C44.7692874",
+      "map_text": "რუკა"
+    },
+    {
+      "city": "ფოთი",
+      "address": "APM და GTE ტერმინალები",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=APM%20Terminals%20Poti",
+      "map_text": "რუკა"
+    },
+    {
+      "city": "ბათუმი",
+      "address": "სელიმ ხიმშიაშვილის #17",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=%E1%83%A1%E1%83%94%E1%83%9A%E1%83%98%E1%83%9B%20%E1%83%AE%E1%83%98%E1%83%9B%E1%83%A8%E1%83%98%E1%83%90%E1%83%A8%E1%83%95%E1%83%98%E1%83%9A%E1%83%98%E1%83%A1%2017%2C%20%E1%83%91%E1%83%90%E1%83%97%E1%83%A3%E1%83%9B%E1%83%98",
+      "map_text": "რუკა"
+    },
+    {
+      "city": "რუსთავი",
+      "address": "ავტობაზრობის ტერიტორია",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=Rustavi%20Car%20Market",
+      "map_text": "რუკა"
+    },
+    {
+      "city": "გორი",
+      "address": "ი. სტალინის გამზირი #8",
+      "map_link": "https://www.google.com/maps/search/?api=1&query=%E1%83%A1%E1%83%A2%E1%83%90%E1%83%9A%E1%83%98%E1%83%9C%E1%83%98%E1%83%A1%20%E1%83%92%E1%83%90%E1%83%9B%E1%83%96%E1%83%98%E1%83%A0%E1%83%98%208%2C%20%E1%83%92%E1%83%9D%E1%83%A0%E1%83%98",
+      "map_text": "რუკა"
+    }
+  ],
+  "button_link": "glob/call.html",
+  "button": "მოითხოვე ზარი",
+  "button2_link": "glob/partner.html",
+  "button2": "პარტნიორობა"
+}

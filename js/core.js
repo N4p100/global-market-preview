@@ -522,3 +522,11 @@
     reveal: reveal, countUp: countUp, marketClock: marketClock, auctionClock: auctionClock, tbilisiNow: tbilisiNow, watchHeader: watchHeader, card: card, skeletons: skeletons, loadCutouts: loadCutouts, cutout: cutout, cutScore: cutScore, carHref: carHref, toast: toast, ICON: ICON, initChrome: initChrome, carIndex: carIndex
   };
 })();
+
+/* CMS edit mode: any page opened with ?edit loads the on-page editor (js/edit-boot.js → js/edit.js). */
+(function () {
+  var s = document.currentScript, on = /[?&]edit(=|&|$)/.test(location.search);
+  try { on = on || sessionStorage.getItem("gm-edit") === "1"; } catch (e) {}
+  if (!s || !on) return;
+  var b = document.createElement("script"); b.src = new URL("edit-boot.js", s.src).href; document.head.appendChild(b);
+})();

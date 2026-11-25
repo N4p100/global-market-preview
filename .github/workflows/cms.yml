@@ -1,0 +1,33 @@
+# After every CMS save (a commit that changes content/), write the new values into the pages and publish.
+name: CMS to pages
+on:
+  push:
+    branches: [main]
+    paths: ["content/**", "tools/cms.py"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: cms-apply
+  cancel-in-progress: false
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Write content into the pages
+        run: python3 tools/cms.py apply
+      - name: Commit the updated pages
+        run: |
+          git config user.name "Global CMS"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A -- '*.html'
+          if git diff --cached --quiet; then echo "pages already match the content"; exit 0; fi
+          git commit -m "CMS: pages updated from content"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Rebuild GitHub Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

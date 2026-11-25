@@ -1,0 +1,177 @@
+{
+  "menu": {
+    "import_title": "იმპორტი ამერიკიდან",
+    "import": [
+      {
+        "link": "glob/index.html",
+        "label": "მთავარი"
+      },
+      {
+        "link": "glob/transport.html",
+        "label": "ტრანსპორტირების კალკულატორი"
+      },
+      {
+        "link": "glob/customs.html",
+        "label": "განბაჟების კალკულატორი"
+      },
+      {
+        "link": "glob/tracking.html",
+        "label": "კონტეინერის ძიება"
+      },
+      {
+        "link": "glob/documents.html",
+        "label": "საბუთის შემოწმება"
+      },
+      {
+        "link": "https://aiexpert.glob.ge/",
+        "label": "AI ექსპერტი"
+      }
+    ],
+    "market_title": "მარკეტი",
+    "market": [
+      {
+        "link": "cars.html",
+        "label": "ყველა ავტომობილი"
+      },
+      {
+        "link": "cars.html?loc=transit",
+        "label": "გზაში საქართველოსკენ"
+      },
+      {
+        "link": "cars.html?loc=restore",
+        "label": "აღსადგენი"
+      },
+      {
+        "link": "leasing.html",
+        "label": "ლიზინგი"
+      },
+      {
+        "link": "sell.html",
+        "label": "ავტომობილის გაყიდვა"
+      }
+    ],
+    "auction_title": "აუქციონი",
+    "auction": [
+      {
+        "link": "auction/index.html",
+        "label": "მიმდინარე ლოტები"
+      },
+      {
+        "link": "auction/rules.html",
+        "label": "აუქციონის წესები"
+      }
+    ],
+    "company_title": "კომპანია",
+    "company": [
+      {
+        "link": "glob/about.html",
+        "label": "ჩვენ შესახებ"
+      },
+      {
+        "link": "glob/partner.html",
+        "label": "პარტნიორობა დილერებისთვის"
+      },
+      {
+        "link": "glob/career.html",
+        "label": "კარიერა"
+      },
+      {
+        "link": "glob/contact.html",
+        "label": "კონტაქტი და ოფისები"
+      },
+      {
+        "link": "https://globservice.ge/",
+        "label": "Global Auto Service"
+      }
+    ],
+    "market_call": "მარკეტი 551 11 99 42",
+    "hours": "იმპორტი ორშ–პარ 10:00–02:00 · მარკეტი ორშ–შაბ 10:00–19:00"
+  },
+  "import_phone_link": "tel:+995322424288",
+  "import_phone": "032 2 42 42 88",
+  "market_phone_link": "tel:+995551119942",
+  "footer": {
+    "tagline": "ავტომობილის იმპორტი ამერიკიდან, ყიდვა და გაყიდვა საქართველოში. 2017 წლიდან.",
+    "import_title": "იმპორტი",
+    "import": [
+      {
+        "link": "glob/transport.html",
+        "label": "ტრანსპორტირების კალკულატორი"
+      },
+      {
+        "link": "glob/customs.html",
+        "label": "განბაჟების კალკულატორი"
+      },
+      {
+        "link": "glob/tracking.html",
+        "label": "კონტეინერის ძიება"
+      },
+      {
+        "link": "glob/documents.html",
+        "label": "საბუთის შემოწმება"
+      },
+      {
+        "link": "https://aiexpert.glob.ge/",
+        "label": "AI ექსპერტი"
+      }
+    ],
+    "market_title": "მარკეტი და აუქციონი",
+    "market": [
+      {
+        "link": "cars.html",
+        "label": "ყველა ავტომობილი"
+      },
+      {
+        "link": "leasing.html",
+        "label": "ლიზინგი"
+      },
+      {
+        "link": "sell.html",
+        "label": "ავტომობილის გაყიდვა"
+      },
+      {
+        "link": "auction/index.html",
+        "label": "მიმდინარე ლოტები"
+      }
+    ],
+    "company_title": "კომპანია",
+    "company": [
+      {
+        "link": "glob/about.html",
+        "label": "ჩვენ შესახებ"
+      },
+      {
+        "link": "glob/partner.html",
+        "label": "პარტნიორობა დილერებისთვის"
+      },
+      {
+        "link": "glob/career.html",
+        "label": "კარიერა"
+      },
+      {
+        "link": "glob/contact.html",
+        "label": "კონტაქტი და ოფისები"
+      },
+      {
+        "link": "https://globservice.ge/",
+        "label": "Global Auto Service"
+      }
+    ],
+    "contact_title": "კონტაქტი",
+    "import_call": "032 2 42 42 88 · იმპორტი",
+    "market_call": "551 11 99 42 · მარკეტი",
+    "whatsapp_text": "WhatsApp",
+    "offices_link": "glob/contact.html",
+    "offices_text": "ოფისები რუკაზე",
+    "privacy_link": "https://glob.ge/privacy-policy/",
+    "privacy": "კონფიდენციალურობის პოლიტიკა"
+  },
+  "whatsapp": "https://wa.me/995551119942",
+  "email_link": "mailto:info@glob.ge",
+  "email": "info@glob.ge",
+  "market_phone": "551 11 99 42",
+  "market_phone_full": "+995 551 11 99 42",
+  "market_hours": "ორშ–შაბ, 10:00–19:00",
+  "market_map": "https://www.google.com/maps/search/?api=1&query=41.7946276%2C44.7692874",
+  "auction_register": "https://globalmarket.ge/auction.html#register"
+}

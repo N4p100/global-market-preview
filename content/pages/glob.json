@@ -1,0 +1,250 @@
+{
+  "seo": {
+    "title": "Global Auto Import · ავტომობილი ამერიკიდან",
+    "description": "ავტომობილი ამერიკის აუქციონებიდან თქვენს კარამდე: შერჩევა, ყიდვა, ტრანსპორტირება, განბაჟება და საბუთები. 2017 წლიდან."
+  },
+  "photo": {
+    "src": "/assets/glob/hero-port.jpg",
+    "phone": "/assets/glob/hero-port-m.jpg"
+  },
+  "title": "ავტომობილი *ამერიკიდან*",
+  "text": "აუქციონიდან თქვენს კარამდე: შერჩევა, ყიდვა, ტრანსპორტირება, განბაჟება და საბუთები. 2017 წლიდან.",
+  "button": "მოძებნე ავტომობილი",
+  "button2_link": "glob/call.html",
+  "button2": "მოითხოვე ზარი",
+  "button3_link": "glob/tracking.html",
+  "button3": "სად არის ჩემი ავტომობილი?",
+  "link": "glob/tracking.html",
+  "heading": "იმპორტი ხუთ ნაბიჯად",
+  "text2": "ყველა ინსტრუმენტი იმ ნაბიჯთან, სადაც დაგჭირდებათ.",
+  "steps": [
+    {
+      "num": "01",
+      "title": "იპოვე",
+      "text": "AI აგენტი Copart-ის ლოტებიდან შეგირჩევთ ავტომობილს და გაჩვენებთ სრულ ფასს საქართველომდე.",
+      "tools": [
+        {
+          "label": "AI აგენტი"
+        }
+      ]
+    },
+    {
+      "num": "02",
+      "title": "შეამოწმე",
+      "text": "ყიდვამდე გაიგეთ ლოტის დაზიანებები, ფარული რისკები და საბუთის სტატუსი.",
+      "tools": [
+        {
+          "link": "https://aiexpert.glob.ge/",
+          "label": "AI ექსპერტი"
+        },
+        {
+          "link": "glob/documents.html",
+          "label": "საბუთის შემოწმება"
+        }
+      ]
+    },
+    {
+      "num": "03",
+      "title": "დაითვალე",
+      "text": "ტრანსპორტირების და განბაჟების ხარჯი წინასწარ, ავტომობილის ყიდვამდე.",
+      "tools": [
+        {
+          "link": "glob/transport.html",
+          "label": "ტრანსპორტირება"
+        },
+        {
+          "link": "glob/customs.html",
+          "label": "განბაჟება"
+        }
+      ]
+    },
+    {
+      "num": "04",
+      "title": "ვყიდულობთ და ვზიდავთ",
+      "text": "ვყიდულობთ აუქციონზე, ვაზღვევთ და კონტეინერით ვზიდავთ ფოთამდე.",
+      "tools": [
+        {
+          "link": "glob/tracking.html",
+          "label": "კონტეინერის ძიება"
+        }
+      ]
+    },
+    {
+      "num": "05",
+      "title": "ჩაიბარე",
+      "text": "ფოთში ავტომობილს დეტალურად ვასურათებთ. შეკეთება და ტექდათვალიერება Global Auto Service-ში.",
+      "tools": [
+        {
+          "link": "https://globservice.ge/",
+          "label": "Global Auto Service"
+        }
+      ]
+    }
+  ],
+  "kicker": "ჩვენთან შეძენისას",
+  "heading2": "ყველა პირობა ხელშეკრულებაში წერია",
+  "button4_link": "glob/call.html",
+  "button4": "მოითხოვე ზარი",
+  "terms": [
+    {
+      "text": "ძრავის და გადაცემათა კოლოფის გარანტია"
+    },
+    {
+      "text": "ნებისმიერი ტიპის საბუთი **უფასოდ**"
+    },
+    {
+      "text": "ავტომობილის ისტორიის შემოწმება **უფასოდ**"
+    },
+    {
+      "text": "SUBLOT და OFFSITE **უფასოდ**"
+    },
+    {
+      "text": "ავტომობილის დეტალური ფოტოები პორტში"
+    },
+    {
+      "text": "ნულოვანი გადასახადი ფოთის ტერმინალში"
+    }
+  ],
+  "photo2": {
+    "src": "/assets/glob/terminal.jpg"
+  },
+  "heading3": "სამი უმსხვილესი იმპორტიორიდან ერთ-ერთი",
+  "figures": [
+    {
+      "num": "2017",
+      "text": "წლიდან ბაზარზე"
+    },
+    {
+      "num": "5",
+      "text": "ოფისი საქართველოში"
+    },
+    {
+      "num": "8",
+      "text": "სახაზო კომპანია"
+    },
+    {
+      "num": "0 ₾",
+      "text": "გადასახადი ფოთის ტერმინალში"
+    }
+  ],
+  "text3": "გადაზიდვა მსოფლიოს წამყვანი სახაზო კომპანიებით",
+  "lines": [
+    {
+      "logo": {
+        "src": "/assets/glob/lines/maersk.jpg",
+        "alt": "Maersk"
+      }
+    },
+    {
+      "logo": {
+        "src": "/assets/glob/lines/msc.jpg",
+        "alt": "MSC"
+      }
+    },
+    {
+      "logo": {
+        "src": "/assets/glob/lines/hapag-lloyd.jpg",
+        "alt": "Hapag-Lloyd"
+      }
+    },
+    {
+      "logo": {
+        "src": "/assets/glob/lines/cma-cgm.jpg",
+        "alt": "CMA CGM"
+      }
+    },
+    {
+      "logo": {
+        "src": "/assets/glob/lines/coscoshipping.jpg",
+        "alt": "COSCO Shipping"
+      }
+    },
+    {
+      "logo": {
+        "src": "/assets/glob/lines/evergreen-marine.jpg",
+        "alt": "Evergreen"
+      }
+    },
+    {
+      "logo": {
+        "src": "/assets/glob/lines/zim.jpg",
+        "alt": "ZIM"
+      }
+    },
+    {
+      "logo": {
+        "src": "/assets/glob/lines/hamburgsud.jpg",
+        "alt": "Hamburg Süd"
+      }
+    }
+  ],
+  "heading4": "Global Auto ჯგუფი",
+  "text4": "ავტომობილის ყიდვა, მომსახურება და ქირაობა ერთ ჯგუფში.",
+  "tiles": [
+    {
+      "link": "index.html",
+      "photo": {
+        "src": "/assets/v8/hero-taycan.jpg"
+      },
+      "name": "Global Market",
+      "text": "ავტომობილები თბილისში და გზაში, ონლაინ აუქციონი"
+    },
+    {
+      "link": "https://globservice.ge/",
+      "photo": {
+        "src": "/assets/glob/service.jpg"
+      },
+      "name": "Global Auto Service",
+      "text": "შეკეთება, ტექდათვალიერება, სამღებრო"
+    },
+    {
+      "photo": {
+        "src": "/assets/glob/rental.jpg"
+      },
+      "name": "Global Auto Rental",
+      "text": "ავტომობილების ქირაობა",
+      "badge": "მალე"
+    }
+  ],
+  "link2": "glob/partner.html",
+  "photo3": {
+    "src": "/assets/v8/auction-hall.jpg",
+    "phone": "/assets/v8/auction-hall-m.jpg"
+  },
+  "kicker2": "დილერებისთვის",
+  "heading5": "გახდი პარტნიორი",
+  "text5": "დაფინანსება ავტომობილის ღირებულების 80%-მდე, წვდომა დახურულ აუქციონებზე, პრობლემური საბუთების დამზადება და ყველა ავტომობილის დაზღვევა.",
+  "button5": "პარტნიორობის განაცხადი",
+  "photo4": {
+    "src": "/assets/glob/office.jpg",
+    "alt": "Global Auto Import-ის სათაო ოფისი თბილისში"
+  },
+  "heading6": "ოფისები",
+  "text6": "ორშაბათი–პარასკევი, 10:00–02:00",
+  "offices": [
+    {
+      "city": "თბილისი",
+      "address": "სათაო ოფისი · აღმაშენებლის ხეივანი 68-ე კმ, მე-3 სართული, N316"
+    },
+    {
+      "city": "ფოთი",
+      "address": "APM და GTE ტერმინალები"
+    },
+    {
+      "city": "ბათუმი",
+      "address": "სელიმ ხიმშიაშვილის #17"
+    },
+    {
+      "city": "რუსთავი",
+      "address": "ავტობაზრობის ტერიტორია"
+    },
+    {
+      "city": "გორი",
+      "address": "ი. სტალინის გამზირი #8"
+    }
+  ],
+  "button6_link": "tel:+995322424288",
+  "button6": "032 2 42 42 88",
+  "button7_link": "glob/contact.html",
+  "button7": "ყველა ოფისი რუკაზე"
+}

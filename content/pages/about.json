@@ -1,0 +1,87 @@
+{
+  "seo": {
+    "title": "ჩვენს შესახებ · Global Market",
+    "description": "Global Market Global Auto Import ჯგუფის ნაწილია: ყიდვა, გაყიდვა, აუქციონი და ლიზინგი."
+  },
+  "head": {
+    "title": "ჩვენს შესახებ",
+    "lead": "Global Market [Global Auto Import](glob/index.html) ჯგუფის ნაწილია. ავტომობილის ყიდვა, გაყიდვა, აუქციონი და ლიზინგი ერთ სივრცეშია."
+  },
+  "figures": {
+    "photo": {
+      "src": "/assets/v8/inspection.jpg",
+      "phone": "/assets/v8/inspection-m.jpg"
+    },
+    "year": "2017",
+    "year_label": "Global Auto Import დაარსდა",
+    "branches": "5",
+    "branches_label": "ოფისი: თბილისი, ფოთი, ბათუმი, რუსთავი, გორი",
+    "cars_label": "ავტომობილი გაყიდვაში ახლა",
+    "sold_label": "გაყიდული Global Market-ით"
+  },
+  "steps_title": "რას ვაკეთებთ",
+  "steps": [
+    {
+      "num": "01",
+      "title": "ვყიდით ავტომობილებს",
+      "text": "საქართველოში და გზაში მყოფ ავტომობილებს რეალური ფოტოებით, VIN კოდით და ფასით."
+    },
+    {
+      "num": "02",
+      "title": "ვატარებთ აუქციონს",
+      "text": "ონლაინ აუქციონი ყოველ კვირას. ყოველი ლოტი 1 წუთი გრძელდება."
+    },
+    {
+      "num": "03",
+      "title": "ვჩამოგვყავს აშშ-დან",
+      "text": "Copart-სა და IAAI-ზე შერჩევა, CARFAX შემოწმება, ტრანსპორტირება და განბაჟება."
+    },
+    {
+      "num": "04",
+      "title": "ვეხმარებით დაფინანსებაში",
+      "text": "ლიზინგი 20%-იანი შენატანით. ყოველდღიური გადასახადი ავტომობილის გვერდზე ჩანს."
+    }
+  ],
+  "group": {
+    "title": "Global ჯგუფი",
+    "lead": "ავტომობილის შერჩევიდან დაფინანსებამდე.",
+    "items": [
+      {
+        "link": "glob/index.html",
+        "name": "Global Auto Import",
+        "text": "ავტომობილის ჩამოყვანა აშშ-დან და კანადიდან"
+      },
+      {
+        "link": "index.html",
+        "name": "Global Market",
+        "text": "ავტომობილების ყიდვა, გაყიდვა, ლიზინგი"
+      },
+      {
+        "link": "auction/index.html",
+        "name": "Global Auction",
+        "text": "ავტომობილების ონლაინ აუქციონი"
+      },
+      {
+        "link": "https://globservice.ge/",
+        "name": "Global Auto Service",
+        "text": "შეკეთება, სავალი ნაწილი, ტექდათვალიერება"
+      },
+      {
+        "link": "glob/partner.html",
+        "name": "დილერებისთვის",
+        "text": "დაფინანსება 80%-მდე, დახურული აუქციონები"
+      },
+      {
+        "name": "Global Auto Rental",
+        "text": "ავტომობილების ქირაობა",
+        "badge": "მალე"
+      }
+    ]
+  },
+  "cta": {
+    "title": "გაქვთ კითხვა?",
+    "text": "ორშაბათიდან შაბათამდე, 10:00–19:00.",
+    "button2_link": "contact.html",
+    "button2": "კონტაქტი"
+  }
+}

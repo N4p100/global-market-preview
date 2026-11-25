@@ -4,7 +4,7 @@
   var G = window.GM, V = window.V8, esc = G.esc, I = V.I;
   V.initChrome();
   function $(id) { return document.getElementById(id); }
-  var id = decodeURIComponent((location.hash || "").slice(1)) || new URLSearchParams(location.search).get("lot");
+  var qs = new URLSearchParams(location.search); var id = decodeURIComponent((location.hash || "").slice(1)) || qs.get("lot") || qs.get("id");
   var C = 2 * Math.PI * 96, timer = null, poll = null;
 
   function notFound() {

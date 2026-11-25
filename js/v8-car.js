@@ -118,7 +118,7 @@
     // tab highlight follows the section in view
     var links = Array.prototype.slice.call(document.querySelectorAll("#tabsNav a")).filter(function (a) { return !a.hidden; });
     if ("IntersectionObserver" in window) {
-      var obs = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (a) { a.classList.toggle("is-on", a.getAttribute("href") === "#" + e.target.id); }); }); }, { rootMargin: "-40% 0px -55% 0px" });
+      var obs = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (a) { var on = a.getAttribute("href") === "#" + e.target.id; a.classList.toggle("is-on", on); if (on && a.parentNode.scrollWidth > a.parentNode.clientWidth) a.parentNode.scrollTo({ left: a.offsetLeft - 16, behavior: "smooth" }); }); }); }, { rootMargin: "-40% 0px -55% 0px" });
       links.forEach(function (a) { var s = document.querySelector(a.getAttribute("href")); if (s && !s.closest(".side")) obs.observe(s); });
     }
     links.forEach(function (a) { a.addEventListener("click", function (e) { var s = document.querySelector(a.getAttribute("href")); if (!s) return; e.preventDefault(); window.scrollTo({ top: s.getBoundingClientRect().top + scrollY - 150, behavior: V.reduce ? "auto" : "smooth" }); }); });

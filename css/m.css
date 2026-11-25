@@ -202,6 +202,8 @@
   .tabs__in { height: 48px; gap: 16px; }
   .tabs nav { gap: 18px; }
   .tabs nav a { font-size: 14px; }
+  /* The section tabs scroll sideways: fade the right edge so a cut-off word reads as "more", and keep the active tab in view (js/v8-car.js) */
+  .tabs nav { padding-right: 28px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent); }
   .tabs .btn, .tabs__price { display: none; }
   .mbar { padding: 8px 16px calc(8px + env(safe-area-inset-bottom)); }
   .mbar .btn { --h: 44px; }
@@ -331,6 +333,11 @@
   .foot li a { min-height: 36px !important; font-size: 14px; }
   .foot__mark { margin-top: 20px; max-width: 160px; }
   .foot__base { padding: 14px 0 calc(var(--tab) + 18px + env(safe-area-inset-bottom)); font-size: 12px; }
+  /* Footer wordmark sits on the same left edge as the text under it; every contact line on one 36px rhythm */
+  .foot__grid .logo { display: inline-flex; width: auto; justify-self: start; align-items: flex-start; }
+  .foot__grid .logo svg { height: 28px; width: auto; }
+  .foot li { min-height: 36px; display: flex; align-items: center; }
+  .foot li:not(:has(a)) { font-size: 14px; color: var(--mute); }
   .foot { padding-bottom: 0 !important; }
 
   /* Tab bar labels at Apple's caption size */
@@ -394,4 +401,18 @@
   .strip__row > button { flex: 0 0 100vw !important; width: 100vw !important; height: 75vw !important; padding: 0 !important; margin: 0 !important; border: 0 !important; border-radius: 0 !important; display: block; scroll-snap-align: start; scroll-snap-stop: always; overflow: hidden; }
   .strip__row > button img { display: block; width: 100vw !important; height: 75vw !important; max-width: none; object-fit: cover; object-position: center; }
   .strip__ctl { bottom: 12px; }
+}
+
+/* Touch targets (26 Nov audit): small controls keep their look but get an invisible 44px hit area (Apple HIG). */
+@media (max-width: 860px) {
+  .fav::before, .copy::before, .card .cmp::before, .seg button::before, .strip__all::before, .fg .link::before, a.link::before, .head .logo::before { content: ""; position: absolute; }
+  .copy, .seg button, .strip__all, .fg .link, a.link, .head .logo { position: relative; }
+  .fav::before { inset: -4px; }
+  .copy::before { inset: -8px; }
+  .card .cmp::before { inset: -12px -8px; }
+  .seg button::before { inset: -7px 0; }
+  .strip__all::before { inset: -8px -2px; }
+  .fg .link::before { inset: -8px 0; }
+  a.link::before { inset: -10px -4px; }
+  .head .logo::before { inset: -10px -8px; }
 }

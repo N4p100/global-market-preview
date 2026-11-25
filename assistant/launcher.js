@@ -84,7 +84,7 @@
   if (!seen) setTimeout(showHint, 2600);
   // The hint leaves when the reader really scrolls (not on the page's own small adjustments at load).
   var y0 = scrollY;
-  addEventListener("scroll", function () { if (Math.abs(scrollY - y0) > 60) root.classList.remove("has-hint"); }, { passive: true });
+  addEventListener("scroll", function () { if (Math.abs(scrollY - y0) > 60) root.classList.remove("has-hint"); root.classList.toggle("is-tucked", scrollY > 480); }, { passive: true });
   // A car page offers "find similar" as soon as its car (loaded after the page) has a title and a price.
   var tries = 0, watch = setInterval(function () {
     tries += 1;

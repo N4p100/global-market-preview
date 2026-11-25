@@ -7,10 +7,9 @@
 
   /* Hero: scenes are generated around these real cars; captions come from the live record. */
   var SLIDES = [
-    { id: 203, img: "hero2-taycan", pos: "50% 50%" },
-    { id: 95, img: "hero2-etron", pos: "50% 50%" },
-    { id: 221, img: "hero2-x5", pos: "50% 50%" },
-    { id: 211, img: "hero2-i8", pos: "50% 50%" }
+    { id: 203, img: "hero-taycan", pos: "62% 50%" },
+    { id: 95, img: "hero-etron", pos: "64% 50%" },
+    { id: 221, img: "hero-x5", pos: "70% 50%" }
   ];
   var DUR = 7000;
 

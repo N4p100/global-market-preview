@@ -27,6 +27,8 @@
   box-shadow: 0 0 0 1px var(--line), 0 12px 24px -14px rgba(14, 14, 16, .45); cursor: pointer;
   opacity: 0; transform: translateX(14px) scale(.96); transform-origin: right center; pointer-events: none; transition: opacity .35s var(--ease), transform .5s var(--ease); }
 .gma.has-hint .gma-hint, .gma.is-similar .gma-hint { opacity: 1; transform: none; pointer-events: auto; }
+/* On car pages the "find similar" pill folds into the disc once the reader scrolls into the page, so it never sits on the price card */
+.gma.is-similar.is-tucked .gma-hint { opacity: 0; transform: translateX(14px) scale(.96); pointer-events: none; }
 .gma[data-state="open"] .gma-hint { opacity: 0; transform: translateX(14px) scale(.96); pointer-events: none; }
 
 /* Scrim and the panel itself */

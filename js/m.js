@@ -47,3 +47,26 @@
     row.addEventListener("scroll", paint, { passive: true }); paint();
   }, 250);
 })();
+/* Phone hero: a blurred copy of each slide's photo fills the screen behind the sharp one. */
+(function () {
+  if (!matchMedia("(max-width: 760px)").matches) return;
+  var hero = document.querySelector("[data-hero]"); if (!hero) return;
+  var add = function () {
+    hero.querySelectorAll(".hero__slide").forEach(function (s) {
+      if (s.querySelector(".m-amb")) return;
+      var img = s.querySelector("picture img"); if (!img) return;
+      var a = document.createElement("img"); a.className = "m-amb"; a.alt = ""; a.setAttribute("aria-hidden", "true");
+      a.src = (img.currentSrc || img.src).replace(/hero-([a-z0-9]+)\.jpg/, "hero-$1-m.jpg");
+      s.insertBefore(a, s.firstChild);
+    });
+  };
+  add(); new MutationObserver(add).observe(hero, { childList: true });
+  document.querySelectorAll("img").forEach(function (i) { i.addEventListener("load", add, { once: true }); });
+})();
+/* Phone hero: the photo gets exactly the space the words leave. */
+(function () {
+  if (!matchMedia("(max-width: 760px)").matches) return;
+  var hero = document.querySelector("[data-hero]"), body = hero && hero.querySelector(".hero__body"); if (!body) return;
+  var set = function () { hero.style.setProperty("--m-body", (body.offsetHeight + 6) + "px"); };
+  set(); new ResizeObserver(set).observe(body); addEventListener("resize", set);
+})();

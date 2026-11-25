@@ -9,8 +9,7 @@
   var SLIDES = [
     { id: 203, img: "hero-taycan", pos: "62% 50%" },
     { id: 95, img: "hero-etron", pos: "64% 50%" },
-    { id: 221, img: "hero-x5", pos: "70% 50%" },
-    { id: 145, img: "hero-crown", pos: "58% 50%" }
+    { id: 221, img: "hero-x5", pos: "70% 50%" }
   ];
   var DUR = 7000;
 

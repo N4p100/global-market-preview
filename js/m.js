@@ -23,7 +23,36 @@
   document.body.appendChild(bar);
   document.documentElement.classList.add("has-tabbar");
   bar.querySelector(".tab-agent").addEventListener("click", function () { if (window.GMA) window.GMA.open(); });
-  bar.querySelector(".tab-menu").addEventListener("click", function () { var m = document.querySelector("[data-menu]"); if (m) m.click(); });
+  bar.querySelector(".tab-menu").addEventListener("click", function () { openSheet(); });
+
+  /* The phone menu: a short list in a sheet (premium pattern), Market and Auction open in place. */
+  var here = location.pathname;
+  var chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
+  var on = function (h) { return here.slice(-h.length) === h ? ' class="on"' : ""; };
+  var groups = [
+    { label: "მარკეტი", links: [["cars.html", "ყველა ავტომობილი"], ["cars.html?loc=transit", "გზაში საქართველოსკენ"], ["cars.html?loc=restore", "აღსადგენი"], ["sold.html", "გაყიდული"]] },
+    { label: "აუქციონი", links: [["auction/index.html", "მიმდინარე ლოტები"], ["auction/rules.html", "წესები"]] },
+    { href: "leasing.html", label: "ლიზინგი" },
+    { href: "sell.html", label: "ავტომობილის გაყიდვა" },
+    { href: "about.html", label: "ჩვენს შესახებ" },
+    { href: "contact.html", label: "კონტაქტი" }
+  ];
+  var bg = document.createElement("div"); bg.className = "msh-bg";
+  var sh = document.createElement("div"); sh.className = "msh"; sh.setAttribute("role", "dialog"); sh.setAttribute("aria-modal", "true"); sh.setAttribute("aria-label", "მენიუ");
+  sh.innerHTML = '<div class="msh-grab"></div><div class="msh-top"><b>მენიუ</b><button class="msh-x" type="button" aria-label="დახურვა"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><ul class="msh-list">' +
+    groups.map(function (g, i) {
+      if (g.href) return '<li><a class="msh-row" href="' + base + g.href + '">' + g.label + chev + "</a></li>";
+      return '<li><button class="msh-row" type="button" aria-expanded="false" aria-controls="msh-' + i + '">' + g.label + chev + '</button><div class="msh-sub" id="msh-' + i + '"><div>' + g.links.map(function (l) { return '<a href="' + base + l[0] + '"' + on(l[0].split("?")[0]) + ">" + l[1] + "</a>"; }).join("") + "</div></div></li>";
+    }).join("") + '</ul><div class="msh-contact"><a href="tel:+995551119942"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>551 11 99 42</a><a href="https://wa.me/995551119942" target="_blank" rel="noopener">WhatsApp</a></div><div class="msh-hours">ორშ–შაბ, 10:00–19:00</div>';
+  document.body.appendChild(bg); document.body.appendChild(sh);
+  var root = document.documentElement, opener = null;
+  function openSheet() { opener = document.activeElement; root.classList.add("msh-open"); document.body.style.overflow = "hidden"; setTimeout(function () { sh.querySelector(".msh-x").focus({ preventScroll: true }); }, 300); }
+  function closeSheet() { root.classList.remove("msh-open"); document.body.style.overflow = ""; if (opener && opener.focus) opener.focus({ preventScroll: true }); }
+  bg.addEventListener("click", closeSheet); sh.querySelector(".msh-x").addEventListener("click", closeSheet);
+  addEventListener("keydown", function (e) { if (e.key === "Escape" && root.classList.contains("msh-open")) closeSheet(); });
+  sh.querySelectorAll("button.msh-row").forEach(function (b) { b.addEventListener("click", function () { var open = b.getAttribute("aria-expanded") === "true"; b.setAttribute("aria-expanded", String(!open)); }); });
+  var y0 = null; sh.addEventListener("touchstart", function (e) { if (sh.scrollTop <= 0) y0 = e.touches[0].clientY; }, { passive: true });
+  sh.addEventListener("touchend", function (e) { if (y0 !== null && e.changedTouches[0].clientY - y0 > 90) closeSheet(); y0 = null; }, { passive: true });
 })();
 /* Phone: once the page moves, the header turns solid so its icons never sit on top of the hero text. */
 (function () {

@@ -258,3 +258,132 @@
   .hero__slide picture { top: calc(var(--head) + 4px); bottom: var(--m-body, 300px); aspect-ratio: auto; }
   .hero__slide picture img { object-fit: contain; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(180deg, #000 80%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(180deg, #000 80%, transparent 100%); mask-composite: intersect; }
 }
+
+/* ======================================================================================================
+   Phone design pass for every page (25 Nov, full audit). One type scale, one spacing scale, quiet sections.
+   Titles 22/600 · subtitles 17/600 · body 15 · captions 13 · figures 26–30/300 · sections 40px apart.
+   ====================================================================================================== */
+@media (max-width: 760px) {
+  /* Section and page titles: firm, not thin and oversized; the red rule shorter */
+  .h2, .sec__h h2 { font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -.01em; }
+  .h2::after, .sec__h h2::after { width: 28px !important; height: 2px !important; margin-top: 10px !important; }
+  .page h1, .page .h1, main > .wrap > h1, .page .display { font-size: 26px; line-height: 1.2; font-weight: 600; letter-spacing: -.015em; }
+  .h3 { font-size: 17px; font-weight: 600; letter-spacing: 0; }
+  .lead { font-size: 15px; line-height: 1.5; }
+  .sec { padding-block: 40px; }
+  .sec__h { margin-bottom: 14px; }
+
+  /* Chapter photo band: shorter, title 22px */
+  .chapter { min-height: 0; }
+  .chapter > img { height: 100%; top: 0; }
+  .chapter__b { padding-block: 120px 28px; }
+  .chapter h2 { font-size: 22px; max-width: 20ch; }
+  .chapter .lead { font-size: 14px; }
+  .figs b { font-size: 26px; }
+
+  /* Steps: a small red number beside the title, not a giant numeral with a line */
+  .steps { grid-template-columns: 1fr !important; gap: 0; }
+  .steps > div { display: grid; grid-template-columns: 28px 1fr; column-gap: 12px; padding: 14px 0; border-top: 1px solid var(--line) !important; }
+  .steps > div:last-child { border-bottom: 1px solid var(--line); }
+  .steps b { grid-row: span 2; font-size: 15px; font-weight: 600; line-height: 22px; margin: 0; letter-spacing: 0; }
+  .steps h3 { font-size: 16px; font-weight: 600; margin: 0 0 2px; line-height: 22px; }
+  .steps p { font-size: 14px; line-height: 1.45; }
+
+  /* Services rows: image then text, compact */
+  .svc { gap: 32px; }
+  .svc__row { grid-template-columns: 1fr; gap: 14px; }
+  .svc__row:nth-child(even) .svc__img { order: 0; }
+  .svc__t .label { margin-bottom: 6px; }
+  .svc__t p { margin-top: 8px; font-size: 14px; }
+  .svc__fig { margin-top: 14px; font-size: 26px; }
+  .svc__t .btn, .svc__t .link { margin-top: 16px; }
+  .bignum { font-size: 56px; text-align: left; }
+
+  /* Boxes, key-value lists, calculators */
+  .box { padding: 18px; border-radius: 14px; }
+  .box h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
+  .kv div { font-size: 14px; padding: 9px 0; }
+  .lres b { font-size: 22px; font-weight: 400; }
+  .lres div:first-child b { font-size: 28px; }
+  .ccols { grid-template-columns: 1fr; }
+  .ccols .box { position: static; }
+
+  /* Group companies: a list, not loose cards */
+  .grp { grid-template-columns: 1fr; gap: 0; border-radius: 14px; overflow: hidden; }
+  .grp > * { min-height: 0; padding: 14px 16px; justify-content: center; border-bottom: 1px solid var(--line); }
+  .grp > *:last-child { border-bottom: 0; }
+  .grp b { font-size: 16px; font-weight: 600; }
+  .grp span { font-size: 13px; margin-top: 2px; }
+
+  /* Contact page */
+  .cbig { padding: 14px 0; }
+  .cbig b { font-size: 20px; font-weight: 500; margin-top: 2px; }
+
+  /* Category tiles: labels firm and legible on the photos */
+  .tile__n { font-size: 17px; font-weight: 600; letter-spacing: 0; text-shadow: 0 1px 8px rgba(0, 0, 0, .45); }
+
+  /* Footer: compact — two columns of links, one contact line, small wordmark */
+  .foot { padding-top: 28px; }
+  .foot__grid { grid-template-columns: 1fr 1fr !important; gap: 20px 16px; }
+  .foot__grid > div:first-child { grid-column: 1 / -1; }
+  .foot__grid > div:first-child p { font-size: 13px; color: var(--mute); max-width: 36ch; }
+  .foot h3 { font-size: 12px; margin-bottom: 6px; }
+  .foot li a { min-height: 36px !important; font-size: 14px; }
+  .foot__mark { margin-top: 20px; max-width: 160px; }
+  .foot__base { padding: 14px 0 calc(var(--tab) + 18px + env(safe-area-inset-bottom)); font-size: 12px; }
+  .foot { padding-bottom: 0 !important; }
+
+  /* Tab bar labels at Apple's caption size */
+  .tabbar a, .tabbar button { font-size: 11px; }
+
+  /* Car list cards a touch tighter */
+  .grid { gap: 20px; }
+}
+
+/* ---------- The menu, rebuilt (premium pattern: Porsche, Apple, Tesla) ----------
+   A sheet with a plain list: six words, 17px, hairlines, chevrons; Market and Auction open in place.
+   Call and WhatsApp as one quiet line at the bottom. No tiles, no pills, no counts. */
+.msh-bg { position: fixed; inset: 0; z-index: 88; background: rgba(0, 0, 0, .4); opacity: 0; pointer-events: none; transition: opacity .35s var(--ease); }
+.msh { position: fixed; left: 0; right: 0; bottom: 0; z-index: 89; max-height: 86svh; overflow-y: auto; overscroll-behavior: contain; background: var(--bg); border-radius: 16px 16px 0 0;
+  padding: 6px 20px calc(16px + env(safe-area-inset-bottom)); transform: translateY(100%); transition: transform .45s cubic-bezier(.32, .72, 0, 1); }
+.msh-open .msh { transform: none; } .msh-open .msh-bg { opacity: 1; pointer-events: auto; }
+.msh-grab { width: 36px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto 4px; }
+.msh-top { display: flex; align-items: center; justify-content: space-between; height: 44px; }
+.msh-top b { font-size: 13px; font-weight: 500; color: var(--mute); }
+.msh-x { width: 44px; height: 44px; margin-right: -12px; display: grid; place-items: center; color: var(--ink); background: none; border: 0; }
+.msh-x svg { width: 20px; height: 20px; }
+.msh-list { list-style: none; margin: 0; padding: 0; }
+.msh-list > li { border-bottom: 1px solid var(--line); }
+.msh-row { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 52px; padding: 0; background: none; border: 0; color: var(--ink); font: inherit; font-size: 17px; font-weight: 500; text-align: left; }
+.msh-row svg { width: 18px; height: 18px; color: var(--mute); transition: transform .3s var(--ease); }
+.msh-row[aria-expanded="true"] svg { transform: rotate(90deg); color: var(--red); }
+.msh-sub { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s var(--ease); }
+.msh-sub > div { overflow: hidden; }
+.msh-row[aria-expanded="true"] + .msh-sub { grid-template-rows: 1fr; }
+.msh-sub a { display: flex; align-items: center; min-height: 44px; padding-left: 14px; font-size: 15px; color: var(--ink2); border-left: 2px solid var(--line); }
+.msh-sub a:last-child { margin-bottom: 10px; }
+.msh-sub a.on { color: var(--ink); border-left-color: var(--red); }
+.msh-contact { display: flex; gap: 20px; align-items: center; margin-top: 18px; font-size: 15px; }
+.msh-contact a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--ink); font-weight: 500; }
+.msh-contact a:first-child { color: var(--red); }
+.msh-contact svg { width: 18px; height: 18px; }
+.msh-hours { font-size: 13px; color: var(--mute); }
+@media (min-width: 761px) { .msh, .msh-bg { display: none; } }
+@media (prefers-reduced-motion: reduce) { .msh, .msh-sub { transition: none; } }
+@media (max-width: 760px) {
+  /* Footer on a phone: the menu and tab bar already carry the links. Brand line, contact, copyright. */
+  .foot__grid > div:not(:first-child) { display: none; }
+  .foot__grid > div:first-child { display: grid; gap: 8px; }
+  .foot__mark { display: none; }
+  .foot__base { flex-direction: column; gap: 2px; padding-top: 10px; }
+  /* Auction day buttons wrap their long line */
+  .days button { min-width: 0; white-space: normal; text-align: left; }
+  .days small { white-space: normal; }
+}
+@media (max-width: 760px) {
+  /* Keep the contact column (phone, WhatsApp, hours), as one compact block under the brand line */
+  .foot__grid > div:last-child { display: block; }
+  .foot__grid > div:last-child h3 { display: none; }
+  .foot__grid > div:last-child ul { display: flex; flex-wrap: wrap; gap: 0 16px; }
+  .foot__grid > div:last-child li a { min-height: 40px !important; font-size: 14px; }
+}

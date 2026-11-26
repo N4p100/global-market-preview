@@ -1,0 +1,18 @@
+# Hourly check that the AI agent's car data is current: Copart's file and the Global Market catalogue
+# at most 3 hours old (the agent's /api/health/data answers 503 when not). A failed run is GitHub's
+# alert: it emails the repository owner. Runs here so it needs no computer switched on.
+name: Agent data watch
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+permissions: {}
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Copart and catalogue data at most 3 hours old
+        run: |
+          curl --fail-with-body -sS --retry 3 --retry-delay 60 --retry-all-errors --max-time 60 \
+            https://finder-production-48b14990.up.railway.app/api/health/data
